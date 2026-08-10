@@ -97,6 +97,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_hk_valuatnanalyd',
         'params': ('trade_code', 'page', 'page_size'),
     },
+    'hsi_daily_weight': {
+        'path': 'api/v1/market/data/hk/hsi-daily-weight',
+        'title': '恒生指数每日权重',
+        'doc_file': '恒生指数每日权重.md',
+        'original_api': 'hsi_daily_weight',
+        'params': ('trade_date', 'start_date', 'end_date', 'index_slug', 'stock_code', 'page', 'page_size'),
+        'max_page_size': 200,
+    },
     'market_cap_hk': {
         'path': 'api/v1/market/data/hk/market-cap-hk',
         'title': '港股市值',

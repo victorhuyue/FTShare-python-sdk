@@ -131,6 +131,69 @@ class StockApiMixin:
             **request_params,
         )
 
+    def daec_ohlcs(
+        self,
+        symbol: Any | None = None,
+        since: Any | None = None,
+        until: Any | None = None,
+        interval: Any | None = None,
+        adjust: Any | None = None,
+        compat: Any | None = None,
+        span: Any | None = None,
+        limit: Any | None = None,
+        until_ts_ms: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """DAEC历史OHLC.
+
+        Endpoint: ``api/v1/market/data/daec/history/ohlcs``.
+        Method: ``GET``.
+        Documented endpoint: ``daec_ohlcs``.
+
+        Args:
+            symbol: 标的代码 (type: string; required: Y).
+            since: 起始时间 (type: string; required: N).
+            until: 截止时间 (type: string; required: N).
+            interval: K 线周期 (type: string; required: N).
+            adjust: 复权类型 (type: string; required: N).
+            compat: 兼容模式 (type: string; required: N).
+            span: 时间跨度 (type: string; required: N).
+            limit: 返回条数 (type: int; required: N).
+            until_ts_ms: 截止时间戳（毫秒） (type: int; required: N).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+        Returns:
+            A pandas ``DataFrame`` by default, Python rows when
+            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+            payloads when multi-page fetching is used with ``raw=True``.
+        """
+        request_params = {
+            'symbol': symbol,
+            'since': since,
+            'until': until,
+            'interval': interval,
+            'adjust': adjust,
+            'compat': compat,
+            'span': span,
+            'limit': limit,
+            'until_ts_ms': until_ts_ms,
+        }
+        request_params.update(kwargs)
+        return self._call_endpoint(
+            'daec_ohlcs',
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
     def cashflow_stock_code(
         self,
         *,
@@ -1334,6 +1397,62 @@ class StockApiMixin:
             **request_params,
         )
 
+    def eastmoney_all_board_daily_kline(
+        self,
+        start_date: Any | None = None,
+        end_date: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """东方财富全板块日线OHLC.
+
+        Endpoint: ``api/v1/market/data/eastmoney-all-board-daily-ohlc``.
+        Method: ``GET``.
+        Documented endpoint: ``eastmoney_all_board_daily_kline``.
+
+        Args:
+            start_date: 起始日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
+            end_date: 截止日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
+            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+            all_pages: Fetch and combine pages until the server reports the last page.
+            max_pages: Optional safety cap for ``all_pages``.
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+        Returns:
+            A pandas ``DataFrame`` by default, Python rows when
+            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+            payloads when multi-page fetching is used with ``raw=True``.
+        """
+        request_params = {'start_date': start_date, 'end_date': end_date}
+        request_params.update(kwargs)
+        path = ENDPOINTS['eastmoney_all_board_daily_kline'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
+            max_page_size=ENDPOINTS['eastmoney_all_board_daily_kline'].max_page_size,
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
     def eastmoney_board_latest_kline(
         self,
         board_code: Any | None = None,
@@ -1937,6 +2056,47 @@ class StockApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'nth_trade_date',
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
+    def trading_calendar(
+        self,
+        market: Any | None = None,
+        start_date: Any | None = None,
+        end_date: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """交易日历.
+
+        Endpoint: ``api/v1/market/data/time/trading-calendar``.
+        Method: ``GET``.
+        Documented endpoint: ``trading_calendar``.
+
+        Args:
+            market: 市场标识 (type: string; required: N).
+            start_date: 起始日期 (type: string; required: N).
+            end_date: 截止日期 (type: string; required: N).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+        Returns:
+            A pandas ``DataFrame`` by default, Python rows when
+            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+            payloads when multi-page fetching is used with ``raw=True``.
+        """
+        request_params = {'market': market, 'start_date': start_date, 'end_date': end_date}
+        request_params.update(kwargs)
+        return self._call_endpoint(
+            'trading_calendar',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -3070,6 +3230,99 @@ class StockApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'risk_warning_stocks',
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
+    def report_announcement_list(
+        self,
+        date: Any | None = None,
+        sec_code: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """报告公告列表.
+
+        Endpoint: ``api/v1/market/data/report-announcements/list``.
+        Method: ``GET``.
+        Documented endpoint: ``report_announcement_list``.
+
+        Args:
+            date: 公告日期 (type: string; required: N).
+            sec_code: 证券代码 (type: string; required: N).
+            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+            all_pages: Fetch and combine pages until the server reports the last page.
+            max_pages: Optional safety cap for ``all_pages``.
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+        Returns:
+            A pandas ``DataFrame`` by default, Python rows when
+            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+            payloads when multi-page fetching is used with ``raw=True``.
+        """
+        request_params = {'date': date, 'sec_code': sec_code}
+        request_params.update(kwargs)
+        path = ENDPOINTS['report_announcement_list'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
+            max_page_size=ENDPOINTS['report_announcement_list'].max_page_size,
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
+    def report_announcement_summary(
+        self,
+        announcement_id: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """报告公告摘要.
+
+        Endpoint: ``api/v1/market/data/report-announcements/summary``.
+        Method: ``GET``.
+        Documented endpoint: ``report_announcement_summary``.
+
+        Args:
+            announcement_id: 公告 ID (type: string; required: Y).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+        Returns:
+            A pandas ``DataFrame`` by default, Python rows when
+            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+            payloads when multi-page fetching is used with ``raw=True``.
+        """
+        request_params = {'announcement_id': announcement_id}
+        request_params.update(kwargs)
+        return self._call_endpoint(
+            'report_announcement_summary',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,

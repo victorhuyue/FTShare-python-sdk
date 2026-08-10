@@ -6,7 +6,7 @@
 
 | 指标 | 数量 |
 |---|---:|
-| SDK 方法总数 | 206 |
+| SDK 方法总数 | 217 |
 
 ## 专题分布
 
@@ -14,13 +14,13 @@
 
 | ftshare-doc 专题 | SDK 方法数 | API mixin 模块 | Endpoint 模块 |
 |---|---:|---|---|
-| 股票数据 | 101 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
-| 港股数据 | 14 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
+| 股票数据 | 106 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
+| 港股数据 | 15 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
 | 美股数据 | 9 | `ftshare.apis.us` | `ftshare.endpoints.us` |
 | 指数专题 | 10 | `ftshare.apis.index` | `ftshare.endpoints.index` |
 | ETF专题 | 10 | `ftshare.apis.etf` | `ftshare.endpoints.etf` |
 | 公募基金 | 20 | `ftshare.apis.fund` | `ftshare.endpoints.fund` |
-| 期货数据 | 9 | `ftshare.apis.futures` | `ftshare.endpoints.futures` |
+| 期货数据 | 14 | `ftshare.apis.futures` | `ftshare.endpoints.futures` |
 | 债券专题 | 4 | `ftshare.apis.bond` | `ftshare.endpoints.bond` |
 | 宏观经济 | 17 | `ftshare.apis.economic` | `ftshare.endpoints.economic` |
 | 大模型语料 | 5 | `ftshare.apis.llm_corpus` | `ftshare.endpoints.llm_corpus` |
@@ -57,8 +57,10 @@ df = market.baidu_financial_calendar(
 | [`cashflow`](#api-cashflow) | A股现金流量表 | `GET` | `api/v1/market/data/finance/cashflow` | `stock_code`, `year`, `report_type`, `page`, `page_size` | `A股现金流量表.md` |
 | [`cashflow_stock_code`](#api-cashflow-stock-code) | 现金流支持股票代码 | `GET` | `api/v1/market/data/finance/cashflow-stock-code` | - | `现金流支持股票代码.md` |
 | [`company_list`](#api-company-list) | 公司列表 | `GET` | `api/v1/market/data/company-list` | `stock_name`, `stock_code`, `page`, `page_size` | `公司列表.md` |
+| [`daec_ohlcs`](#api-daec-ohlcs) | DAEC历史OHLC | `GET` | `api/v1/market/data/daec/history/ohlcs` | `symbol`, `since`, `until`, `interval`, `adjust`, `compat`, `span`, `limit`, `until_ts_ms` | `DAEC历史OHLC.md` |
 | [`earnings_reports_paginated`](#api-earnings-reports-paginated) | 业绩快报 | `GET` | `api/v1/market/data/finance/stock-performance-express` | `stock_code`, `year`, `report_type`, `page`, `page_size` | `业绩快报.md` |
 | [`eastmoney_board_constituents`](#api-eastmoney-board-constituents) | 东方财富板块成份股 | `GET` | `api/v1/market/data/eastmoney-board-constituents` | `board_code` | `东方财富板块成份股.md` |
+| [`eastmoney_all_board_daily_kline`](#api-eastmoney-all-board-daily-kline) | 东方财富全板块日线OHLC | `GET` | `api/v1/market/data/eastmoney-all-board-daily-ohlc` | `start_date`, `end_date`, `page`, `page_size` | `东方财富全板块日线OHLC.md` |
 | [`eastmoney_board_daily_kline`](#api-eastmoney-board-daily-kline) | 东方财富板块日线OHLC | `GET` | `api/v1/market/data/eastmoney-board-daily-ohlc` | `board_code`, `start_date`, `end_date`, `page`, `page_size` | `东方财富板块日线OHLC.md` |
 | [`eastmoney_board_latest_kline`](#api-eastmoney-board-latest-kline) | 东方财富板块最新OHLC | `GET` | `api/v1/market/data/eastmoney-board-latest-ohlc` | `board_code`, `page`, `page_size` | `东方财富板块最新OHLC.md` |
 | [`eastmoney_concept_boards`](#api-eastmoney-concept-boards) | 东方财富概念板块 | `GET` | `api/v1/market/data/eastmoney-concept-boards` | - | `东方财富概念板块.md` |
@@ -90,6 +92,8 @@ df = market.baidu_financial_calendar(
 | [`price_change`](#api-price-change) | 价格变动 | `GET` | `api/v1/market/data/price/get-price-change` | `stock_code`, `base_date`, `n`, `direction` | `价格变动.md` |
 | [`risk_warning_stock_quotes`](#api-risk-warning-stock-quotes) | 风险警示股行情 | `GET` | `api/v1/market/data/risk-warning-stocks/quotes` | `date` | `风险警示股行情.md` |
 | [`risk_warning_stocks`](#api-risk-warning-stocks) | 风险警示股 | `GET` | `api/v1/market/data/risk-warning-stocks` | `date` | `风险警示股.md` |
+| [`report_announcement_list`](#api-report-announcement-list) | 报告公告列表 | `GET` | `api/v1/market/data/report-announcements/list` | `date`, `sec_code`, `page`, `page_size` | `报告公告列表.md` |
+| [`report_announcement_summary`](#api-report-announcement-summary) | 报告公告摘要 | `GET` | `api/v1/market/data/report-announcements/summary` | `announcement_id` | `报告公告摘要.md` |
 | [`search`](#api-search) | 标的搜索 | `GET` | `api/v1/market/security/search` | `query`, `limit` | `标的搜索.md` |
 | [`sh_hk_stock_connect_members`](#api-sh-hk-stock-connect-members) | 沪股通成份 | `GET` | `api/v1/market/data/sh-hk-stock-connect-members` | - | `沪股通成份.md` |
 | [`southbound`](#api-southbound) | 南向资金交易 | `GET` | `api/v1/market/data/southbound` | `date` | `南向资金交易.md` |
@@ -145,6 +149,7 @@ df = market.baidu_financial_calendar(
 | [`ths_all_board_kline`](#api-ths-all-board-kline) | 同花顺全板块K线 | `GET` | `api/v1/market/data/ths-all-board-kline` | `start_date`, `end_date`, `page`, `page_size` | `同花顺全板块K线.md` |
 | [`ths_board_kline`](#api-ths-board-kline) | 同花顺板块K线 | `GET` | `api/v1/market/data/ths-board-kline` | `board_code`, `page`, `page_size` | `同花顺板块K线.md` |
 | [`ths_board_list`](#api-ths-board-list) | 同花顺板块列表 | `GET` | `api/v1/market/data/ths-board-list` | - | `同花顺板块列表.md` |
+| [`trading_calendar`](#api-trading-calendar) | 交易日历 | `GET` | `api/v1/market/data/time/trading-calendar` | `market`, `start_date`, `end_date` | `交易日历.md` |
 | [`xueqiu_rank`](#api-xueqiu-rank) | 雪球股票排名 | `GET` | `api/v1/market/data/xueqiu-rank` | `rank_group`, `period`, `trade_date`, `page`, `page_size` | `雪球股票排名.md` |
 | [`yzxdr_detail`](#api-yzxdr-detail) | 除权除息明细 | `GET` | `api/v1/market/data/yzxdr-detail` | `year`, `quarter`, `stock_code`, `page`, `page_size` | `除权除息明细.md` |
 | [`pledge_summary`](#api-pledge-summary) | 股权质押汇总 | `GET` | `api/v1/market/data/pledge/pledge-summary` | `page`, `page_size` | `股权质押汇总.md` |
@@ -167,6 +172,7 @@ df = market.baidu_financial_calendar(
 | [`hk_income_gene`](#api-hk-income-gene) | 港股利润表 | `GET` | `api/v1/market/data/hk/hk-income-gene` | `trade_code`, `year`, `report_type`, `start_date`, `end_date`, `page`, `page_size` | `港股利润表.md` |
 | [`hk_income_insur`](#api-hk-income-insur) | 港股利润表 | `GET` | `api/v1/market/data/hk/hk-income-insur` | `trade_code`, `year`, `report_type`, `start_date`, `end_date`, `page`, `page_size` | `港股利润表.md` |
 | [`hk_valuatnanalyd`](#api-hk-valuatnanalyd) | 港股估值分析 | `GET` | `api/v1/market/data/hk/hk-valuatnanalyd` | `trade_code`, `page`, `page_size` | `港股估值分析.md` |
+| [`hsi_daily_weight`](#api-hsi-daily-weight) | 恒生指数每日权重 | `GET` | `api/v1/market/data/hk/hsi-daily-weight` | `trade_date`, `start_date`, `end_date`, `index_slug`, `stock_code`, `page`, `page_size` | `恒生指数每日权重.md` |
 | [`market_cap_hk`](#api-market-cap-hk) | 港股市值 | `GET` | `api/v1/market/data/hk/market-cap-hk` | `trade_code` | `港股市值.md` |
 
 ### 美股数据
@@ -245,12 +251,17 @@ df = market.baidu_financial_calendar(
 | [`china_futures_base_data`](#api-china-futures-base-data) | 中国期货基础数据 | `GET` | `api/v1/market/data/futures/futures-base-data` | `trade_date`, `symbol` | `中国期货基础数据.md` |
 | [`china_futures_lists`](#api-china-futures-lists) | 中国期货列表 | `GET` | `api/v1/market/data/futures/futures-lists` | `trade_date` | `中国期货列表.md` |
 | [`eastmoney_futures_position`](#api-eastmoney-futures-position) | 东方财富期货持仓 | `GET` | `api/v1/market/data/eastmoney-futures-position` | `exchange`, `variety_code`, `contract_code`, `trade_date`, `start_date`, `end_date`, `member_name_abbr`, `page`, `page_size` | `东方财富期货持仓.md` |
+| [`eastmoney_futures_strange`](#api-eastmoney-futures-strange) | 东方财富期货龙虎榜 | `GET` | `api/v1/market/data/eastmoney-futures-strange` | `exchange`, `variety`, `contract`, `trade_date` | `东方财富期货龙虎榜.md` |
 | [`futures_contract_kline`](#api-futures-contract-kline) | 期货合约K线 | `GET` | `api/v1/market/data/futures/kline` | `symbol`, `interval`, `start`, `end`, `limit` | `期货合约K线.md` |
+| [`futures_eod_price`](#api-futures-eod-price) | 期货日终行情 | `GET` | `api/v1/market/data/futures/eod-price` | `exchange`, `symbol`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `期货日终行情.md` |
+| [`futures_kline`](#api-futures-kline) | 期货合约K线 | `GET` | `api/v1/market/data/futures/kline` | `symbol`, `interval`, `start`, `end`, `limit` | `期货合约K线.md` |
+| [`futures_kline_intraday`](#api-futures-kline-intraday) | 期货日内K线 | `GET` | `api/v1/market/data/futures/kline/intraday` | `symbol`, `interval`, `start`, `end`, `limit` | `期货日内K线.md` |
+| [`futures_kline_latest`](#api-futures-kline-latest) | 期货最新K线 | `GET` | `api/v1/market/data/futures/kline/latest` | `symbol`, `interval` | `期货最新K线.md` |
 | [`major_contract`](#api-major-contract) | 重大合同 | `GET` | `api/v1/market/data/corporate/contract` | `start_date`, `end_date` | `重大合同.md` |
 | [`major_contract_by_symbol`](#api-major-contract-by-symbol) | 重大合同按标的 | `GET` | `api/v1/market/data/corporate/contract/by-symbol` | `symbol`, `page`, `page_size` | `重大合同按标的.md` |
 | [`major_contract_summary`](#api-major-contract-summary) | 重大合同汇总 | `GET` | `api/v1/market/data/corporate/contract/summary` | `page`, `page_size` | `重大合同汇总.md` |
-| [`eastmoney_futures_strange`](#api-eastmoney-futures-strange) | 东方财富期货持仓 | `GET` | `api/v1/market/data/eastmoney-futures-position` | `exchange`, `variety_code`, `contract_code`, `trade_date`, `start_date`, `end_date`, `member_name_abbr`, `page`, `page_size` | `东方财富期货持仓.md` |
-| [`futures_kline`](#api-futures-kline) | 期货合约K线 | `GET` | `api/v1/market/data/futures/kline` | `symbol`, `interval`, `start`, `end`, `limit` | `期货合约K线.md` |
+| [`member_build_process`](#api-member-build-process) | 会员建仓过程 | `GET` | `api/v1/market/data/member-build-process` | `exchange`, `member_name`, `instrument_id`, `start_date`, `end_date`, `contract_multiplier`, `page`, `page_size` | `会员建仓过程.md` |
+| [`member_position_ranking`](#api-member-position-ranking) | 会员持仓排名 | `GET` | `api/v1/market/data/member-position-ranking` | `exchange`, `instrument_id`, `trade_date`, `direction`, `page`, `page_size` | `会员持仓排名.md` |
 
 ### 债券专题
 
@@ -545,6 +556,43 @@ Returns:
     payloads when multi-page fetching is used with ``raw=True``.
 ```
 
+<h4 id="api-daec-ohlcs"><code>daec_ohlcs</code></h4>
+
+- 接口名称：DAEC历史OHLC
+- HTTP：`GET`
+- Path：`api/v1/market/data/daec/history/ohlcs`
+- 参数：`symbol`, `since`, `until`, `interval`, `adjust`, `compat`, `span`, `limit`, `until_ts_ms`
+- 来源文档：`DAEC历史OHLC.md`
+- 原始接口：`daec_ohlcs`
+
+```text
+DAEC历史OHLC.
+
+Endpoint: ``api/v1/market/data/daec/history/ohlcs``.
+Method: ``GET``.
+Documented endpoint: ``daec_ohlcs``.
+
+Args:
+    symbol: 标的代码 (type: string; required: Y).
+    since: 起始时间 (type: string; required: N).
+    until: 截止时间 (type: string; required: N).
+    interval: K 线周期 (type: string; required: N).
+    adjust: 复权类型 (type: string; required: N).
+    compat: 兼容模式 (type: string; required: N).
+    span: 时间跨度 (type: string; required: N).
+    limit: 返回条数 (type: int; required: N).
+    until_ts_ms: 截止时间戳（毫秒） (type: int; required: N).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
 <h4 id="api-cashflow-stock-code"><code>cashflow_stock_code</code></h4>
 
 - 接口名称：现金流支持股票代码
@@ -691,6 +739,41 @@ Documented endpoint: ``eastmoney_board_daily_kline``.
 
 Args:
     board_code: 板块代码，如 BK1024 (type: string; required: Y).
+    start_date: 起始日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
+    end_date: 截止日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-eastmoney-all-board-daily-kline"><code>eastmoney_all_board_daily_kline</code></h4>
+
+- 接口名称：东方财富全板块日线OHLC
+- HTTP：`GET`
+- Path：`api/v1/market/data/eastmoney-all-board-daily-ohlc`
+- 参数：`start_date`, `end_date`, `page`, `page_size`
+- 来源文档：`东方财富全板块日线OHLC.md`
+- 原始接口：`eastmoney_all_board_daily_kline`
+
+```text
+东方财富全板块日线OHLC.
+
+Endpoint: ``api/v1/market/data/eastmoney-all-board-daily-ohlc``.
+Method: ``GET``.
+Documented endpoint: ``eastmoney_all_board_daily_kline``.
+
+Args:
     start_date: 起始日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
     end_date: 截止日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
     page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
@@ -1581,6 +1664,37 @@ Returns:
     payloads when multi-page fetching is used with ``raw=True``.
 ```
 
+<h4 id="api-trading-calendar"><code>trading_calendar</code></h4>
+
+- 接口名称：交易日历
+- HTTP：`GET`
+- Path：`api/v1/market/data/time/trading-calendar`
+- 参数：`market`, `start_date`, `end_date`
+- 来源文档：`交易日历.md`
+- 原始接口：`trading_calendar`
+
+```text
+交易日历.
+
+Endpoint: ``api/v1/market/data/time/trading-calendar``.
+Method: ``GET``.
+Documented endpoint: ``trading_calendar``.
+
+Args:
+    market: 市场标识 (type: string; required: N).
+    start_date: 起始日期 (type: string; required: N).
+    end_date: 截止日期 (type: string; required: N).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
 <h4 id="api-price-change"><code>price_change</code></h4>
 
 - 接口名称：价格变动
@@ -1660,6 +1774,70 @@ Documented endpoint: ``risk_warning_stocks``.
 
 Args:
     date: 交易日，格式 YYYYMMDD (type: string; required: Y).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-report-announcement-list"><code>report_announcement_list</code></h4>
+
+- 接口名称：报告公告列表
+- HTTP：`GET`
+- Path：`api/v1/market/data/report-announcements/list`
+- 参数：`date`, `sec_code`, `page`, `page_size`
+- 来源文档：`报告公告列表.md`
+- 原始接口：`report_announcement_list`
+
+```text
+报告公告列表.
+
+Endpoint: ``api/v1/market/data/report-announcements/list``.
+Method: ``GET``.
+Documented endpoint: ``report_announcement_list``.
+
+Args:
+    date: 公告日期 (type: string; required: N).
+    sec_code: 证券代码 (type: string; required: N).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-report-announcement-summary"><code>report_announcement_summary</code></h4>
+
+- 接口名称：报告公告摘要
+- HTTP：`GET`
+- Path：`api/v1/market/data/report-announcements/summary`
+- 参数：`announcement_id`
+- 来源文档：`报告公告摘要.md`
+- 原始接口：`report_announcement_summary`
+
+```text
+报告公告摘要.
+
+Endpoint: ``api/v1/market/data/report-announcements/summary``.
+Method: ``GET``.
+Documented endpoint: ``report_announcement_summary``.
+
+Args:
+    announcement_id: 公告 ID (type: string; required: Y).
     raw: Return the decoded JSON payload without tabular extraction.
     fields: Optional field list or comma-separated field string applied after extraction.
     as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -4092,6 +4270,44 @@ Returns:
     payloads when multi-page fetching is used with ``raw=True``.
 ```
 
+<h4 id="api-hsi-daily-weight"><code>hsi_daily_weight</code></h4>
+
+- 接口名称：恒生指数每日权重
+- HTTP：`GET`
+- Path：`api/v1/market/data/hk/hsi-daily-weight`
+- 参数：`trade_date`, `start_date`, `end_date`, `index_slug`, `stock_code`, `page`, `page_size`
+- 来源文档：`恒生指数每日权重.md`
+- 原始接口：`hsi_daily_weight`
+
+```text
+恒生指数每日权重.
+
+Endpoint: ``api/v1/market/data/hk/hsi-daily-weight``.
+Method: ``GET``.
+Documented endpoint: ``hsi_daily_weight``.
+
+Args:
+    trade_date: 交易日期 (type: string; required: N).
+    start_date: 起始日期 (type: string; required: N).
+    end_date: 结束日期 (type: string; required: N).
+    index_slug: 指数代码 (type: string; required: N).
+    stock_code: 成份股代码 (type: string; required: N).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
 <h4 id="api-market-cap-hk"><code>market_cap_hk</code></h4>
 
 - 接口名称：港股市值
@@ -5720,33 +5936,25 @@ Returns:
 
 <h4 id="api-eastmoney-futures-strange"><code>eastmoney_futures_strange</code></h4>
 
-- 接口名称：东方财富期货持仓
+- 接口名称：东方财富期货龙虎榜
 - HTTP：`GET`
-- Path：`api/v1/market/data/eastmoney-futures-position`
-- 参数：`exchange`, `variety_code`, `contract_code`, `trade_date`, `start_date`, `end_date`, `member_name_abbr`, `page`, `page_size`
-- 来源文档：`东方财富期货持仓.md`
-- 原始接口：`get_eastmoney_futures_position`
+- Path：`api/v1/market/data/eastmoney-futures-strange`
+- 参数：`exchange`, `variety`, `contract`, `trade_date`
+- 来源文档：`东方财富期货龙虎榜.md`
+- 原始接口：`eastmoney_futures_strange`
 
 ```text
-东方财富期货持仓.
+东方财富期货龙虎榜.
 
-Endpoint: ``api/v1/market/data/eastmoney-futures-position``.
+Endpoint: ``api/v1/market/data/eastmoney-futures-strange``.
 Method: ``GET``.
-Documented endpoint: ``get_eastmoney_futures_position``.
+Documented endpoint: ``eastmoney_futures_strange``.
 
 Args:
-    exchange: 交易所代码：shfe / dce / czce / cffex / ine / gfe (type: string; required: N).
-    variety_code: 品种代码，如 cu / au / al / IF (type: string; required: N).
-    contract_code: 合约代码，如 CU2607 / AU2608 (type: string; required: N).
-    trade_date: 交易日 YYYYMMDD；与 start_date/end_date 互斥 (type: string; required: N).
-    start_date: 区间起始日 YYYYMMDD；需与 end_date 同时提供 (type: string; required: N).
-    end_date: 区间结束日 YYYYMMDD；需与 start_date 同时提供 (type: string; required: N).
-    member_name_abbr: 会员简称 (type: string; required: N).
-    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-    all_pages: Fetch and combine pages until the server reports the last page.
-    max_pages: Optional safety cap for ``all_pages``.
+    exchange: 交易所代码：``shfe``/``dce``/``czce``/``cffex``/``ine``/``gfe`` (type: string; required: Y).
+    variety: 品种名称，如 ``多晶硅`` (type: string; required: Y).
+    contract: 合约代码，如 ``ps2609`` (type: string; required: Y).
+    trade_date: 交易日，``YYYYMMDD`` (type: string; required: Y).
     raw: Return the decoded JSON payload without tabular extraction.
     fields: Optional field list or comma-separated field string applied after extraction.
     as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -5780,6 +5988,183 @@ Args:
     start: 开始时间戳（毫秒）；与 end 跨度 ≤3 天；仅 start 表示 [start,+∞) (type: int64; required: N).
     end: 结束时间戳（毫秒，闭区间）；须与 start 同时传入，禁止只传 end (type: int64; required: N).
     limit: 最大返回条数，默认 500 (type: int; required: N).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-futures-eod-price"><code>futures_eod_price</code></h4>
+
+- 接口名称：期货日终行情
+- HTTP：`GET`
+- Path：`api/v1/market/data/futures/eod-price`
+- 参数：`exchange`, `symbol`, `trade_date`, `start_date`, `end_date`, `page`, `page_size`
+- 来源文档：`期货日终行情.md`
+- 原始接口：`futures_eod_price`
+
+```text
+期货日终行情.
+
+Endpoint: ``api/v1/market/data/futures/eod-price``.
+Method: ``GET``.
+Documented endpoint: ``futures_eod_price``.
+
+Args:
+    exchange: 交易所代码，精确匹配 (type: string; required: N).
+    symbol: 合约代码，精确匹配 (type: string; required: N).
+    trade_date: 精确交易日，8 位 ``YYYYMMDD``；不可与 ``start_date``/``end_date`` 同时使用 (type: int; required: N).
+    start_date: 起始交易日，8 位 ``YYYYMMDD`` (type: int; required: N).
+    end_date: 结束交易日，8 位 ``YYYYMMDD``；与 ``start_date`` 同时提供时须 ``start_date`` ≤ ``end_date`` (type: int; required: N).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-futures-kline-intraday"><code>futures_kline_intraday</code></h4>
+
+- 接口名称：期货日内K线
+- HTTP：`GET`
+- Path：`api/v1/market/data/futures/kline/intraday`
+- 参数：`symbol`, `interval`, `start`, `end`, `limit`
+- 来源文档：`期货日内K线.md`
+- 原始接口：`futures_kline_intraday`
+
+```text
+期货日内K线.
+
+Endpoint: ``api/v1/market/data/futures/kline/intraday``.
+Method: ``GET``.
+Documented endpoint: ``futures_kline_intraday``.
+
+Args:
+    symbol: WIND 合约全码或表内合约代码 (type: string; required: Y).
+    interval: 当前仅支持 ``1min``，兼容 ``1m``，默认 ``1min`` (type: string; required: N).
+    start: 开始时间，毫秒时间戳，闭区间 (type: int64; required: N).
+    end: 结束时间，毫秒时间戳，闭区间；与 ``start`` 同时提供时跨度不得超过 3 天 (type: int64; required: N).
+    limit: 最大返回条数，默认 600，范围 1～1000 (type: int; required: N).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-futures-kline-latest"><code>futures_kline_latest</code></h4>
+
+- 接口名称：期货最新K线
+- HTTP：`GET`
+- Path：`api/v1/market/data/futures/kline/latest`
+- 参数：`symbol`, `interval`
+- 来源文档：`期货最新K线.md`
+- 原始接口：`futures_kline_latest`
+
+```text
+期货最新K线.
+
+Endpoint: ``api/v1/market/data/futures/kline/latest``.
+Method: ``GET``.
+Documented endpoint: ``futures_kline_latest``.
+
+Args:
+    symbol: WIND 合约全码（如 ``A2605.DCE``）或表内合约代码（如 ``a2605``） (type: string; required: Y).
+    interval: 当前仅支持 ``1min``，兼容 ``1m``，默认 ``1min`` (type: string; required: N).
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-member-build-process"><code>member_build_process</code></h4>
+
+- 接口名称：会员建仓过程
+- HTTP：`GET`
+- Path：`api/v1/market/data/member-build-process`
+- 参数：`exchange`, `member_name`, `instrument_id`, `start_date`, `end_date`, `contract_multiplier`, `page`, `page_size`
+- 来源文档：`会员建仓过程.md`
+- 原始接口：`member_build_process`
+
+```text
+会员建仓过程.
+
+Endpoint: ``api/v1/market/data/member-build-process``.
+Method: ``GET``.
+Documented endpoint: ``member_build_process``.
+
+Args:
+    exchange: 交易所代码，如 ``SHFE``、``DCE``、``CZCE`` (type: string; required: Y).
+    member_name: 会员名称 (type: string; required: Y).
+    instrument_id: 合约代码，如 ``rb2601`` (type: string; required: Y).
+    start_date: 起始日期，``YYYYMMDD`` 或 ``YYYY-MM-DD``，默认 ``20260101`` (type: string; required: N).
+    end_date: 结束日期，``YYYYMMDD`` 或 ``YYYY-MM-DD``，默认当天 (type: string; required: N).
+    contract_multiplier: 合约乘数；不传时按品种默认表推导 (type: float; required: N).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
+    raw: Return the decoded JSON payload without tabular extraction.
+    fields: Optional field list or comma-separated field string applied after extraction.
+    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+
+Returns:
+    A pandas ``DataFrame`` by default, Python rows when
+    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
+    payloads when multi-page fetching is used with ``raw=True``.
+```
+
+<h4 id="api-member-position-ranking"><code>member_position_ranking</code></h4>
+
+- 接口名称：会员持仓排名
+- HTTP：`GET`
+- Path：`api/v1/market/data/member-position-ranking`
+- 参数：`exchange`, `instrument_id`, `trade_date`, `direction`, `page`, `page_size`
+- 来源文档：`会员持仓排名.md`
+- 原始接口：`member_position_ranking`
+
+```text
+会员持仓排名.
+
+Endpoint: ``api/v1/market/data/member-position-ranking``.
+Method: ``GET``.
+Documented endpoint: ``member_position_ranking``.
+
+Args:
+    exchange: 交易所代码，如 ``SHFE``、``DCE``、``CZCE`` (type: string; required: Y).
+    instrument_id: 合约代码，如 ``a2605`` (type: string; required: Y).
+    trade_date: 交易日，``YYYYMMDD`` 或 ``YYYY-MM-DD`` (type: string; required: Y).
+    direction: 查询方向：``long`` 或 ``short``，也接受常见中文和缩写别名 (type: string; required: Y).
+    page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+    page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+    limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+    all_pages: Fetch and combine pages until the server reports the last page.
+    max_pages: Optional safety cap for ``all_pages``.
     raw: Return the decoded JSON payload without tabular extraction.
     fields: Optional field list or comma-separated field string applied after extraction.
     as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
