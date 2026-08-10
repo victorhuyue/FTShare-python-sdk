@@ -7,6 +7,8 @@ import pytest
 
 import ftshare as ft
 
+from test_endpoint_contracts import PUBLIC_CONTRACTS, _call_kwargs
+
 
 pytestmark = pytest.mark.integration
 
@@ -57,3 +59,15 @@ def test_real_eastmoney_us_stock_list_tabular_extract():
     df = market.eastmoney_us_stock_list(page=1, page_size=5)
 
     assert isinstance(df, pd.DataFrame)
+
+
+@pytest.mark.parametrize("method_name", sorted(PUBLIC_CONTRACTS))
+def test_real_public_endpoint_returns_rows(method_name):
+    _skip_unless_enabled()
+    market = ft.market_api(timeout=20)
+
+    kwargs = _call_kwargs(method_name)
+
+    rows = getattr(market, method_name)(as_dataframe=False, **kwargs)
+
+    assert rows is not None

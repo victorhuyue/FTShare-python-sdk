@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 DEFAULT_BASE_URL = "https://market.ft.tech/gateway/"
 """Default FTShare API base URL."""
 
@@ -47,3 +49,8 @@ def set_base_url(url: str) -> str:
     global _BASE_URL
     _BASE_URL = normalize_base_url(url)
     return _BASE_URL
+
+
+_env_base_url = os.environ.get("FTSHARE_BASE_URL")
+if _env_base_url:
+    set_base_url(_env_base_url)
