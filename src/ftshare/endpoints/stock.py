@@ -57,6 +57,13 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('stock_code', 'year', 'report_type', 'page', 'page_size'),
         'max_page_size': 500,
     },
+    'daec_ohlcs': {
+        'path': 'api/v1/market/data/daec/history/ohlcs',
+        'title': 'DAEC历史OHLC',
+        'doc_file': 'DAEC历史OHLC.md',
+        'original_api': 'daec_ohlcs',
+        'params': ('symbol', 'since', 'until', 'interval', 'adjust', 'compat', 'span', 'limit', 'until_ts_ms'),
+    },
     'cashflow_stock_code': {
         'path': 'api/v1/market/data/finance/cashflow-stock-code',
         'title': '现金流支持股票代码',
@@ -84,6 +91,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'doc_file': '东方财富板块成份股.md',
         'original_api': 'eastmoney_board_constituents',
         'params': ('board_code',),
+    },
+    'eastmoney_all_board_daily_kline': {
+        'path': 'api/v1/market/data/eastmoney-all-board-daily-ohlc',
+        'title': '东方财富全板块日线OHLC',
+        'doc_file': '东方财富全板块日线OHLC.md',
+        'original_api': 'eastmoney_all_board_daily_kline',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+        'max_page_size': 200,
     },
     'eastmoney_board_daily_kline': {
         'path': 'api/v1/market/data/eastmoney-board-daily-ohlc',
@@ -270,6 +285,13 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_nth_trade_date',
         'params': ('n',),
     },
+    'trading_calendar': {
+        'path': 'api/v1/market/data/time/trading-calendar',
+        'title': '交易日历',
+        'doc_file': '交易日历.md',
+        'original_api': 'trading_calendar',
+        'params': ('market', 'start_date', 'end_date'),
+    },
     'performance_forecasts_paginated': {
         'path': 'api/v1/market/data/finance/stock-performance-forecast',
         'title': '业绩预告',
@@ -298,6 +320,21 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'doc_file': '风险警示股.md',
         'original_api': 'risk_warning_stocks',
         'params': ('date',),
+    },
+    'report_announcement_list': {
+        'path': 'api/v1/market/data/report-announcements/list',
+        'title': '报告公告列表',
+        'doc_file': '报告公告列表.md',
+        'original_api': 'report_announcement_list',
+        'params': ('date', 'sec_code', 'page', 'page_size'),
+        'max_page_size': 200,
+    },
+    'report_announcement_summary': {
+        'path': 'api/v1/market/data/report-announcements/summary',
+        'title': '报告公告摘要',
+        'doc_file': '报告公告摘要.md',
+        'original_api': 'report_announcement_summary',
+        'params': ('announcement_id',),
     },
     'search': {
         'path': 'api/v1/market/security/search',
