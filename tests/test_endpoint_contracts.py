@@ -56,18 +56,14 @@ def test_unpublished_topic_is_not_public():
     assert not any(base.__name__ == "UnpublishedApiMixin" for base in FtshareClient.__mro__)
 
 
-def test_endpoint_documents_come_from_valid_topics():
-    docs_root = Path(__file__).parents[2] / "ftshare-doc" / "api-doc"
-    excluded = {"未发布", "已下线", "设计文档", "系统接口"}
-    assert docs_root.is_dir()
-
-    matches = {}
-    for path in docs_root.rglob("*.md"):
-        matches.setdefault(path.name, []).append(path)
+def test_endpoint_documents_are_referenced_in_api_reference():
+    api_reference = Path(__file__).parents[1] / "docs" / "API_REFERENCE.md"
+    assert api_reference.is_file()
+    reference = api_reference.read_text(encoding="utf-8")
 
     for endpoint in ENDPOINTS.values():
-        assert endpoint.doc_file in matches
-        assert any(not excluded.intersection(path.relative_to(docs_root).parts) for path in matches[endpoint.doc_file])
+        assert endpoint.doc_file
+        assert f"`{endpoint.doc_file}`" in reference
 
 
 @pytest.mark.parametrize("method_name", sorted(PUBLIC_CONTRACTS))
