@@ -64,13 +64,41 @@ def paginated_records(records, page=1, pages=1):
     }
 
 
-def test_default_base_url_and_set_base_url():
-    assert ft.BASE_URL == "https://market.ft.tech/gateway/"
-    assert ft.set_base_url("https://example.com/gateway") == "https://example.com/gateway/"
-    assert ft.BASE_URL == "https://example.com/gateway/"
-    client = ft.market_api()
-    assert client.base_url == "https://example.com/gateway/"
-    ft.set_base_url("https://market.ft.tech/gateway/")
+def test_api_key_is_sent_as_header_and_not_query_param(monkeypatch):
+    monkeypatch.delenv("FTSHARE_API_KEY", raising=False)
+    session = FakeSession([FakeResponse(payload={})])
+    client = FtshareClient(
+        session=session,
+        api_key="explicit-key",
+        headers={"User-Agent": "test"},
+    )
+
+    client.get("api/v1/market/data/demo", symbol="000001.SZ")
+
+    assert session.calls[0]["headers"] == {
+        "User-Agent": "test",
+        "FTSHARE_API_KEY": "explicit-key",
+    }
+    assert session.calls[0]["params"] == {"symbol": "000001.SZ"}
+
+
+def test_api_key_falls_back_to_environment(monkeypatch):
+    monkeypatch.setenv("FTSHARE_API_KEY", "environment-key")
+    session = FakeSession([FakeResponse(payload={})])
+
+    FtshareClient(session=session).get("api/v1/market/data/demo")
+
+    assert session.calls[0]["headers"] == {"FTSHARE_API_KEY": "environment-key"}
+
+
+def test_explicit_api_key_overrides_header_value(monkeypatch):
+    monkeypatch.setenv("FTSHARE_API_KEY", "environment-key")
+    session = FakeSession([FakeResponse(payload={})])
+    client = FtshareClient(session=session, api_key="explicit-key", headers={"FTSHARE_API_KEY": "old-key"})
+
+    client.get("api/v1/market/data/demo")
+
+    assert session.calls[0]["headers"]["FTSHARE_API_KEY"] == "explicit-key"
 
 
 def test_package_base_url_assignment_is_used_by_market_api():
@@ -140,17 +168,10 @@ def test_get_raw_true_returns_full_payload():
 @pytest.mark.parametrize(
     ("method_name", "kwargs"),
     [
-        ("stock_unlock_by_date", {"start_date": "2025-06-01", "end_date": "2025-06-30"}),
         ("stock_unlock", {"stock_code": "000001"}),
         ("yzxdr_detail", {"year": 2026, "quarter": 2}),
-        (
-            "eastmoney_futures_strange",
-            {"exchange": "gfex", "variety": "多晶硅", "contract": "ps2609", "trade_date": "20260612"},
-        ),
-        ("eastmoney_us_stock_list", {}),
-        ("eastmoney_us_stock_daily_ohlc", {"stock_code": "ADV"}),
-        ("eastmoney_us_stock_latest_ohlc", {}),
-        ("futures_kline", {"symbol": "A2605.DCE"}),
+        ("futures_minutes", {"symbol": "A2605.DCE", "interval": "1min", "limit": 5}),
+        ("futures_contract_kline", {"symbol": "A2605.DCE", "interval": "daily", "limit": 5}),
         ("company_list", {}),
         ("wallstreetcn_financial_calendar", {"start_date": "2026-05-01", "end_date": "2026-05-07"}),
         ("stk_limit", {}),
@@ -159,7 +180,6 @@ def test_get_raw_true_returns_full_payload():
         ("stock_capital_flows", {}),
         ("stock_ggmx_sell_ranking", {}),
         ("stock_ggmx_buy_ranking", {}),
-        ("stock_ggmx", {}),
         ("pledge_summary", {}),
         ("index_weight_summary", {"index_code": "000300"}),
     ],
@@ -175,7 +195,7 @@ def test_endpoint_methods_map_to_expected_paths(method_name, kwargs):
 
 def test_all_documented_endpoints_are_available_as_client_methods():
     client = FtshareClient(session=FakeSession([]))
-    assert len(ENDPOINTS) >= 200
+    assert len(ENDPOINTS) >= 190
 
     missing = [
         name
@@ -224,16 +244,6 @@ def test_api_error():
         client.stk_limit()
 
 
-def test_http_like_code_200_is_treated_as_success():
-    session = FakeSession([FakeResponse(payload={"code": 200, "msg": "OK", "data": {"items": [{"id": 1}]}})])
-    client = FtshareClient(session=session)
-
-    df = client.etf_fund_export(request_id="demo-1")
-
-    assert isinstance(df, pd.DataFrame)
-    assert df.to_dict("records") == [{"id": 1}]
-
-
 def test_search_uses_public_path_without_trailing_slash_and_q_param():
     session = FakeSession([FakeResponse(payload=[{"symbol": "600519.SH"}])])
     client = FtshareClient(session=session)
@@ -241,128 +251,8 @@ def test_search_uses_public_path_without_trailing_slash_and_q_param():
     rows = client.search(query="maotai", limit=1, as_dataframe=False)
 
     assert rows == [{"symbol": "600519.SH"}]
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/security/search"
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v2/market/security/search/"
     assert session.calls[0]["params"] == {"q": "maotai", "limit": 1}
-
-
-def test_path_parameter_is_substituted_into_endpoint_url():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    rows = client.stock_intraday(symbol="600000.XSHG", as_dataframe=False)
-
-    assert rows == []
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/security/600000.XSHG/intraday"
-    assert session.calls[0]["params"] == {}
-
-
-def test_path_parameter_and_query_parameters_are_separated():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    client.stock_related(symbol="000300.XSHG", limit=3)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/security/000300.XSHG/related"
-    assert session.calls[0]["params"] == {"limit": 3}
-
-
-def test_missing_path_parameter_raises_value_error():
-    client = FtshareClient(session=FakeSession([]))
-
-    with pytest.raises(ValueError, match="symbol is required in endpoint path"):
-        client.stock_intraday()
-
-
-def test_confirmed_todo_endpoints_map_to_public_server_paths():
-    cases = [
-        (
-            "stock_prev_close",
-            {"symbol": "600000.XSHG", "since": "20240501", "until": "20240531"},
-            "api/v1/market/data/daec/history/prev-closes",
-            {"symbol": "600000.XSHG", "since": "20240501", "until": "20240531"},
-        ),
-        (
-            "stock_market",
-            {"scope": "ChinaStock"},
-            "api/v1/market/data/daec/market/snapshot",
-            {"scope": "ChinaStock"},
-        ),
-        (
-            "stock_market_distribution_intraday",
-            {"scope": "ChinaStock"},
-            "api/v1/market/data/daec/market/distribution-history",
-            {"scope": "ChinaStock"},
-        ),
-        (
-            "stock_intraday_prices",
-            {"symbol": "600000.XSHG", "compat": "v2", "since": "TODAY"},
-            "api/v1/market/data/daec/history/prices",
-            {"symbol": "600000.XSHG", "compat": "v2", "since": "TODAY"},
-        ),
-        (
-            "stock_ohlcs",
-            {"symbol": "600000.XSHG", "compat": "v2", "span": "DAY1", "limit": 5},
-            "api/v1/market/data/daec/history/ohlcs",
-            {"symbol": "600000.XSHG", "compat": "v2", "span": "DAY1", "limit": 5},
-        ),
-    ]
-
-    for method_name, kwargs, path, expected_params in cases:
-        session = FakeSession([FakeResponse(payload=[])])
-        client = FtshareClient(session=session)
-
-        getattr(client, method_name)(**kwargs)
-
-        assert session.calls[0]["url"] == "https://market.ft.tech/gateway/" + path
-        assert session.calls[0]["params"] == expected_params
-
-
-@pytest.mark.parametrize(
-    ("kwargs", "message"),
-    [
-        (
-            {"symbol": "600000.XSHG", "compat": "v2", "range": "Today", "since": "TODAY"},
-            "cannot be combined with raw time parameters",
-        ),
-        (
-            {"symbol": "600000.XSHG", "since": "TODAY"},
-            "require compat='v2'",
-        ),
-        (
-            {"symbol": "600000.XSHG", "range": "Today", "days": 5},
-            "raw time parameters are mutually exclusive",
-        ),
-        (
-            {"symbol": "600000.XSHG", "compat": "v2", "since": "TODAY", "since_ts_ms": 1782696600000},
-            "v2 time parameters are mutually exclusive",
-        ),
-    ],
-)
-def test_stock_intraday_prices_rejects_mixed_daec_time_modes(kwargs, message):
-    client = FtshareClient(session=FakeSession([]))
-
-    with pytest.raises(ValueError, match=message):
-        client.stock_intraday_prices(**kwargs)
-
-
-@pytest.mark.parametrize(
-    ("kwargs", "message"),
-    [
-        (
-            {"symbol": "600000.XSHG", "span": "DAY1", "limit": 5},
-            "require compat='v2'",
-        ),
-        (
-            {"symbol": "600000.XSHG", "compat": "v2", "span": "DAY1", "interval": "Day"},
-            "uses span instead of interval",
-        ),
-    ],
-)
-def test_stock_ohlcs_rejects_mixed_daec_modes(kwargs, message):
-    client = FtshareClient(session=FakeSession([]))
-
-    with pytest.raises(ValueError, match=message):
-        client.stock_ohlcs(**kwargs)
 
 
 def test_stock_market_list_families_format_board_path_parameters():
@@ -389,24 +279,6 @@ def test_stock_market_list_families_format_board_path_parameters():
 
         assert session.calls[0]["url"] == "https://market.ft.tech/gateway/" + path
         assert session.calls[0]["params"] == expected_params
-
-
-def test_paginated_aliases_resolved_from_server_routes():
-    session = FakeSession(
-        [
-            FakeResponse(payload={"items": [], "total_pages": 0, "total_items": 0}),
-            FakeResponse(payload={"items": [], "total_pages": 0, "total_items": 0}),
-        ]
-    )
-    client = FtshareClient(session=session)
-
-    client.stock_ipos_paginated(page=1, page_size=50)
-    client.stock_dividends_paginated(page=1, page_size=50)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/stock-ipos"
-    assert session.calls[0]["params"] == {"page": 1, "page_size": 50}
-    assert session.calls[1]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/dividends"
-    assert session.calls[1]["params"] == {"page": 1, "page_size": 50}
 
 
 def test_endpoint_default_returns_dataframe_from_records():
@@ -672,16 +544,7 @@ def test_get_query_booleans_are_lowercase_strings():
     assert session.calls[0]["params"] == {"enabled": "true", "disabled": "false"}
 
 
-def test_post_json_booleans_remain_booleans():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    client.post("api/v1/market/data/demo", enabled=True, disabled=False, as_dataframe=False)
-
-    assert session.calls[0]["json"] == {"enabled": True, "disabled": False}
-
-
-def test_etf_candlesticks_posts_json_body_to_candlesticks_path():
+def test_etf_candlesticks_uses_get_query_params():
     session = FakeSession([FakeResponse(payload=[{"close": "4.5"}])])
     client = FtshareClient(session=session)
 
@@ -694,7 +557,7 @@ def test_etf_candlesticks_posts_json_body_to_candlesticks_path():
     )
 
     assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/etf-candlesticks"
-    assert session.calls[0]["json"] == {
+    assert session.calls[0]["params"] == {
         "symbol": "510300.XSHG",
         "interval_unit": "Day",
         "until_ts_millis": 1756791000000,
@@ -702,26 +565,7 @@ def test_etf_candlesticks_posts_json_body_to_candlesticks_path():
     }
 
 
-def test_etf_candlesticks_batch_posts_symbols_array():
-    session = FakeSession([FakeResponse(payload=[["510300.XSHG", []]])])
-    client = FtshareClient(session=session)
-
-    client.etf_candlesticks_batch(
-        symbols=["510300.XSHG", "159915.XSHE"],
-        interval_unit="Day",
-        until_ts_millis=1756791000000,
-        as_dataframe=False,
-    )
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/etf-candlesticks/batch"
-    assert session.calls[0]["json"] == {
-        "symbols": ["510300.XSHG", "159915.XSHE"],
-        "interval_unit": "Day",
-        "until_ts_millis": 1756791000000,
-    }
-
-
-def test_convertible_bond_candlesticks_posts_json_body():
+def test_convertible_bond_candlesticks_uses_get_query_params():
     session = FakeSession([FakeResponse(payload=[{"close": "200"}])])
     client = FtshareClient(session=session)
 
@@ -733,25 +577,14 @@ def test_convertible_bond_candlesticks_posts_json_body():
     )
 
     assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/convertible-bond-candlesticks"
-    assert session.calls[0]["json"]["symbol"] == "113027.XSHG"
+    assert session.calls[0]["params"] == {
+        "symbol": "113027.XSHG",
+        "interval_unit": "Day",
+        "until_ts_millis": 1756791000000,
+    }
 
 
-def test_convertible_bond_candlesticks_batch_posts_json_body():
-    session = FakeSession([FakeResponse(payload=[[]])])
-    client = FtshareClient(session=session)
-
-    client.convertible_bond_candlesticks_batch(
-        symbols=["113027.XSHG", "128048.XSHE"],
-        interval_unit="Day",
-        until_ts_millis=1756791000000,
-        as_dataframe=False,
-    )
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/convertible-bond-candlesticks/batch"
-    assert session.calls[0]["json"]["symbols"] == ["113027.XSHG", "128048.XSHE"]
-
-
-def test_index_candlesticks_posts_json_body():
+def test_index_candlesticks_uses_get_query_params():
     session = FakeSession([FakeResponse(payload=[{"close": "4500"}])])
     client = FtshareClient(session=session)
 
@@ -763,52 +596,11 @@ def test_index_candlesticks_posts_json_body():
     )
 
     assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/index-candlesticks"
-    assert session.calls[0]["json"]["symbol"] == "000300.XSHG"
-
-
-def test_index_candlesticks_batch_posts_json_body():
-    session = FakeSession([FakeResponse(payload=[[]])])
-    client = FtshareClient(session=session)
-
-    client.index_candlesticks_batch(
-        symbols=["000300.XSHG", "399001.XSHE"],
-        interval_unit="Day",
-        until_ts_millis=1756791000000,
-        as_dataframe=False,
-    )
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/index-candlesticks/batch"
-    assert session.calls[0]["json"]["symbols"] == ["000300.XSHG", "399001.XSHE"]
-
-
-def test_limit_up_pool_forwards_trade_date_query_parameter():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    client.limit_up_pool(trade_date="20260713", as_dataframe=False)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/limit-up-pool"
-    assert session.calls[0]["params"] == {"trade_date": "20260713"}
-
-
-def test_limit_up_break_pool_forwards_trade_date_query_parameter():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    client.limit_up_break_pool(trade_date="20260713", as_dataframe=False)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/limit-up-break-pool"
-    assert session.calls[0]["params"] == {"trade_date": "20260713"}
-
-
-def test_limit_down_pool_forwards_trade_date_query_parameter():
-    session = FakeSession([FakeResponse(payload=[])])
-    client = FtshareClient(session=session)
-
-    client.limit_down_pool(trade_date="20260713", as_dataframe=False)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/limit-down-pool"
-    assert session.calls[0]["params"] == {"trade_date": "20260713"}
+    assert session.calls[0]["params"] == {
+        "symbol": "000300.XSHG",
+        "interval_unit": "Day",
+        "until_ts_millis": 1756791000000,
+    }
 
 
 def test_limit_event_timeline_3s_forwards_symbol_and_trade_date():
@@ -817,7 +609,7 @@ def test_limit_event_timeline_3s_forwards_symbol_and_trade_date():
 
     client.limit_event_timeline_3s(symbol="000504.XSHE", trade_date="20260713", as_dataframe=False)
 
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/limit-event-timeline-3s"
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v2/market/data/limit-event-timeline-3s"
     assert session.calls[0]["params"] == {"symbol": "000504.XSHE", "trade_date": "20260713"}
 
 
@@ -827,7 +619,7 @@ def test_stock_filter_forwards_symbol_param():
 
     client.stock_filter(symbol="600519.SH", page=1, page_size=5, as_dataframe=False)
 
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/stock-list/filter"
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v2/market/data/stock-list/filter"
     assert session.calls[0]["params"]["symbol"] == "600519.SH"
     assert "board" not in session.calls[0]["params"]
     assert "listing_date_since" not in session.calls[0]["params"]
@@ -964,16 +756,6 @@ def test_fund_manager_paginated():
     assert session.calls[0]["params"]["is_inoffice"] == "1"
 
 
-def test_fund_daily_paginated():
-    session = FakeSession([FakeResponse(payload={"items": [], "total_pages": 0, "total_items": 0})])
-    client = FtshareClient(session=session)
-
-    client.fund_daily(fund_code="510300", trade_date="20260717", page=1, page_size=50, as_dataframe=False)
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/fund/fund-daily"
-    assert session.calls[0]["params"]["trade_date"] == "20260717"
-
-
 def test_fund_fee_paginated_filter():
     session = FakeSession([FakeResponse(payload={"items": [], "total_pages": 0, "total_items": 0})])
     client = FtshareClient(session=session)
@@ -1012,7 +794,7 @@ def test_fund_index_fund_array_response():
 
     client.fund_index_fund(index_code="000300", scope="etf", as_dataframe=False)
 
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/fund/index-fund"
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v2/market/data/fund/index-fund"
     assert session.calls[0]["params"] == {"index_code": "000300", "scope": "etf"}
 
 
@@ -1024,18 +806,6 @@ def test_fund_index_fund_array_response():
             {"trade_code": "600848.SH", "start_date": "20200101", "end_date": "20241231"},
             "api/v1/market/data/namechange",
             {"trade_code": "600848.SH", "start_date": "20200101", "end_date": "20241231"},
-        ),
-        (
-            "stk_code_change",
-            {"trade_code": "001872.SZ,601360.SH", "start_date": "20180101"},
-            "api/v1/market/data/stk-code-change",
-            {"trade_code": "001872.SZ,601360.SH", "start_date": "20180101"},
-        ),
-        (
-            "stk_status_change",
-            {"trade_code": "600848.SH", "change_type": "上市"},
-            "api/v1/market/data/stk-status-change",
-            {"trade_code": "600848.SH", "change_type": "上市"},
         ),
         (
             "stk_managers",
@@ -1067,23 +837,3 @@ def test_a_share_reference_endpoints_map_to_expected_paths(
 
     assert session.calls[0]["url"] == "https://market.ft.tech/gateway/" + expected_path
     assert session.calls[0]["params"] == expected_params
-
-
-def test_a_share_reference_endpoints_raw_returns_full_payload():
-    payload = [
-        {"trade_code": "001872.SZ", "code": "1872", "name": "招商港口", "start_date": "20181226", "end_date": None},
-    ]
-    session = FakeSession([FakeResponse(payload=payload)])
-    client = FtshareClient(session=session)
-
-    assert client.stk_code_change(trade_code="001872.SZ", raw=True) == payload
-
-
-def test_a_share_status_change_omits_none_params():
-    session = FakeSession([FakeResponse(payload={"items": []})])
-    client = FtshareClient(session=session)
-
-    client.stk_status_change()
-
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/stk-status-change"
-    assert session.calls[0]["params"] == {}

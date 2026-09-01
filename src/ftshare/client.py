@@ -16,7 +16,6 @@ from .apis import (
     LlmCorpusApiMixin,
     SpotApiMixin,
     StockApiMixin,
-    UnpublishedApiMixin,
     UsApiMixin,
 )
 from .base import DEFAULT_BASE_URL, BaseClient, get_base_url, set_base_url
@@ -35,7 +34,6 @@ class FtshareClient(
     LlmCorpusApiMixin,
     SpotApiMixin,
     ForexApiMixin,
-    UnpublishedApiMixin,
     BaseClient,
 ):
     """Synchronous client for all documented FTShare data endpoints.
@@ -49,6 +47,7 @@ def market_api(
     base_url: str | None = None,
     timeout: float = 10,
     headers: Mapping[str, str] | None = None,
+    api_key: str | None = None,
 ) -> FtshareClient:
     """Create a synchronous FTShare market data API client.
 
@@ -57,11 +56,13 @@ def market_api(
             base URL.
         timeout: Request timeout in seconds.
         headers: Optional headers sent with every request.
+        api_key: Optional FTShare API key. Defaults to the ``FTSHARE_API_KEY``
+            environment variable.
 
     Returns:
         A configured ``FtshareClient`` instance.
     """
-    return FtshareClient(base_url=base_url, timeout=timeout, headers=headers)
+    return FtshareClient(base_url=base_url, timeout=timeout, headers=headers, api_key=api_key)
 
 
 __all__ = [

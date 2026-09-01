@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 from collections.abc import Mapping, Sequence
 from typing import Any
@@ -25,6 +26,8 @@ class BaseClient:
         base_url: API base URL. Defaults to ``DEFAULT_BASE_URL``.
         timeout: Request timeout in seconds.
         headers: Optional headers sent with every request.
+        api_key: Optional FTShare API key. Defaults to the ``FTSHARE_API_KEY``
+            environment variable.
         session: Optional ``requests.Session``. Primarily useful for tests or
             for callers that need custom adapters.
     """
@@ -34,12 +37,17 @@ class BaseClient:
         base_url: str | None = None,
         timeout: float = 10,
         headers: Mapping[str, str] | None = None,
+        api_key: str | None = None,
         session: requests.Session | None = None,
     ) -> None:
         self.base_url = normalize_base_url(base_url or get_base_url())
         self.timeout = timeout
         self.session = session or requests.Session()
         self.headers = dict(headers or {})
+        if api_key is None:
+            api_key = os.environ.get("FTSHARE_API_KEY")
+        if api_key is not None:
+            self.headers["FTSHARE_API_KEY"] = api_key
 
     def close(self) -> None:
         """Close the underlying HTTP session."""
@@ -103,21 +111,8 @@ class BaseClient:
         as_dataframe: bool = True,
         **params: Any,
     ) -> Any:
-        """Send a POST request with a JSON body and normalize the response.
-
-        Args:
-            path: Endpoint path relative to ``base_url``.
-            raw: When ``True``, return the decoded JSON payload.
-            fields: Optional field list or comma-separated field string.
-            as_dataframe: Return a pandas ``DataFrame`` by default.
-            **params: JSON body parameters. Values set to ``None`` are omitted.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, or raw JSON when ``raw=True``.
-        """
-        return self._request(
-            "POST",
+        """Send a compatibility request using GET and normalize the response."""
+        return self.get(
             path,
             raw=raw,
             fields=fields,
@@ -139,24 +134,18 @@ class BaseClient:
         url = self._url_for(path)
         clean_params = {key: value for key, value in params.items() if value is not None}
         request_method = method.upper()
-        if request_method == "POST":
-            response = self.session.post(
-                url,
-                json=clean_params,
-                timeout=self.timeout,
-                headers=self.headers or None,
-            )
-        else:
-            query_params = {
-                key: str(value).lower() if isinstance(value, bool) else value
-                for key, value in clean_params.items()
-            }
-            response = self.session.get(
-                url,
-                params=query_params,
-                timeout=self.timeout,
-                headers=self.headers or None,
-            )
+        if request_method != "GET":
+            raise ValueError(f"Unsupported HTTP method: {method}")
+        query_params = {
+            key: str(value).lower() if isinstance(value, bool) else value
+            for key, value in clean_params.items()
+        }
+        response = self.session.get(
+            url,
+            params=query_params,
+            timeout=self.timeout,
+            headers=self.headers or None,
+        )
         if not 200 <= response.status_code < 300:
             raise FtshareHTTPError(response.status_code, url, response.text)
 
@@ -189,8 +178,8 @@ class BaseClient:
         """Call an endpoint by registry name using its documented HTTP method."""
         endpoint = ENDPOINTS[endpoint_name]
         path = self._format_path(endpoint.path, path_params or {})
-        if endpoint.method == "POST":
-            return self.post(path, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+        if endpoint.method != "GET":
+            raise ValueError(f"Unsupported HTTP method for endpoint: {endpoint.method}")
         return self.get(path, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
     def get_paginated(

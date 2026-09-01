@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -12,13 +13,7 @@ from conftest import FakeResponse, FakeSession
 from endpoint_cases import SAMPLE_VALUES, SPECIAL_CALLS, WIRE_ALIASES
 
 
-NON_PUBLISHED_ENDPOINTS = {
-    "stock_dividends_paginated",
-    "stock_intraday",
-    "stock_ohlcs",
-    "stock_related",
-}
-PUBLIC_CONTRACTS = set(ENDPOINTS) - NON_PUBLISHED_ENDPOINTS
+PUBLIC_CONTRACTS = set(ENDPOINTS)
 CONTROL_PARAMS = {"page", "page_size"}
 
 
@@ -52,9 +47,27 @@ def _response_payload(name: str) -> Any:
 
 
 def test_contract_cases_cover_all_public_sdk_methods():
-    assert len(PUBLIC_CONTRACTS) == 213
-    assert PUBLIC_CONTRACTS | NON_PUBLISHED_ENDPOINTS == set(ENDPOINTS)
-    assert not (PUBLIC_CONTRACTS & NON_PUBLISHED_ENDPOINTS)
+    assert len(PUBLIC_CONTRACTS) == len(ENDPOINTS)
+    assert PUBLIC_CONTRACTS == set(ENDPOINTS)
+
+
+def test_unpublished_topic_is_not_public():
+    assert "unpublished" not in ENDPOINTS
+    assert not any(base.__name__ == "UnpublishedApiMixin" for base in FtshareClient.__mro__)
+
+
+def test_endpoint_documents_come_from_valid_topics():
+    docs_root = Path(__file__).parents[2] / "ftshare-doc" / "api-doc"
+    excluded = {"未发布", "已下线", "设计文档", "系统接口"}
+    assert docs_root.is_dir()
+
+    matches = {}
+    for path in docs_root.rglob("*.md"):
+        matches.setdefault(path.name, []).append(path)
+
+    for endpoint in ENDPOINTS.values():
+        assert endpoint.doc_file in matches
+        assert any(not excluded.intersection(path.relative_to(docs_root).parts) for path in matches[endpoint.doc_file])
 
 
 @pytest.mark.parametrize("method_name", sorted(PUBLIC_CONTRACTS))
@@ -82,16 +95,13 @@ def test_endpoint_forwards_every_documented_parameter(method_name):
     assert call["method"] == endpoint.method
 
     expected_wire = _wire_params(method_name, kwargs)
-    if endpoint.method == "POST":
-        assert call["json"] == expected_wire
-        assert "params" not in call
-    else:
-        expected_query = {
-            key: str(value).lower() if isinstance(value, bool) else value
-            for key, value in expected_wire.items()
-        }
-        assert call["params"] == expected_query
-        assert "json" not in call
+    expected_query = {
+        key: str(value).lower() if isinstance(value, bool) else value
+        for key, value in expected_wire.items()
+    }
+    assert endpoint.method == "GET"
+    assert call["params"] == expected_query
+    assert "json" not in call
 
 
 @pytest.mark.parametrize("method_name", sorted(PUBLIC_CONTRACTS))

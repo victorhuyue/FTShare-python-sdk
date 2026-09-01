@@ -27,48 +27,26 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_eastmoney_futures_position',
         'params': ('exchange', 'variety_code', 'contract_code', 'trade_date', 'start_date', 'end_date', 'member_name_abbr', 'page', 'page_size'),
     },
-    'eastmoney_futures_strange': {
-        'path': 'api/v1/market/data/eastmoney-futures-strange',
-        'title': '东方财富期货龙虎榜',
-        'doc_file': '东方财富期货龙虎榜.md',
-        'original_api': 'eastmoney_futures_strange',
-        'params': ('exchange', 'variety', 'contract', 'trade_date'),
+    'futures_minutes': {
+        'path': 'api/v3/market/data/futures_minutes',
+        'title': '期货历史分钟行情',
+        'doc_file': '期货历史分钟行情.md',
+        'original_api': 'futures_minutes',
+        'params': ('symbol', 'interval', 'start', 'end', 'limit'),
     },
     'futures_contract_kline': {
         'path': 'api/v1/market/data/futures/kline',
-        'title': '期货合约K线',
-        'doc_file': '期货合约K线.md',
+        'title': '期货行情',
+        'doc_file': '期货行情.md',
         'original_api': 'futures_contract_kline',
         'params': ('symbol', 'interval', 'start', 'end', 'limit'),
     },
-    'futures_kline': {
-        'path': 'api/v1/market/data/futures/kline',
-        'title': '期货合约K线',
-        'doc_file': '期货合约K线.md',
-        'original_api': 'futures_contract_kline',
-        'params': ('symbol', 'interval', 'start', 'end', 'limit'),
-    },
-    'futures_kline_intraday': {
-        'path': 'api/v1/market/data/futures/kline/intraday',
-        'title': '期货日内K线',
-        'doc_file': '期货日内K线.md',
-        'original_api': 'futures_kline_intraday',
-        'params': ('symbol', 'interval', 'start', 'end', 'limit'),
-    },
-    'futures_kline_latest': {
-        'path': 'api/v1/market/data/futures/kline/latest',
-        'title': '期货最新K线',
-        'doc_file': '期货最新K线.md',
-        'original_api': 'futures_kline_latest',
-        'params': ('symbol', 'interval'),
-    },
-    'futures_eod_price': {
-        'path': 'api/v1/market/data/futures/eod-price',
-        'title': '期货日终行情',
-        'doc_file': '期货日终行情.md',
-        'original_api': 'futures_eod_price',
-        'params': ('exchange', 'symbol', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
-        'max_page_size': 200,
+    'futures_minutes_realtime': {
+        'path': 'api/v4/market/data/futures_minutes/realtime',
+        'title': '期货实时分钟K线',
+        'doc_file': '期货实时分钟K线.md',
+        'original_api': 'futures_minutes_realtime',
+        'params': ('symbols',),
     },
     'major_contract': {
         'path': 'api/v1/market/data/corporate/contract',
@@ -92,20 +70,44 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'major_contract_summary',
         'params': ('page', 'page_size'),
     },
-    'member_build_process': {
-        'path': 'api/v1/market/data/member-build-process',
-        'title': '会员建仓过程',
-        'doc_file': '会员建仓过程.md',
-        'original_api': 'member_build_process',
-        'params': ('exchange', 'member_name', 'instrument_id', 'start_date', 'end_date', 'contract_multiplier', 'page', 'page_size'),
-        'max_page_size': 200,
+    'fut_wsr': {
+        'path': 'api/v1/market/data/futures/fut-wsr',
+        'title': '期货仓单日报',
+        'doc_file': '期货仓单日报.md',
+        'original_api': 'fut_wsr',
+        'params': ('trade_date', 'start_date', 'end_date', 'symbol', 'exchange', 'page', 'page_size'),
     },
-    'member_position_ranking': {
-        'path': 'api/v1/market/data/member-position-ranking',
-        'title': '会员持仓排名',
-        'doc_file': '会员持仓排名.md',
-        'original_api': 'member_position_ranking',
-        'params': ('exchange', 'instrument_id', 'trade_date', 'direction', 'page', 'page_size'),
-        'max_page_size': 200,
+
+    'fut_weekly_detail': {
+        'path': 'api/v1/market/data/futures/fut-weekly-detail',
+        'title': '期货主要品种交易周报',
+        'doc_file': '期货主要品种交易周报.md',
+        'original_api': 'fut_weekly_detail',
+        'params': ('week', 'prd', 'start_week', 'end_week', 'exchange', 'page', 'page_size'),
     },
+
+    'fut_settle': {
+        'path': 'api/v1/market/data/futures/fut-settle',
+        'title': '期货每日结算参数',
+        'doc_file': '期货每日结算参数.md',
+        'original_api': 'fut_settle',
+        'params': ('ts_code', 'trade_date', 'start_date', 'end_date', 'exchange', 'page', 'page_size'),
+    },
+
+    'ft_limit': {
+        'path': 'api/v1/market/data/futures/ft-limit',
+        'title': '期货合约涨跌停价',
+        'doc_file': '期货合约涨跌停价.md',
+        'original_api': 'ft_limit',
+        'params': ('ts_code', 'trade_date', 'start_date', 'end_date', 'cont', 'exchange', 'page', 'page_size'),
+    },
+
+    'futures_nanhua_index_kline': {
+        'path': 'api/v1/market/data/futures/nanhua-index-kline',
+        'title': '南华期货指数日K线',
+        'doc_file': '南华期货指数日K线.md',
+        'original_api': 'futures_nanhua_index_kline',
+        'params': ('code', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
+    },
+
 })

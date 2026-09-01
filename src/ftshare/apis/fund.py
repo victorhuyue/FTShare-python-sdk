@@ -103,59 +103,6 @@ class FundApiMixin:
             **request_params,
         )
 
-    def fund_nav(
-        self,
-        institution_code: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """基金净值.
-
-        Endpoint: ``api/v1/market/data/fund/fund-nav``.
-        Method: ``GET``.
-        Documented endpoint: ``get_fund_nav``.
-
-        Args:
-            institution_code: 基金代码 (type: string; required: Y).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'institution_code': institution_code}
-        request_params.update(kwargs)
-        path = ENDPOINTS['fund_nav'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def fund_overview(
         self,
         page: int | None = None,
@@ -819,70 +766,6 @@ class FundApiMixin:
         }
         request_params.update(kwargs)
         path = ENDPOINTS['fund_manager'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def fund_daily(
-        self,
-        fund_code: Any | None = None,
-        trade_date: Any | None = None,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """基金行情日线.
-
-        Endpoint: ``api/v1/market/data/fund/fund-daily``.
-        Method: ``GET``.
-        Documented endpoint: ``get_fund_daily``.
-
-        Args:
-            fund_code: 基金代码 (type: string; required: Y).
-            trade_date: 交易日期 YYYYMMDD（与 start/end 互斥） (type: string; required: N).
-            start_date: 起始日期 YYYYMMDD（需与 end_date 同传） (type: string; required: N).
-            end_date: 结束日期 YYYYMMDD (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {
-            'fund_code': fund_code,
-            'trade_date': trade_date,
-            'start_date': start_date,
-            'end_date': end_date,
-        }
-        request_params.update(kwargs)
-        path = ENDPOINTS['fund_daily'].path
         return self.get_paginated(
             path,
             page=page,

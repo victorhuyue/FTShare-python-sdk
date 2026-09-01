@@ -13,10 +13,4 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_bullion_price',
         'params': ('symbol', 'start_date', 'end_date', 'page', 'page_size'),
     },
-    'bullion_support_symbol': {
-        'path': 'api/v1/market/data/bullion/support-symbol',
-        'title': '贵金属支持标的',
-        'doc_file': '贵金属支持标的.md',
-        'original_api': 'get_bullion_support_symbol',
-    },
 })

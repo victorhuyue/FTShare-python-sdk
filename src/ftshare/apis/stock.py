@@ -131,69 +131,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def daec_ohlcs(
-        self,
-        symbol: Any | None = None,
-        since: Any | None = None,
-        until: Any | None = None,
-        interval: Any | None = None,
-        adjust: Any | None = None,
-        compat: Any | None = None,
-        span: Any | None = None,
-        limit: Any | None = None,
-        until_ts_ms: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """DAEC历史OHLC.
-
-        Endpoint: ``api/v1/market/data/daec/history/ohlcs``.
-        Method: ``GET``.
-        Documented endpoint: ``daec_ohlcs``.
-
-        Args:
-            symbol: 标的代码 (type: string; required: Y).
-            since: 起始时间 (type: string; required: N).
-            until: 截止时间 (type: string; required: N).
-            interval: K 线周期 (type: string; required: N).
-            adjust: 复权类型 (type: string; required: N).
-            compat: 兼容模式 (type: string; required: N).
-            span: 时间跨度 (type: string; required: N).
-            limit: 返回条数 (type: int; required: N).
-            until_ts_ms: 截止时间戳（毫秒） (type: int; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {
-            'symbol': symbol,
-            'since': since,
-            'until': until,
-            'interval': interval,
-            'adjust': adjust,
-            'compat': compat,
-            'span': span,
-            'limit': limit,
-            'until_ts_ms': until_ts_ms,
-        }
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'daec_ohlcs',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def cashflow_stock_code(
         self,
         *,
@@ -650,68 +587,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stk_ah_comparison(
-        self,
-        hk_code: Any | None = None,
-        ts_code: Any | None = None,
-        trade_date: Any | None = None,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """AH股对比.
-
-        Endpoint: ``api/v1/market/data/hk/stk-ah-comparison``.
-        Method: ``GET``.
-        Documented endpoint: ``get_stk_ah_comparison``.
-
-        Args:
-            hk_code: 港股股票代码，支持 `700` 或 `00700.HK` (type: string; required: N).
-            ts_code: A 股股票代码，格式 `xxxxxx.SH/SZ/BJ` (type: string; required: N).
-            trade_date: 交易日期 YYYYMMDD (type: int32; required: N).
-            start_date: 起始日期 YYYYMMDD (type: int32; required: N).
-            end_date: 结束日期 YYYYMMDD (type: int32; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'hk_code': hk_code, 'ts_code': ts_code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stk_ah_comparison'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            max_page_size=1000,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_float_holders(
         self,
         stock_code: Any | None = None,
@@ -767,118 +642,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stock_ggcg_em(
-        self,
-        symbol: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """东方财富股东增减持.
-
-        Endpoint: ``api/v1/market/data/holder/stock-ggcg-em``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_ggcg_em_handler``.
-
-        Args:
-            symbol: 数据类型：全部 / 股东增持 / 股东减持，默认全部 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'symbol': symbol}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_ggcg_em'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def stock_ggmx(
-        self,
-        stock_code: Any | None = None,
-        change_direction: Any | None = None,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """董监高持股变动.
-
-        Endpoint: ``api/v1/market/data/holder/stock-ggmx``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_ggmx_handler``.
-
-        Args:
-            stock_code: 股票代码（如 600001），别名 stockCode (type: string; required: N).
-            change_direction: 变动方向：增持 / 减持，别名 changeDirection (type: string; required: N).
-            start_date: 变动日期起始 YYYY-MM-DD，别名 startDate (type: string; required: N).
-            end_date: 变动日期截止 YYYY-MM-DD，别名 endDate (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'stock_code': stock_code, 'change_direction': change_direction, 'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_ggmx'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_ggmx_buy_ranking(
         self,
         time_range: Any | None = None,
@@ -895,7 +658,7 @@ class StockApiMixin:
     ) -> Any:
         """董监高增持排名.
 
-        Endpoint: ``api/v1/market/data/holder/stock-ggmx-buy-ranking``.
+        Endpoint: ``api/v3/market/data/holder/stock-ggmx-buy-ranking``.
         Method: ``GET``.
         Documented endpoint: ``stock_ggmx_buy_ranking_handler``.
 
@@ -948,7 +711,7 @@ class StockApiMixin:
     ) -> Any:
         """董监高减持排名.
 
-        Endpoint: ``api/v1/market/data/holder/stock-ggmx-sell-ranking``.
+        Endpoint: ``api/v3/market/data/holder/stock-ggmx-sell-ranking``.
         Method: ``GET``.
         Documented endpoint: ``stock_ggmx_sell_ranking_handler``.
 
@@ -1213,6 +976,11 @@ class StockApiMixin:
         self,
         o_code: Any | None = None,
         n_code: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -1228,20 +996,26 @@ class StockApiMixin:
         Args:
             o_code: 旧代码（如 `838163.BJ`） (type: string; required: N).
             n_code: 新代码（如 `920163.BJ`） (type: string; required: N).
+            page: Page number, starting from 1.
+            page_size: Rows per page, up to the endpoint-specific maximum.
+            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+            all_pages: Fetch and combine pages until the server reports the last page.
+            max_pages: Optional safety cap for ``all_pages``.
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
             **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
         """
         request_params = {'o_code': o_code, 'n_code': n_code}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'bse_mapping',
+        path = ENDPOINTS['bse_mapping'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -1384,115 +1158,6 @@ class StockApiMixin:
         request_params = {'board_code': board_code, 'start_date': start_date, 'end_date': end_date}
         request_params.update(kwargs)
         path = ENDPOINTS['eastmoney_board_daily_kline'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def eastmoney_all_board_daily_kline(
-        self,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """东方财富全板块日线OHLC.
-
-        Endpoint: ``api/v1/market/data/eastmoney-all-board-daily-ohlc``.
-        Method: ``GET``.
-        Documented endpoint: ``eastmoney_all_board_daily_kline``.
-
-        Args:
-            start_date: 起始日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
-            end_date: 截止日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['eastmoney_all_board_daily_kline'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            max_page_size=ENDPOINTS['eastmoney_all_board_daily_kline'].max_page_size,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def eastmoney_board_latest_kline(
-        self,
-        board_code: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """东方财富板块最新OHLC.
-
-        Endpoint: ``api/v1/market/data/eastmoney-board-latest-ohlc``.
-        Method: ``GET``.
-        Documented endpoint: ``eastmoney_board_latest_kline``.
-
-        Args:
-            board_code: 板块代码，如 BK1024；不传则返回全部板块最新K线 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'board_code': board_code}
-        request_params.update(kwargs)
-        path = ENDPOINTS['eastmoney_board_latest_kline'].path
         return self.get_paginated(
             path,
             page=page,
@@ -1877,76 +1542,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def hk_sh_stock_connect_members(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """沪港通成份.
-
-        Endpoint: ``api/v1/market/data/hk-sh-stock-connect-members``.
-        Method: ``GET``.
-        Documented endpoint: ``hk_sh_stock_connect_members``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'hk_sh_stock_connect_members',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def hk_sz_stock_connect_members(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """深港通成份.
-
-        Endpoint: ``api/v1/market/data/hk-sz-stock-connect-members``.
-        Method: ``GET``.
-        Documented endpoint: ``hk_sz_stock_connect_members``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'hk_sz_stock_connect_members',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def northbound(
         self,
         date: Any | None = None,
@@ -2019,43 +1614,6 @@ class StockApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'namechange',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def nth_trade_date(
-        self,
-        n: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """第N个交易日.
-
-        Endpoint: ``api/v1/market/data/time/get-nth-trade-date``.
-        Method: ``GET``.
-        Documented endpoint: ``get_nth_trade_date``.
-
-        Args:
-            n: 需要获取的前 N 个交易日，N >= 1 (type: uint32; required: Y).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'n': n}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'nth_trade_date',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -2185,41 +1743,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def sh_hk_stock_connect_members(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """沪股通成份.
-
-        Endpoint: ``api/v1/market/data/sh-hk-stock-connect-members``.
-        Method: ``GET``.
-        Documented endpoint: ``sh_hk_stock_connect_members``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'sh_hk_stock_connect_members',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def southbound(
         self,
         date: Any | None = None,
@@ -2310,96 +1833,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def sz_hk_stock_connect_members(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """深股通成份.
-
-        Endpoint: ``api/v1/market/data/sz-hk-stock-connect-members``.
-        Method: ``GET``.
-        Documented endpoint: ``sz_hk_stock_connect_members``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'sz_hk_stock_connect_members',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def ths_all_board_kline(
-        self,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """同花顺全板块K线.
-
-        Endpoint: ``api/v1/market/data/ths-all-board-kline``.
-        Method: ``GET``.
-        Documented endpoint: ``ths_all_board_kline``.
-
-        Args:
-            start_date: 起始日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
-            end_date: 截止日期（含），YYYY-MM-DD 或 YYYYMMDD (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['ths_all_board_kline'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def ths_board_kline(
         self,
         board_code: Any | None = None,
@@ -2447,41 +1880,6 @@ class StockApiMixin:
             limit=limit,
             all_pages=all_pages,
             max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def ths_board_list(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """同花顺板块列表.
-
-        Endpoint: ``api/v1/market/data/ths-board-list``.
-        Method: ``GET``.
-        Documented endpoint: ``ths_board_list``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'ths_board_list',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -2562,7 +1960,7 @@ class StockApiMixin:
         as_dataframe: bool = True,
         **kwargs: Any,
     ) -> Any:
-        """除权除息明细.
+        """一致行动人明细.
 
         Endpoint: ``api/v1/market/data/yzxdr-detail``.
         Method: ``GET``.
@@ -2709,60 +2107,14 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stock_pledge_summary(
+    def abnormal_trading_details(
         self,
+        date: Any | None = None,
         page: int | None = None,
         page_size: int | None = None,
         limit: int | None = None,
         all_pages: bool = False,
         max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """股权质押汇总.
-
-        Endpoint: ``api/v1/market/data/pledge/pledge-summary``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_pledge_summary``.
-
-        Args:
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_pledge_summary'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def abnormal_trading_details(
-        self,
-        date: Any | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -2789,8 +2141,14 @@ class StockApiMixin:
         """
         request_params = {'date': date}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'abnormal_trading_details',
+        path = ENDPOINTS['abnormal_trading_details'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -2800,6 +2158,11 @@ class StockApiMixin:
     def abnormal_trading_overview(
         self,
         date: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -2826,8 +2189,14 @@ class StockApiMixin:
         """
         request_params = {'date': date}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'abnormal_trading_overview',
+        path = ENDPOINTS['abnormal_trading_overview'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -2837,6 +2206,11 @@ class StockApiMixin:
     def block_trades(
         self,
         date: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -2863,45 +2237,14 @@ class StockApiMixin:
         """
         request_params = {'date': date}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'block_trades',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def limit_down_pool(
-        self,
-        trade_date: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """跌停池.
-
-        Endpoint: ``api/v1/market/data/limit-down-pool``.
-        Method: ``GET``.
-        Documented endpoint: ``limit_down_pool``.
-
-        Args:
-            trade_date: 交易日期，格式 YYYYMMDD；不传或传当日时查询实时数据 (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_date': trade_date}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'limit_down_pool',
+        path = ENDPOINTS['block_trades'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -2941,115 +2284,6 @@ class StockApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'limit_event_timeline_3s',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def limit_up_break_pool(
-        self,
-        trade_date: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """炸板池.
-
-        Endpoint: ``api/v1/market/data/limit-up-break-pool``.
-        Method: ``GET``.
-        Documented endpoint: ``limit_up_break_pool``.
-
-        Args:
-            trade_date: 交易日期，格式 YYYYMMDD；不传或传当日时查询实时数据 (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_date': trade_date}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'limit_up_break_pool',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def limit_up_pool(
-        self,
-        trade_date: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """涨停池.
-
-        Endpoint: ``api/v1/market/data/limit-up-pool``.
-        Method: ``GET``.
-        Documented endpoint: ``limit_up_pool``.
-
-        Args:
-            trade_date: 交易日期，格式 YYYYMMDD；不传或传当日时查询实时数据 (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_date': trade_date}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'limit_up_pool',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def limit_up_pool_yesterday(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """昨日涨停池.
-
-        Endpoint: ``api/v1/market/data/limit-up-pool-yesterday``.
-        Method: ``GET``.
-        Documented endpoint: ``limit_up_pool_yesterday``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'limit_up_pool_yesterday',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -3109,59 +2343,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def margin_trading_details_paginated(
-        self,
-        date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """融资融券明细分页.
-
-        Endpoint: ``api/v1/market/data/margin-trading-details``.
-        Method: ``GET``.
-        Documented endpoint: ``margin_trading_details_paginated``.
-
-        Args:
-            date: 查询日期 YYYYMMDD；不传则使用当前内存快照 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'date': date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['margin_trading_details_paginated'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def risk_warning_stock_quotes(
         self,
         date: Any | None = None,
@@ -3202,6 +2383,11 @@ class StockApiMixin:
     def risk_warning_stocks(
         self,
         date: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -3228,56 +2414,7 @@ class StockApiMixin:
         """
         request_params = {'date': date}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'risk_warning_stocks',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def report_announcement_list(
-        self,
-        date: Any | None = None,
-        sec_code: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """报告公告列表.
-
-        Endpoint: ``api/v1/market/data/report-announcements/list``.
-        Method: ``GET``.
-        Documented endpoint: ``report_announcement_list``.
-
-        Args:
-            date: 公告日期 (type: string; required: N).
-            sec_code: 证券代码 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'date': date, 'sec_code': sec_code}
-        request_params.update(kwargs)
-        path = ENDPOINTS['report_announcement_list'].path
+        path = ENDPOINTS['risk_warning_stocks'].path
         return self.get_paginated(
             path,
             page=page,
@@ -3285,85 +2422,6 @@ class StockApiMixin:
             limit=limit,
             all_pages=all_pages,
             max_pages=max_pages,
-            max_page_size=ENDPOINTS['report_announcement_list'].max_page_size,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def report_announcement_summary(
-        self,
-        announcement_id: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """报告公告摘要.
-
-        Endpoint: ``api/v1/market/data/report-announcements/summary``.
-        Method: ``GET``.
-        Documented endpoint: ``report_announcement_summary``.
-
-        Args:
-            announcement_id: 公告 ID (type: string; required: Y).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'announcement_id': announcement_id}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'report_announcement_summary',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def stk_code_change(
-        self,
-        trade_code: Any | None = None,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """A股代码变更.
-
-        Endpoint: ``api/v1/market/data/stk-code-change``.
-        Method: ``GET``.
-        Documented endpoint: ``get_stk_code_change``.
-
-        Args:
-            trade_code: 股票代码（带 .SZ/.SH 后缀），支持逗号分隔多个 (type: string; required: Y).
-            start_date: 过滤区间起始日期，``YYYYMMDD`` 格式 (type: string; required: N).
-            end_date: 过滤区间结束日期，``YYYYMMDD`` 格式；与 ``start_date`` 同时提供时须 ``start_date`` ≤ ``end_date`` (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_code': trade_code, 'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'stk_code_change',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -3617,55 +2675,14 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stk_status_change(
-        self,
-        trade_code: Any | None = None,
-        change_date: Any | None = None,
-        change_type: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """A股状态变更.
-
-        Endpoint: ``api/v1/market/data/stk-status-change``.
-        Method: ``GET``.
-        Documented endpoint: ``get_stk_status_change``.
-
-        Args:
-            trade_code: 股票代码（带 .SZ/.SH 后缀），支持逗号分隔多个；不填表示不按代码过滤 (type: string; required: N).
-            change_date: 变更日期，精确过滤，``YYYYMMDD`` 格式 (type: string; required: N).
-            change_type: 变更类型，精确过滤，常见值如 ``上市``、``退市``、``暂停上市`` (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_code': trade_code, 'change_date': change_date, 'change_type': change_type}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'stk_status_change',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_adjust_factor(
         self,
         symbol: Any | None = None,
         trade_date: Any | None = None,
         start_date: Any | None = None,
         end_date: Any | None = None,
-        offset: Any | None = None,
-        limit: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -3683,8 +2700,8 @@ class StockApiMixin:
             trade_date: 交易日期 YYYYMMDD；空则默认当天，非交易日回退前一交易日 (type: string; required: N).
             start_date: 区间起始日期 YYYYMMDD；区间扫描必填且需配 symbol (type: string; required: N).
             end_date: 区间结束日期 YYYYMMDD；区间扫描必填且需配 symbol (type: string; required: N).
-            offset: 返回结果起始偏移 (type: int; required: N).
-            limit: 返回结果最大条数 (type: int; required: N).
+            page: 页码，从 1 开始。
+            page_size: 每页条数，最大 2000。
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -3695,7 +2712,7 @@ class StockApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'symbol': symbol, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'offset': offset, 'limit': limit}
+        request_params = {'symbol': symbol, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
         request_params.update(kwargs)
         return self._call_endpoint(
             'stock_adjust_factor',
@@ -3723,7 +2740,7 @@ class StockApiMixin:
         """股票K线.
 
         Endpoint: ``api/v1/market/data/stock-candlesticks``.
-        Method: ``POST``.
+        Method: ``GET``.
         Documented endpoint: ``stock_candlesticks``.
 
         Args:
@@ -3754,58 +2771,11 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stock_candlesticks_batch(
-        self,
-        symbols: Any | None = None,
-        interval_unit: Any | None = None,
-        interval_value: Any | None = None,
-        adjust_kind: Any | None = None,
-        since_ts_millis: Any | None = None,
-        until_ts_millis: Any | None = None,
-        limit: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """批量股票K线.
-
-        Endpoint: ``api/v1/market/data/stock-candlesticks/batch``.
-        Method: ``POST``.
-        Documented endpoint: ``stock_candlesticks_batch``.
-
-        Args:
-            symbols: 标的代码列表，允许股票、ETF、可转债和指数混合，例如 ["600519.SH","510300.SH","113027.SH","000300.SH"] (type: string[]; required: Y).
-            interval_unit: 周期单位：Minute/Day/Week/Month/Year (type: enum; required: Y).
-            interval_value: 间隔数值，默认 1；例如 Minute+5 表示 5 分钟 K 线 (type: int; required: N).
-            adjust_kind: 复权类型：None（默认）/Forward（前复权）/Backward（后复权） (type: enum; required: N).
-            since_ts_millis: 开始时间戳；分钟 K 线与 until 的跨度不超过 3 天 (type: int(ms); required: N).
-            until_ts_millis: 结束时间戳，单位毫秒 (type: int(ms); required: Y).
-            limit: 每个标的的返回条数上限；未传 since 和 limit 时默认 50 (type: int; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'symbols': symbols, 'interval_unit': interval_unit, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'stock_candlesticks_batch',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_capital_flows(
         self,
         date: Any | None = None,
+        time: Any | None = None,
+        symbol: Any | None = None,
         page: int | None = None,
         page_size: int | None = None,
         limit: int | None = None,
@@ -3825,6 +2795,8 @@ class StockApiMixin:
 
         Args:
             date: 查询日期 YYYYMMDD；传入时查询该日 15:30 快照 (type: string; required: N).
+            time: 15 分钟切片，格式 HHMM；必须与 date 同时使用 (type: string; required: N).
+            symbol: 精确股票代码，例如 600000.SH、000001.SZ、830001.BJ (type: string; required: N).
             page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
             page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
             limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
@@ -3840,62 +2812,9 @@ class StockApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'date': date}
+        request_params = {'date': date, 'time': time, 'symbol': symbol}
         request_params.update(kwargs)
         path = ENDPOINTS['stock_capital_flows'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def stock_capital_flows_paginated(
-        self,
-        date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """股票资金流向.
-
-        Endpoint: ``api/v1/market/data/stock-capital-flows``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_capital_flows_paginated``.
-
-        Args:
-            date: 查询日期 YYYYMMDD；传入时查询该日 15:30 快照 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'date': date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_capital_flows_paginated'].path
         return self.get_paginated(
             path,
             page=page,
@@ -4206,7 +3125,7 @@ class StockApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'year': year, 'report_type': report_type, 'inst_type': inst_type}
+        request_params = {'year': year, 'report_type': report_type, 'institution_type': inst_type}
         request_params.update(kwargs)
         path = ENDPOINTS['stock_institution_holdings'].path
         return self.get_paginated(
@@ -4265,7 +3184,7 @@ class StockApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'stock_code': stock_code, 'year': year, 'report_type': report_type, 'inst_type': inst_type}
+        request_params = {'stock_code': stock_code, 'year': year, 'report_type': report_type, 'institution_type': inst_type}
         request_params.update(kwargs)
         path = ENDPOINTS['stock_institution_holdings_detail'].path
         return self.get_paginated(
@@ -4377,61 +3296,6 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stock_intraday_auction_volume_symbol(
-        self,
-        symbol: Any | None = None,
-        trade_date: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """单标的集合竞价成交量.
-
-        Endpoint: ``api/v1/market/data/intraday-auction-volume/symbol``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_intraday_auction_volume_symbol``.
-
-        Args:
-            symbol: 标的代码，格式 code.suffix（XSHG/SH、XSHE/SZ、BJSE/BJ） (type: string; required: Y).
-            trade_date: 交易日期 YYYYMMDD；不传返回当日实时数据 (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'symbol': symbol, 'trade_date': trade_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_intraday_auction_volume_symbol'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_ipos(
         self,
         page: int | None = None,
@@ -4485,6 +3349,8 @@ class StockApiMixin:
 
     def stock_list(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -4498,17 +3364,14 @@ class StockApiMixin:
         Documented endpoint: ``get_stock_list``.
 
         Args:
+            page: Page number, starting from 1.
+            page_size: Rows per page, up to the endpoint-specific maximum.
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
             **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {}
+        request_params = {'page': page, 'page_size': page_size}
         request_params.update(kwargs)
         return self._call_endpoint(
             'stock_list',
@@ -4667,7 +3530,6 @@ class StockApiMixin:
 
     def stock_market_distribution_intraday(
         self,
-        scope: Any | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -4676,24 +3538,20 @@ class StockApiMixin:
     ) -> Any:
         """市场涨跌分布分时.
 
-        Endpoint: ``api/v1/market/data/daec/market/distribution-history``.
+        Endpoint: ``api/v2/market/data/market-distribution-intraday``.
         Method: ``GET``.
         Documented endpoint: ``stock_market_distribution_intraday``.
 
         Args:
-            scope: 市场范围：ChinaStock(默认) / Xshg / Xshe / Bjse (type: string; required: N).
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+            **kwargs: Extra request parameters forwarded unchanged.
 
         Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
+            A pandas ``DataFrame`` by default, Python rows when ``as_dataframe=False``, or raw JSON when ``raw=True``.
         """
-        request_params = {'scope': scope}
-        request_params.update(kwargs)
+        request_params = dict(kwargs)
         return self._call_endpoint(
             'stock_market_distribution_intraday',
             raw=raw,
@@ -4749,9 +3607,6 @@ class StockApiMixin:
         range: Any | None = None,
         days: Any | None = None,
         ts_ms: Any | None = None,
-        compat: Any | None = None,
-        since: Any | None = None,
-        since_ts_ms: Any | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -4760,18 +3615,15 @@ class StockApiMixin:
     ) -> Any:
         """标的分时数据.
 
-        Endpoint: ``api/v1/market/data/daec/history/prices``.
+        Endpoint: ``api/v4/market/data/daec/history/prices``.
         Method: ``GET``.
-        Documented endpoint: ``stock_intraday_prices``.
+        Documented endpoint: ``daec_history_prices``.
 
         Args:
             symbol: 标的代码，如 600000.XSHG (type: string; required: Y).
             range: 预置时间区间：Today / FiveDays (type: string; required: N).
             days: 近 N 个交易日至今 (type: uint32; required: N).
             ts_ms: 起始毫秒时间戳 (type: int64; required: N).
-            compat: 兼容模式。传 v2 时启用旧 v2 响应结构 (type: string; required: N).
-            since: v2 兼容模式参数。可选 TODAY / FIVE_DAYS_AGO / TRADE_DAYS_AGO(n) (type: string; required: N).
-            since_ts_ms: v2 兼容模式参数。按起始毫秒时间戳取数，优先级高于 since (type: int64; required: N).
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -4779,166 +3631,18 @@ class StockApiMixin:
 
         Returns:
             A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-
-        Raises:
-            ValueError: If original-mode and ``compat='v2'`` time controls are mixed.
+            ``as_dataframe=False``, or raw JSON when ``raw=True``.
         """
-        if compat is not None and compat != 'v2':
-            raise ValueError("compat must be 'v2' when provided")
-        raw_time_params = _present_params({'range': range, 'days': days, 'ts_ms': ts_ms})
-        v2_time_params = _present_params({'since': since, 'since_ts_ms': since_ts_ms})
-        if compat == 'v2':
-            if raw_time_params:
-                raise ValueError(
-                    "stock_intraday_prices compat='v2' cannot be combined with raw time parameters: "
-                    + ', '.join(raw_time_params)
-                )
-            if len(v2_time_params) > 1:
-                raise ValueError(
-                    "stock_intraday_prices v2 time parameters are mutually exclusive: "
-                    + ', '.join(v2_time_params)
-                )
-        elif v2_time_params:
-            raise ValueError(
-                "stock_intraday_prices v2 time parameters require compat='v2': "
-                + ', '.join(v2_time_params)
-            )
-        elif len(raw_time_params) > 1:
-            raise ValueError(
-                "stock_intraday_prices raw time parameters are mutually exclusive: "
-                + ', '.join(raw_time_params)
-            )
-
-        request_params = {
-            'symbol': symbol,
-            'range': range,
-            'days': days,
-            'ts_ms': ts_ms,
-            'compat': compat,
-            'since': since,
-            'since_ts_ms': since_ts_ms,
-        }
+        request_params = {'symbol': symbol}
+        if ts_ms is not None:
+            request_params['ts_ms'] = ts_ms
+        elif days is not None:
+            request_params['days'] = days
+        elif range is not None:
+            request_params['range'] = range
         request_params.update(kwargs)
         return self._call_endpoint(
             'stock_intraday_prices',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def stock_ohlcs(
-        self,
-        symbol: Any | None = None,
-        since: Any | None = None,
-        until: Any | None = None,
-        interval: Any | None = None,
-        adjust: Any | None = None,
-        compat: Any | None = None,
-        span: Any | None = None,
-        limit: Any | None = None,
-        until_ts_ms: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """标的K线数据.
-
-        Endpoint: ``api/v1/market/data/daec/history/ohlcs``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_ohlcs``.
-
-        Args:
-            symbol: 标的代码，如 600000.XSHG (type: string; required: Y).
-            since: 起始日期，格式 YYYYMMDD；v2 兼容模式不传时会根据 limit 估算回溯窗口 (type: string; required: 原始模式 Y / v2 兼容模式 N).
-            until: 结束日期，格式 YYYYMMDD；v2 兼容模式不传时默认当天 (type: string; required: 原始模式 Y / v2 兼容模式 N).
-            interval: 原始模式参数。周期：Minute / Day / Week / Month，默认 Day (type: string; required: N).
-            adjust: 复权方式：None / Forward / Backward；v2 兼容模式默认 Forward (type: string; required: N).
-            compat: 兼容模式。传 v2 时启用旧 v2 响应结构 (type: string; required: N).
-            span: v2 兼容模式参数。周期：DAY1 / WEEK1 / MONTH1；不支持 YEAR1 (type: string; required: N).
-            limit: v2 兼容模式参数。返回最近 N 根 K 线 (type: int; required: N).
-            until_ts_ms: v2 兼容模式参数。旧 v2 风格结束毫秒时间戳，会按北京时间转换为 until 日期 (type: int64; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-
-        Raises:
-            ValueError: If original-mode and ``compat='v2'`` controls are mixed.
-        """
-        if compat is not None and compat != 'v2':
-            raise ValueError("compat must be 'v2' when provided")
-        v2_params = _present_params({'span': span, 'limit': limit, 'until_ts_ms': until_ts_ms})
-        if compat == 'v2':
-            if interval is not None:
-                raise ValueError("stock_ohlcs compat='v2' uses span instead of interval")
-        elif v2_params:
-            raise ValueError("stock_ohlcs v2 parameters require compat='v2': " + ', '.join(v2_params))
-
-        request_params = {
-            'symbol': symbol,
-            'since': since,
-            'until': until,
-            'interval': interval,
-            'adjust': adjust,
-            'compat': compat,
-            'span': span,
-            'limit': limit,
-            'until_ts_ms': until_ts_ms,
-        }
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'stock_ohlcs',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def stock_rating_top5(
-        self,
-        date: Any | None = None,
-        variant: Any | None = None,
-        type: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """飞兔股票评级Top5.
-
-        Endpoint: ``api/v1/market/data/feitu/stock-rating-top5``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_rating_top5``.
-
-        Args:
-            date: 日期 YYYYMMDD (type: string; required: Y).
-            variant: 档位，如 300001（30w01）、300000（30w），默认 300001 (type: string; required: N).
-            type: 市场：all / xshg / xshe / bjse，默认 all (type: StockRatingMarketFilter; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'date': date, 'variant': variant, 'type': type}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'stock_rating_top5',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -4984,62 +3688,11 @@ class StockApiMixin:
             **request_params,
         )
 
-    def stock_signal_latest_snapshot(
-        self,
-        signal_type: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """信号最新快照.
-
-        Endpoint: ``api/v1/market/data/stock-signal-latest-snapshot``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_signal_latest_snapshot``.
-
-        Args:
-            signal_type: 信号类型过滤，不传返回全部。可选值：`new_high_month`、`new_high_60d`、`new_high_120d`、`new_high_250d`、`new_low_month`、`new_low_60d`、`new_low_120d`、`new_low_250d`、`consecutive_up`、`consecutive_down`、`consecutive_vol_up`、`consecutive_vol_down`、`break_up_ma5`、`break_up_ma10`、`break_up_ma20`、`break_down_ma5`、`break_down_ma10`、`break_down_ma20`、`vol_price_rise`、`vol_price_fall` (type: string; required: N).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'signal_type': signal_type}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_signal_latest_snapshot'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
     def stock_unlock(
         self,
         stock_code: Any | None = None,
+        start_date: Any | None = None,
+        end_date: Any | None = None,
         page: int | None = None,
         page_size: int | None = None,
         limit: int | None = None,
@@ -5059,6 +3712,8 @@ class StockApiMixin:
 
         Args:
             stock_code: 证券代码 (type: string; required: Y).
+            start_date: 解禁日期起始值 (type: string; required: N).
+            end_date: 解禁日期结束值 (type: string; required: N).
             page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
             page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
             limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
@@ -5074,7 +3729,7 @@ class StockApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'stock_code': stock_code}
+        request_params = {'stock_code': stock_code, 'start_date': start_date, 'end_date': end_date}
         request_params.update(kwargs)
         path = ENDPOINTS['stock_unlock'].path
         return self.get_paginated(
@@ -5089,58 +3744,211 @@ class StockApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
+    def stock_description_all(self, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """股票基础信息."""
+        params = {'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('stock_description_all', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
-    def stock_unlock_by_date(
+
+    def tdx_board_index(self, ts_code: Any | None = None, idx_name: Any | None = None, idx_type: Any | None = None, idx_type_code: Any | None = None, market: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """通达信板块指数最新快照."""
+        params = {'ts_code': ts_code, 'idx_name': idx_name, 'idx_type': idx_type, 'idx_type_code': idx_type_code, 'market': market, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('tdx_board_index', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def tdx_board_daily(self, start_date: Any | None = None, end_date: Any | None = None, ts_code: Any | None = None, idx_name: Any | None = None, idx_type: Any | None = None, idx_type_code: Any | None = None, market: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """通达信板块日线."""
+        params = {'start_date': start_date, 'end_date': end_date, 'ts_code': ts_code, 'idx_name': idx_name, 'idx_type': idx_type, 'idx_type_code': idx_type_code, 'market': market, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('tdx_board_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def tdx_board_members(self, ts_code: Any | None = None, idx_name: Any | None = None, idx_type: Any | None = None, idx_type_code: Any | None = None, market: Any | None = None, con_code: Any | None = None, con_name: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """通达信板块成分股最新快照."""
+        params = {'ts_code': ts_code, 'idx_name': idx_name, 'idx_type': idx_type, 'idx_type_code': idx_type_code, 'market': market, 'con_code': con_code, 'con_name': con_name}
+        params.update(kwargs)
+        path = ENDPOINTS['tdx_board_members'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stock_dividends(
         self,
-        start_date: Any | None = None,
-        end_date: Any | None = None,
+        symbol: Any | None = None,
+        since_date: Any | None = None,
+        until_date: Any | None = None,
         page: int | None = None,
         page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
         as_dataframe: bool = True,
         **kwargs: Any,
     ) -> Any:
-        """限售解禁按日期.
+        """股票分红记录."""
+        params = {'symbol': symbol, 'since_date': since_date, 'until_date': until_date, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('stock_dividends', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
-        Endpoint: ``api/v1/market/data/unlock/stock-unlock-by-date``.
-        Method: ``GET``.
-        Documented endpoint: ``stock_unlock_by_date_handler``.
 
-        Args:
-            start_date: 起始日期（YYYY-MM-DD） (type: string; required: Y).
-            end_date: 结束日期（YYYY-MM-DD） (type: string; required: Y).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+    def stock_history_list(self, trade_date: Any | None = None, code: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """股票历史列表."""
+        params = {'trade_date': trade_date, 'code': code, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('stock_history_list', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'start_date': start_date, 'end_date': end_date}
-        request_params.update(kwargs)
-        path = ENDPOINTS['stock_unlock_by_date'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
+
+    def stock_connect_members(self, direction: Any | None = None, channel: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """互联互通成份."""
+        params = {'direction': direction, 'channel': channel, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('stock_connect_members', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def limit_list(self, limit_type: Any | None = None, trade_date: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """涨跌停池."""
+        params = {'limit_type': limit_type, 'trade_date': trade_date}
+        params.update(kwargs)
+        return self._call_endpoint('limit_list', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stk_surv(self, ts_code: Any | None = None, trade_date: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """个股严重异常波动."""
+        params = {'ts_code': ts_code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        path = ENDPOINTS['stk_surv'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stk_shock(self, ts_code: Any | None = None, trade_date: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """个股异常波动."""
+        params = {'ts_code': ts_code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        path = ENDPOINTS['stk_shock'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stk_alert_broker(self, ts_code: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """交易所重点提示证券."""
+        params = {'ts_code': ts_code, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        path = ENDPOINTS['stk_alert_broker'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def limit_up_public_report(self, date: Any | None = None, security_code: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """涨停对外归因报告."""
+        params = {'date': date, 'security_code': security_code}
+        params.update(kwargs)
+        return self._call_endpoint('limit_up_public_report', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def limit_up_briefs(self, date: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """涨停简报."""
+        params = {'date': date}
+        params.update(kwargs)
+        return self._call_endpoint('limit_up_briefs', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ths_hot_list(self, list_type: Any | None = None, trade_date: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺热榜."""
+        params = {'list_type': list_type, 'trade_date': trade_date}
+        params.update(kwargs)
+        path = ENDPOINTS['ths_hot_list'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ashare_news_sentiment_factors(self, trade_code: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """A股新闻情绪因子."""
+        params = {'trade_code': trade_code, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        path = ENDPOINTS['ashare_news_sentiment_factors'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def kline_pattern_annotations(self, date: Any | None = None, symbol: Any | None = None, pattern: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """K线形态标注."""
+        params = {'date': date, 'symbol': symbol, 'pattern': pattern}
+        params.update(kwargs)
+        path = ENDPOINTS['kline_pattern_annotations'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ashare_interactions(self, start_date: Any | None = None, end_date: Any | None = None, trade_code: Any | None = None, company_name: Any | None = None, industry_code: Any | None = None, industry_name: Any | None = None, data_source: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """e互动."""
+        params = {'start_date': start_date, 'end_date': end_date, 'trade_code': trade_code, 'company_name': company_name, 'industry_code': industry_code, 'industry_name': industry_name, 'data_source': data_source}
+        params.update(kwargs)
+        path = ENDPOINTS['ashare_interactions'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def supply_chain_subindustry_supply_chain(self, industry_name: Any | None = None, direction: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """供应链一跳关系."""
+        params = {'industry_name': industry_name, 'direction': direction}
+        params.update(kwargs)
+        return self._call_endpoint('supply_chain_subindustry_supply_chain', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def supply_chain_company_supply_chain_companies(self, trade_code: Any | None = None, direction: Any | None = None, page: Any | None = None, page_size: Any | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """供应链公司候选."""
+        params = {'trade_code': trade_code, 'direction': direction}
+        params.update(kwargs)
+        path = ENDPOINTS['supply_chain_company_supply_chain_companies'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def supply_chain_subsubindustry_companies(self, subindustry_name: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """供应链子子行业公司映射."""
+        params = {'subindustry_name': subindustry_name}
+        params.update(kwargs)
+        return self._call_endpoint('supply_chain_subsubindustry_companies', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def supply_chain_subsubindustry_parent_subindustries(self, subindustry_name: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """供应链子子行业父行业反查."""
+        params = {'subindustry_name': subindustry_name}
+        params.update(kwargs)
+        return self._call_endpoint('supply_chain_subsubindustry_parent_subindustries', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def supply_chain_subindustry_subsubindustries(self, industry_name: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """供应链子行业层级展开."""
+        params = {'industry_name': industry_name}
+        params.update(kwargs)
+        return self._call_endpoint('supply_chain_subindustry_subsubindustries', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def exchange_margin_summaries(self, start_date: Any | None = None, end_date: Any | None = None, exchange: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """交易所融资融券汇总日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'exchange': exchange, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('exchange_margin_summaries', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ashare_rating_factor_snapshot(self, trade_code: Any | None = None, date: Any | None = None, top_k: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """A股相关性 Top-K."""
+        params = {'trade_code': trade_code, 'date': date, 'top_k': top_k}
+        params.update(kwargs)
+        return self._call_endpoint('ashare_rating_factor_snapshot', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stock_minutes(self, symbol: Any | None = None, interval_value: Any | None = None, adjust_kind: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """股票历史分钟行情."""
+        params = {'symbol': symbol, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('stock_minutes', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stock_realtime_minute_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """股票实时分钟K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('stock_realtime_minute_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stock_realtime_day_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """股票实时日K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('stock_realtime_day_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

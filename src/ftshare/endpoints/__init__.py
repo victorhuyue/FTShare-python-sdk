@@ -15,7 +15,6 @@ from .economic import ENDPOINTS as ECONOMIC_ENDPOINTS
 from .llm_corpus import ENDPOINTS as LLM_CORPUS_ENDPOINTS
 from .spot import ENDPOINTS as SPOT_ENDPOINTS
 from .forex import ENDPOINTS as FOREX_ENDPOINTS
-from .unpublished import ENDPOINTS as UNPUBLISHED_ENDPOINTS
 
 
 ENDPOINTS: dict[str, Endpoint] = {}
@@ -31,7 +30,6 @@ ENDPOINTS.update(ECONOMIC_ENDPOINTS)
 ENDPOINTS.update(LLM_CORPUS_ENDPOINTS)
 ENDPOINTS.update(SPOT_ENDPOINTS)
 ENDPOINTS.update(FOREX_ENDPOINTS)
-ENDPOINTS.update(UNPUBLISHED_ENDPOINTS)
 
 
 __all__ = ["ENDPOINTS", "Endpoint"]

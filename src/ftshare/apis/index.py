@@ -16,6 +16,7 @@ class IndexApiMixin:
         secid: Any | None = None,
         start_date: Any | None = None,
         end_date: Any | None = None,
+        limit: Any | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -32,6 +33,7 @@ class IndexApiMixin:
             secid: 东方财富全球指数编码，如 100.NDX、100.DJIA、100.SPX、100.HSI、100.N225 (type: string; required: Y).
             start_date: 开始日期 YYYY-MM-DD（含） (type: string; required: N).
             end_date: 结束日期 YYYY-MM-DD（含） (type: string; required: N).
+            limit: 返回根数上限，最大 5000 (type: int; required: N).
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -42,7 +44,7 @@ class IndexApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'secid': secid, 'start_date': start_date, 'end_date': end_date}
+        request_params = {'secid': secid, 'start_date': start_date, 'end_date': end_date, 'limit': limit}
         request_params.update(kwargs)
         return self._call_endpoint(
             'global_index_daily_kline',
@@ -70,7 +72,7 @@ class IndexApiMixin:
         """指数K线.
 
         Endpoint: ``api/v1/market/data/index-candlesticks``.
-        Method: ``POST``.
+        Method: ``GET``.
         Documented endpoint: ``index_candlesticks``.
 
         Args:
@@ -95,55 +97,6 @@ class IndexApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'index_candlesticks',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def index_candlesticks_batch(
-        self,
-        symbols: Any | None = None,
-        interval_unit: Any | None = None,
-        interval_value: Any | None = None,
-        adjust_kind: Any | None = None,
-        since_ts_millis: Any | None = None,
-        until_ts_millis: Any | None = None,
-        limit: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """批量指数K线.
-
-        Endpoint: ``api/v1/market/data/index-candlesticks/batch``.
-        Method: ``POST``.
-        Documented endpoint: ``index_candlesticks_batch``.
-
-        Args:
-            symbols: 指数代码列表，如 ["000300.XSHG","399001.XSHE"]；也接受 .SH、.SZ 短后缀 (type: string[]; required: Y).
-            interval_unit: 周期单位：Minute/Day/Week/Month/Year (type: enum; required: Y).
-            interval_value: 间隔数值，默认 1；例如 Minute+5 表示 5 分钟 K 线 (type: int; required: N).
-            adjust_kind: 复权：None（默认，不复权）/Forward（前复权）/Backward（后复权） (type: enum; required: N).
-            since_ts_millis: 开始时间戳，单位毫秒；分钟 K 线与 until 的跨度 ≤3 天 (type: int(ms); required: N).
-            until_ts_millis: 结束时间戳，单位毫秒 (type: int(ms); required: Y).
-            limit: 每个标的的返回条数上限；未传 since 和 limit 时默认最多返回 50 根 K 线 (type: int; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'symbols': symbols, 'interval_unit': interval_unit, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'index_candlesticks_batch',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -314,6 +267,11 @@ class IndexApiMixin:
 
     def index_description_all(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -339,8 +297,14 @@ class IndexApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'index_description_all',
+        path = ENDPOINTS['index_description_all'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -497,3 +461,22 @@ class IndexApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
+    def index_minutes(self, symbol: Any | None = None, interval_value: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """指数历史分钟行情."""
+        params = {'symbol': symbol, 'interval_value': interval_value, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('index_minutes', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def index_realtime_minute_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """指数实时分钟K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('index_realtime_minute_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def index_realtime_day_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """指数实时日K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('index_realtime_day_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

@@ -61,6 +61,7 @@ def market_api(
     base_url: str | None = None,
     timeout: float = 10,
     headers: Mapping[str, str] | None = None,
+    api_key: str | None = None,
 ) -> FtshareClient:
     """Create a synchronous FTShare market data API client.
 
@@ -69,11 +70,18 @@ def market_api(
             package-level ``BASE_URL`` is used.
         timeout: Request timeout in seconds.
         headers: Optional headers applied to every request from this client.
+        api_key: Optional FTShare API key. Defaults to the ``FTSHARE_API_KEY``
+            environment variable.
 
     Returns:
         A configured ``FtshareClient`` instance.
     """
-    return _client.market_api(base_url=base_url or BASE_URL, timeout=timeout, headers=headers)
+    return _client.market_api(
+        base_url=base_url or BASE_URL,
+        timeout=timeout,
+        headers=headers,
+        api_key=api_key,
+    )
 
 
 __all__ = [
