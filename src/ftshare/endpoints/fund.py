@@ -20,13 +20,6 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_fund_cal_return',
         'params': ('institution_code', 'cal-type'),
     },
-    'fund_nav': {
-        'path': 'api/v1/market/data/fund/fund-nav',
-        'title': '基金净值',
-        'doc_file': '基金净值.md',
-        'original_api': 'get_fund_nav',
-        'params': ('institution_code', 'page', 'page_size'),
-    },
     'fund_overview': {
         'path': 'api/v1/market/data/fund/fund-overview',
         'title': '基金总览',
@@ -111,13 +104,6 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_fund_manager',
         'params': ('fund_code', 'fund_manager', 'is_inoffice', 'page', 'page_size'),
     },
-    'fund_daily': {
-        'path': 'api/v1/market/data/fund/fund-daily',
-        'title': '基金行情日线',
-        'doc_file': '基金行情日线.md',
-        'original_api': 'get_fund_daily',
-        'params': ('fund_code', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
-    },
     'fund_fee': {
         'path': 'api/v1/market/data/fund/fund-fee',
         'title': '基金费率',
@@ -140,7 +126,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('fund_code', 'history'),
     },
     'fund_index_fund': {
-        'path': 'api/v1/market/data/fund/index-fund',
+        'path': 'api/v2/market/data/fund/index-fund',
         'title': '指数跟踪基金',
         'doc_file': '指数跟踪基金.md',
         'original_api': 'get_fund_index_fund',

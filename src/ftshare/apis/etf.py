@@ -17,8 +17,8 @@ class EtfApiMixin:
         trade_date: Any | None = None,
         start_date: Any | None = None,
         end_date: Any | None = None,
-        offset: Any | None = None,
-        limit: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -36,8 +36,8 @@ class EtfApiMixin:
             trade_date: 交易日期 YYYYMMDD；空则默认当天，非交易日回退前一交易日 (type: string; required: N).
             start_date: 区间起始日期 YYYYMMDD；区间扫描必填且需配 symbol (type: string; required: N).
             end_date: 区间结束日期 YYYYMMDD；区间扫描必填且需配 symbol (type: string; required: N).
-            offset: 返回结果起始偏移 (type: int; required: N).
-            limit: 返回结果最大条数 (type: int; required: N).
+            page: 页码，从 1 开始。
+            page_size: 每页条数，最大 2000。
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -48,7 +48,7 @@ class EtfApiMixin:
             ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
             payloads when multi-page fetching is used with ``raw=True``.
         """
-        request_params = {'symbol': symbol, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'offset': offset, 'limit': limit}
+        request_params = {'symbol': symbol, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
         request_params.update(kwargs)
         return self._call_endpoint(
             'etf_adjust_factor',
@@ -76,7 +76,7 @@ class EtfApiMixin:
         """ETFK线.
 
         Endpoint: ``api/v1/market/data/etf-candlesticks``.
-        Method: ``POST``.
+        Method: ``GET``.
         Documented endpoint: ``etf_candlesticks``.
 
         Args:
@@ -107,56 +107,7 @@ class EtfApiMixin:
             **request_params,
         )
 
-    def etf_candlesticks_batch(
-        self,
-        symbols: Any | None = None,
-        interval_unit: Any | None = None,
-        interval_value: Any | None = None,
-        adjust_kind: Any | None = None,
-        since_ts_millis: Any | None = None,
-        until_ts_millis: Any | None = None,
-        limit: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """批量ETFK线.
-
-        Endpoint: ``api/v1/market/data/etf-candlesticks/batch``.
-        Method: ``POST``.
-        Documented endpoint: ``etf_candlesticks_batch``.
-
-        Args:
-            symbols: ETF 代码列表，如 ["510300.XSHG","159915.XSHE"]；也接受 .SH、.SZ 短后缀 (type: string[]; required: Y).
-            interval_unit: 周期单位：Minute/Day/Week/Month/Year (type: enum; required: Y).
-            interval_value: 间隔数值，默认 1；例如 Minute+5 表示 5 分钟 K 线 (type: int; required: N).
-            adjust_kind: 复权：None（默认，不复权）/Forward（前复权）/Backward（后复权） (type: enum; required: N).
-            since_ts_millis: 开始时间戳，单位毫秒；分钟 K 线与 until 的跨度 ≤3 天 (type: int(ms); required: N).
-            until_ts_millis: 结束时间戳，单位毫秒 (type: int(ms); required: Y).
-            limit: 每个标的的返回条数上限；未传 since 和 limit 时默认最多返回 50 根 K 线 (type: int; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'symbols': symbols, 'interval_unit': interval_unit, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'etf_candlesticks_batch',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def etf_components(
+    def etf_components_all(
         self,
         symbol: Any | None = None,
         *,
@@ -165,14 +116,14 @@ class EtfApiMixin:
         as_dataframe: bool = True,
         **kwargs: Any,
     ) -> Any:
-        """ETF成份股.
+        """ETF成份列表.
 
-        Endpoint: ``api/v1/market/data/etf-component``.
+        Endpoint: ``api/v2/market/data/etf-components-all``.
         Method: ``GET``.
-        Documented endpoint: ``get_etf_components_handler``.
+        Documented endpoint: ``etf_components_all``.
 
         Args:
-            symbol: ETF 标的代码，带交易所后缀，如 510300.XSHG、159915.XSHE (type: string; required: Y).
+            symbol: ETF 标的代码；不传返回全部 ETF (type: string; required: N).
             raw: Return the decoded JSON payload without tabular extraction.
             fields: Optional field list or comma-separated field string applied after extraction.
             as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
@@ -184,41 +135,6 @@ class EtfApiMixin:
             payloads when multi-page fetching is used with ``raw=True``.
         """
         request_params = {'symbol': symbol}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'etf_components',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def etf_components_all(
-        self,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """ETF成份列表.
-
-        Endpoint: ``api/v1/market/data/etf-components-all``.
-        Method: ``GET``.
-        Documented endpoint: ``etf_components_all``.
-
-        Args:
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {}
         request_params.update(kwargs)
         return self._call_endpoint(
             'etf_components_all',
@@ -257,59 +173,6 @@ class EtfApiMixin:
         request_params.update(kwargs)
         return self._call_endpoint(
             'etf_description_all',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def etf_fund_export(
-        self,
-        request_id: Any | None = None,
-        page: int | None = None,
-        page_size: int | None = None,
-        limit: int | None = None,
-        all_pages: bool = False,
-        max_pages: int | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """指数ETF基金导出.
-
-        Endpoint: ``api/v1/market/data/etf/zhitou-etf``.
-        Method: ``GET``.
-        Documented endpoint: ``etf_fund_export``.
-
-        Args:
-            request_id: 请求唯一标识，由调用方生成，原样写入响应 (type: string; required: Y).
-            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
-            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
-            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
-            all_pages: Fetch and combine pages until the server reports the last page.
-            max_pages: Optional safety cap for ``all_pages``.
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'request_id': request_id}
-        request_params.update(kwargs)
-        path = ENDPOINTS['etf_fund_export'].path
-        return self.get_paginated(
-            path,
-            page=page,
-            page_size=page_size,
-            limit=limit,
-            all_pages=all_pages,
-            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -445,3 +308,22 @@ class EtfApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
+    def etf_minutes(self, symbol: Any | None = None, interval_value: Any | None = None, adjust_kind: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """ETF历史分钟行情."""
+        params = {'symbol': symbol, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('etf_minutes', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def etf_realtime_minute_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """ETF实时分钟K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('etf_realtime_minute_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def etf_realtime_day_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """ETF实时日K线."""
+        params = {'symbols': symbols}
+        params.update(kwargs)
+        return self._call_endpoint('etf_realtime_day_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

@@ -7,33 +7,26 @@ from .types import Endpoint, build_endpoints
 
 ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     'global_index_daily_kline': {
-        'path': 'api/v1/market/data/global-index/daily-kline',
+        'path': 'api/v2/market/data/global-index/daily-kline',
         'title': '全球指数日K线',
         'doc_file': '全球指数日K线.md',
         'original_api': 'global_index_daily_kline',
-        'params': ('secid', 'start_date', 'end_date'),
+        'params': ('secid', 'start_date', 'end_date', 'limit'),
     },
     'index_candlesticks': {
         'path': 'api/v1/market/data/index-candlesticks',
         'title': '指数K线',
         'doc_file': '指数K线.md',
         'original_api': 'index_candlesticks',
-        'method': 'POST',
+        'method': 'GET',
         'params': ('symbol', 'interval_unit', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
-    },
-    'index_candlesticks_batch': {
-        'path': 'api/v1/market/data/index-candlesticks/batch',
-        'title': '批量指数K线',
-        'doc_file': '批量指数K线.md',
-        'original_api': 'index_candlesticks_batch',
-        'method': 'POST',
-        'params': ('symbols', 'interval_unit', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
     },
     'index_description_all': {
         'path': 'api/v1/market/data/index-description-all',
         'title': '指数基础信息',
         'doc_file': '指数基础信息.md',
         'original_api': 'index_description_all',
+        'params': ('page', 'page_size'),
     },
     'index_description_list': {
         'path': 'api/v1/market/data/index/index_description',
@@ -80,4 +73,28 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'sw_industry_overview',
         'params': ('date', 'level', 'page', 'page_size'),
     },
+    'index_minutes': {
+        'path': 'api/v3/market/data/index_minutes',
+        'title': '指数历史分钟行情',
+        'doc_file': '指数历史分钟行情.md',
+        'original_api': 'index_minutes',
+        'params': ('symbol', 'interval_value', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+
+    'index_realtime_minute_kline': {
+        'path': 'api/v4/market/data/index-realtime-minute-kline',
+        'title': '指数实时分钟K线',
+        'doc_file': '指数实时分钟K线.md',
+        'original_api': 'index_realtime_minute_kline',
+        'params': ('symbols',),
+    },
+
+    'index_realtime_day_kline': {
+        'path': 'api/v4/market/data/index-realtime-day-kline',
+        'title': '指数实时日K线',
+        'doc_file': '指数实时日K线.md',
+        'original_api': 'index_realtime_day_kline',
+        'params': ('symbols',),
+    },
+
 })

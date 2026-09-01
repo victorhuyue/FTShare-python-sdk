@@ -13,6 +13,11 @@ class EconomicApiMixin:
 
     def consumer_credit_monthly(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -38,8 +43,14 @@ class EconomicApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'consumer_credit_monthly',
+        path = ENDPOINTS['consumer_credit_monthly'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -223,6 +234,11 @@ class EconomicApiMixin:
 
     def consumer_money_supply_monthly(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -248,8 +264,14 @@ class EconomicApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'consumer_money_supply_monthly',
+        path = ENDPOINTS['consumer_money_supply_monthly'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -258,6 +280,11 @@ class EconomicApiMixin:
 
     def consumer_pmi_monthly(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -283,8 +310,14 @@ class EconomicApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'consumer_pmi_monthly',
+        path = ENDPOINTS['consumer_pmi_monthly'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -293,6 +326,11 @@ class EconomicApiMixin:
 
     def consumer_ppi_monthly(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -318,8 +356,14 @@ class EconomicApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'consumer_ppi_monthly',
+        path = ENDPOINTS['consumer_ppi_monthly'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -328,6 +372,11 @@ class EconomicApiMixin:
 
     def consumer_price_index_monthly(
         self,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
         *,
         raw: bool = False,
         fields: Sequence[str] | str | None = None,
@@ -353,8 +402,14 @@ class EconomicApiMixin:
         """
         request_params = {}
         request_params.update(kwargs)
-        return self._call_endpoint(
-            'consumer_price_index_monthly',
+        path = ENDPOINTS['consumer_price_index_monthly'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -649,3 +704,54 @@ class EconomicApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
+    def hibor_daily(
+        self,
+        start_date: Any | None = None,
+        end_date: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """HIBOR日度利率."""
+        params = {'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('hibor_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def shibor_quote_daily(self, start_date: Any | None = None, end_date: Any | None = None, bank: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """SHIBOR报价日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'bank': bank, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('shibor_quote_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def shibor_daily(self, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """SHIBOR日度利率."""
+        params = {'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('shibor_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def chinabond_yield_daily(self, start_date: Any | None = None, end_date: Any | None = None, curve_name: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """中债收益率曲线日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'curve_name': curve_name, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('chinabond_yield_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def libor_daily(self, start_date: Any | None = None, end_date: Any | None = None, currency: Any | None = None, tenor: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """国际基准利率日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'currency': currency, 'tenor': tenor, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('libor_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def wz_index_daily(self, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """温州民间融资综合利率指数日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
+        params.update(kwargs)
+        return self._call_endpoint('wz_index_daily', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

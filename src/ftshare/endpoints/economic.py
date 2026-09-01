@@ -18,6 +18,8 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'title': '社融信贷',
         'doc_file': '社融信贷.md',
         'original_api': 'consumer_credit_monthly',
+        'params': ('page', 'page_size'),
+        'max_page_size': 200,
     },
     'consumer_customs_trade_monthly': {
         'path': 'api/v1/market/data/economic/china-customs-trade',
@@ -54,24 +56,32 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'title': '货币供应',
         'doc_file': '货币供应.md',
         'original_api': 'consumer_money_supply_monthly',
+        'params': ('page', 'page_size'),
+        'max_page_size': 200,
     },
     'consumer_pmi_monthly': {
         'path': 'api/v1/market/data/economic/china-pmi',
         'title': 'PMI',
         'doc_file': 'PMI.md',
         'original_api': 'consumer_pmi_monthly',
+        'params': ('page', 'page_size'),
+        'max_page_size': 200,
     },
     'consumer_ppi_monthly': {
         'path': 'api/v1/market/data/economic/china-ppi',
         'title': 'PPI',
         'doc_file': 'PPI.md',
         'original_api': 'consumer_ppi_monthly',
+        'params': ('page', 'page_size'),
+        'max_page_size': 200,
     },
     'consumer_price_index_monthly': {
         'path': 'api/v1/market/data/economic/china-cpi',
         'title': 'CPI',
         'doc_file': 'CPI.md',
         'original_api': 'consumer_price_index_monthly',
+        'params': ('page', 'page_size'),
+        'max_page_size': 200,
     },
     'consumer_retail_sales_monthly': {
         'path': 'api/v1/market/data/economic/china-retail-sales',
@@ -111,4 +121,52 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'wallstreetcn_financial_calendar',
         'params': ('start_date', 'end_date', 'page', 'page_size'),
     },
+    'hibor_daily': {
+        'path': 'api/v1/market/data/hibor-daily',
+        'title': 'HIBOR日度利率',
+        'doc_file': 'HIBOR日度利率.md',
+        'original_api': 'hibor_daily',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+    },
+
+    'shibor_quote_daily': {
+        'path': 'api/v1/market/data/shibor-quote-daily',
+        'title': 'SHIBOR报价日度',
+        'doc_file': 'SHIBOR报价日度.md',
+        'original_api': 'shibor_quote_daily',
+        'params': ('start_date', 'end_date', 'bank', 'page', 'page_size'),
+    },
+
+    'shibor_daily': {
+        'path': 'api/v1/market/data/shibor-daily',
+        'title': 'SHIBOR日度利率',
+        'doc_file': 'SHIBOR日度利率.md',
+        'original_api': 'shibor_daily',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+    },
+
+    'chinabond_yield_daily': {
+        'path': 'api/v1/market/data/chinabond-yield-daily',
+        'title': '中债收益率曲线日度',
+        'doc_file': '中债收益率曲线日度.md',
+        'original_api': 'chinabond_yield_daily',
+        'params': ('start_date', 'end_date', 'curve_name', 'page', 'page_size'),
+    },
+
+    'libor_daily': {
+        'path': 'api/v1/market/data/libor-daily',
+        'title': '国际基准利率日度',
+        'doc_file': '国际基准利率日度.md',
+        'original_api': 'libor_daily',
+        'params': ('start_date', 'end_date', 'currency', 'tenor', 'page', 'page_size'),
+    },
+
+    'wz_index_daily': {
+        'path': 'api/v1/market/data/wz-index-daily',
+        'title': '温州民间融资综合利率指数日度',
+        'doc_file': '温州民间融资综合利率指数日度.md',
+        'original_api': 'wz_index_daily',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+    },
+
 })
