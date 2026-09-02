@@ -7,7 +7,7 @@ from .types import Endpoint, build_endpoints
 
 ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     'global_index_daily_kline': {
-        'path': 'api/v2/market/data/global-index/daily-kline',
+        'path': 'api/v1/market/data/global-index/daily-kline',
         'title': '全球指数日K线',
         'doc_file': '全球指数日K线.md',
         'original_api': 'global_index_daily_kline',
@@ -74,7 +74,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('date', 'level', 'page', 'page_size'),
     },
     'index_minutes': {
-        'path': 'api/v3/market/data/index_minutes',
+        'path': 'api/v2/market/data/index_minutes',
         'title': '指数历史分钟行情',
         'doc_file': '指数历史分钟行情.md',
         'original_api': 'index_minutes',

@@ -658,7 +658,7 @@ class StockApiMixin:
     ) -> Any:
         """董监高增持排名.
 
-        Endpoint: ``api/v3/market/data/holder/stock-ggmx-buy-ranking``.
+        Endpoint: ``api/v2/market/data/holder/stock-ggmx-buy-ranking``.
         Method: ``GET``.
         Documented endpoint: ``stock_ggmx_buy_ranking_handler``.
 
@@ -711,7 +711,7 @@ class StockApiMixin:
     ) -> Any:
         """董监高减持排名.
 
-        Endpoint: ``api/v3/market/data/holder/stock-ggmx-sell-ranking``.
+        Endpoint: ``api/v2/market/data/holder/stock-ggmx-sell-ranking``.
         Method: ``GET``.
         Documented endpoint: ``stock_ggmx_sell_ranking_handler``.
 
@@ -1716,7 +1716,7 @@ class StockApiMixin:
     ) -> Any:
         """标的搜索.
 
-        Endpoint: ``api/v1/market/security/search``.
+        Endpoint: ``api/v1/market/security/search/``.
         Method: ``GET``.
         Documented endpoint: ``search``.
 
@@ -2337,43 +2337,6 @@ class StockApiMixin:
             limit=limit,
             all_pages=all_pages,
             max_pages=max_pages,
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
-
-    def risk_warning_stock_quotes(
-        self,
-        date: Any | None = None,
-        *,
-        raw: bool = False,
-        fields: Sequence[str] | str | None = None,
-        as_dataframe: bool = True,
-        **kwargs: Any,
-    ) -> Any:
-        """风险警示股行情.
-
-        Endpoint: ``api/v1/market/data/risk-warning-stocks/quotes``.
-        Method: ``GET``.
-        Documented endpoint: ``risk_warning_stock_quotes``.
-
-        Args:
-            date: 交易日，格式 YYYYMMDD (type: string; required: Y).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'date': date}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'risk_warning_stock_quotes',
             raw=raw,
             fields=fields,
             as_dataframe=as_dataframe,
@@ -3102,7 +3065,7 @@ class StockApiMixin:
     ) -> Any:
         """机构持股.
 
-        Endpoint: ``api/v1/market/data/share/stock-institution-holdings``.
+        Endpoint: ``api/v2/market/data/share/stock-institution-holdings``.
         Method: ``GET``.
         Documented endpoint: ``get_stock_institution_holdings``.
 
@@ -3160,7 +3123,7 @@ class StockApiMixin:
     ) -> Any:
         """机构持股明细.
 
-        Endpoint: ``api/v1/market/data/share/stock-institution-holdings-detail``.
+        Endpoint: ``api/v2/market/data/share/stock-institution-holdings-detail``.
         Method: ``GET``.
         Documented endpoint: ``get_stock_institution_holdings_detail``.
 
@@ -3214,7 +3177,7 @@ class StockApiMixin:
     ) -> Any:
         """机构股本持股.
 
-        Endpoint: ``api/v1/market/data/institution/institution-share-holdings``.
+        Endpoint: ``api/v2/market/data/institution/institution-share-holdings``.
         Method: ``GET``.
         Documented endpoint: ``get_stock_institution_share_holdings``.
 
@@ -3938,6 +3901,38 @@ class StockApiMixin:
         params = {'symbol': symbol, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
         params.update(kwargs)
         return self._call_endpoint('stock_minutes', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def stock_signal_latest_snapshot(self, signal_type: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """信号最新快照."""
+        params = {'signal_type': signal_type}
+        params.update(kwargs)
+        path = ENDPOINTS['stock_signal_latest_snapshot'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ths_stock_daily_flow(self, start_date: Any | None = None, end_date: Any | None = None, code: Any | None = None, name: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺个股资金流日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'code': code, 'name': name}
+        params.update(kwargs)
+        path = ENDPOINTS['ths_stock_daily_flow'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, max_page_size=1000, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ths_concept_daily_flow(self, start_date: Any | None = None, end_date: Any | None = None, sector_name: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺概念板块资金流日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'sector_name': sector_name}
+        params.update(kwargs)
+        path = ENDPOINTS['ths_concept_daily_flow'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, max_page_size=1000, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ths_industry_daily_flow(self, start_date: Any | None = None, end_date: Any | None = None, sector_name: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺行业板块资金流日度."""
+        params = {'start_date': start_date, 'end_date': end_date, 'sector_name': sector_name}
+        params.update(kwargs)
+        path = ENDPOINTS['ths_industry_daily_flow'].path
+        return self.get_paginated(path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, max_page_size=1000, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
 
     def stock_realtime_minute_kline(self, symbols: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:

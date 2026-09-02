@@ -79,27 +79,27 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'max_page_size': 500,
     },
     'eastmoney_board_constituents': {
-        'path': 'api/v2/market/data/eastmoney-board-constituents',
+        'path': 'api/v1/market/data/eastmoney-board-constituents',
         'title': '东方财富板块成份股',
         'doc_file': '东方财富板块成份股.md',
         'original_api': 'eastmoney_board_constituents',
         'params': ('board_code',),
     },
     'eastmoney_board_daily_kline': {
-        'path': 'api/v2/market/data/eastmoney-board-daily-ohlc',
+        'path': 'api/v1/market/data/eastmoney-board-daily-ohlc',
         'title': '东方财富板块日线OHLC',
         'doc_file': '东方财富板块日线OHLC.md',
         'original_api': 'eastmoney_board_daily_kline',
         'params': ('board_code', 'start_date', 'end_date', 'page', 'page_size'),
     },
     'eastmoney_concept_boards': {
-        'path': 'api/v2/market/data/eastmoney-concept-boards',
+        'path': 'api/v1/market/data/eastmoney-concept-boards',
         'title': '东方财富概念板块',
         'doc_file': '东方财富概念板块.md',
         'original_api': 'eastmoney_concept_boards',
     },
     'eastmoney_dapan_flow': {
-        'path': 'api/v2/market/data/eastmoney-dapan-flow',
+        'path': 'api/v1/market/data/eastmoney-dapan-flow',
         'title': '东方财富大盘资金流',
         'doc_file': '东方财富大盘资金流.md',
         'original_api': 'get_eastmoney_dapan_flow',
@@ -113,14 +113,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('market_code', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
     },
     'eastmoney_rank': {
-        'path': 'api/v2/market/data/eastmoney-rank',
+        'path': 'api/v1/market/data/eastmoney-rank',
         'title': '东方财富股票排名',
         'doc_file': '东方财富股票排名.md',
         'original_api': 'eastmoney_rank',
         'params': ('rank_group', 'market', 'trade_date'),
     },
     'eastmoney_sector_flow': {
-        'path': 'api/v2/market/data/eastmoney-sector-flow',
+        'path': 'api/v1/market/data/eastmoney-sector-flow',
         'title': '东方财富板块资金流',
         'doc_file': '东方财富板块资金流.md',
         'original_api': 'get_eastmoney_sector_flow',
@@ -239,13 +239,6 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_price_change',
         'params': ('stock_code', 'base_date', 'n', 'direction'),
     },
-    'risk_warning_stock_quotes': {
-        'path': 'api/v2/market/data/risk-warning-stocks/quotes',
-        'title': '风险警示股行情',
-        'doc_file': '风险警示股行情.md',
-        'original_api': 'risk_warning_stock_quotes',
-        'params': ('date',),
-    },
     'risk_warning_stocks': {
         'path': 'api/v1/market/data/risk-warning-stocks',
         'title': '风险警示股',
@@ -254,7 +247,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('date', 'page', 'page_size'),
     },
     'search': {
-        'path': 'api/v2/market/security/search/',
+        'path': 'api/v1/market/security/search/',
         'title': '标的搜索',
         'doc_file': '标的搜索.md',
         'original_api': 'search',
@@ -376,14 +369,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('stock_code', 'is_last', 'page', 'page_size'),
     },
     'stock_ggmx_buy_ranking': {
-        'path': 'api/v3/market/data/holder/stock-ggmx-buy-ranking',
+        'path': 'api/v2/market/data/holder/stock-ggmx-buy-ranking',
         'title': '董监高增持排名',
         'doc_file': '董监高增持排名.md',
         'original_api': 'stock_ggmx_buy_ranking_handler',
         'params': ('time_range', 'page', 'page_size'),
     },
     'stock_ggmx_sell_ranking': {
-        'path': 'api/v3/market/data/holder/stock-ggmx-sell-ranking',
+        'path': 'api/v2/market/data/holder/stock-ggmx-sell-ranking',
         'title': '董监高减持排名',
         'doc_file': '董监高减持排名.md',
         'original_api': 'stock_ggmx_sell_ranking_handler',
@@ -404,21 +397,21 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('stock_code', 'is_last', 'page', 'page_size'),
     },
     'stock_institution_holdings': {
-        'path': 'api/v3/market/data/share/stock-institution-holdings',
+        'path': 'api/v2/market/data/share/stock-institution-holdings',
         'title': '机构持股',
         'doc_file': '机构持股.md',
         'original_api': 'get_stock_institution_holdings',
         'params': ('year', 'report_type', 'institution_type', 'page', 'page_size'),
     },
     'stock_institution_holdings_detail': {
-        'path': 'api/v3/market/data/share/stock-institution-holdings-detail',
+        'path': 'api/v2/market/data/share/stock-institution-holdings-detail',
         'title': '机构持股明细',
         'doc_file': '机构持股明细.md',
         'original_api': 'get_stock_institution_holdings_detail',
         'params': ('stock_code', 'year', 'report_type', 'institution_type', 'page', 'page_size'),
     },
     'stock_institution_share_holdings': {
-        'path': 'api/v3/market/data/institution/institution-share-holdings',
+        'path': 'api/v2/market/data/institution/institution-share-holdings',
         'title': '机构股本持股',
         'doc_file': '机构股本持股.md',
         'original_api': 'get_stock_institution_share_holdings',
@@ -532,14 +525,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('trade_date', 'page', 'page_size'),
     },
     'ths_board_kline': {
-        'path': 'api/v2/market/data/ths-board-kline',
+        'path': 'api/v1/market/data/ths-board-kline',
         'title': '同花顺板块K线',
         'doc_file': '同花顺板块K线.md',
         'original_api': 'ths_board_kline',
         'params': ('board_code', 'page', 'page_size'),
     },
     'xueqiu_rank': {
-        'path': 'api/v2/market/data/xueqiu-rank',
+        'path': 'api/v1/market/data/xueqiu-rank',
         'title': '雪球股票排名',
         'doc_file': '雪球股票排名.md',
         'original_api': 'xueqiu_rank',
@@ -577,7 +570,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     },
 
     'tdx_board_members': {
-        'path': 'api/v2/market/data/tdx-board-members',
+        'path': 'api/v1/market/data/tdx-board-members',
         'title': '通达信板块成分股最新快照',
         'doc_file': '通达信板块成分股最新快照.md',
         'original_api': 'tdx_board_members',
@@ -657,7 +650,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     },
 
     'ths_hot_list': {
-        'path': 'api/v2/market/data/ths-hot-list',
+        'path': 'api/v1/market/data/ths-hot-list',
         'title': '同花顺热榜',
         'doc_file': '同花顺热榜.md',
         'original_api': 'ths_hot_list',
@@ -681,7 +674,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     },
 
     'ashare_interactions': {
-        'path': 'api/v3/market/data/ashare-interactions',
+        'path': 'api/v2/market/data/ashare-interactions',
         'title': 'e互动',
         'doc_file': 'e互动.md',
         'original_api': 'ashare_interactions',
@@ -746,11 +739,47 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
     },
 
     'stock_minutes': {
-        'path': 'api/v3/market/data/stock_minutes',
+        'path': 'api/v2/market/data/stock_minutes',
         'title': '股票历史分钟行情',
         'doc_file': '股票历史分钟行情.md',
         'original_api': 'stock_minutes',
         'params': ('symbol', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+
+    'stock_signal_latest_snapshot': {
+        'path': 'api/v3/market/data/stock-signal-latest-snapshot',
+        'title': '信号最新快照',
+        'doc_file': '信号最新快照.md',
+        'original_api': 'stock_signal_latest_snapshot',
+        'params': ('signal_type', 'page', 'page_size'),
+        'max_page_size': 200,
+    },
+
+    'ths_stock_daily_flow': {
+        'path': 'api/v1/market/data/ths-stock-daily-flow',
+        'title': '同花顺个股资金流日度',
+        'doc_file': '同花顺个股资金流日度.md',
+        'original_api': 'ths_stock_daily_flow',
+        'params': ('start_date', 'end_date', 'code', 'name', 'page', 'page_size'),
+        'max_page_size': 1000,
+    },
+
+    'ths_concept_daily_flow': {
+        'path': 'api/v1/market/data/ths-concept-daily-flow',
+        'title': '同花顺概念板块资金流日度',
+        'doc_file': '同花顺概念板块资金流日度.md',
+        'original_api': 'ths_concept_daily_flow',
+        'params': ('start_date', 'end_date', 'sector_name', 'page', 'page_size'),
+        'max_page_size': 1000,
+    },
+
+    'ths_industry_daily_flow': {
+        'path': 'api/v1/market/data/ths-industry-daily-flow',
+        'title': '同花顺行业板块资金流日度',
+        'doc_file': '同花顺行业板块资金流日度.md',
+        'original_api': 'ths_industry_daily_flow',
+        'params': ('start_date', 'end_date', 'sector_name', 'page', 'page_size'),
+        'max_page_size': 1000,
     },
 
     'stock_realtime_minute_kline': {

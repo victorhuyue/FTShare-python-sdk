@@ -6,14 +6,14 @@
 
 | 指标 | 数量 |
 |---|---:|
-| SDK 方法总数 | 193 |
+| SDK 方法总数 | 195 |
 
 ## 专题分布
 
 | ftshare-doc 专题 | SDK 方法数 | API mixin 模块 | Endpoint 模块 |
 |---|---:|---|---|
-| 股票数据 | 103 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
-| 港股数据 | 2 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
+| 股票数据 | 106 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
+| 港股数据 | 1 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
 | 美股数据 | 1 | `ftshare.apis.us` | `ftshare.endpoints.us` |
 | 指数专题 | 12 | `ftshare.apis.index` | `ftshare.endpoints.index` |
 | ETF专题 | 10 | `ftshare.apis.etf` | `ftshare.endpoints.etf` |
@@ -33,7 +33,7 @@
 |---|---|---|---|---|---|
 | [`abnormal_trading_details`](#api-abnormal-trading-details) | 龙虎榜明细 | `GET` | `api/v1/market/data/abnormal-trading-details` | `date`, `page`, `page_size` | `龙虎榜明细.md` |
 | [`abnormal_trading_overview`](#api-abnormal-trading-overview) | 龙虎榜总览 | `GET` | `api/v1/market/data/abnormal-trading-overview` | `date`, `page`, `page_size` | `龙虎榜总览.md` |
-| [`ashare_interactions`](#api-ashare-interactions) | e互动 | `GET` | `api/v3/market/data/ashare-interactions` | `start_date`, `end_date`, `trade_code`, `company_name`, `industry_code`, `industry_name`, `data_source`, `page`, `page_size` | `e互动.md` |
+| [`ashare_interactions`](#api-ashare-interactions) | e互动 | `GET` | `api/v2/market/data/ashare-interactions` | `start_date`, `end_date`, `trade_code`, `company_name`, `industry_code`, `industry_name`, `data_source`, `page`, `page_size` | `e互动.md` |
 | [`ashare_news_sentiment_factors`](#api-ashare-news-sentiment-factors) | A股新闻情绪因子 | `GET` | `api/v3/market/data/ashare-news-sentiment-factors` | `trade_code`, `start_date`, `end_date`, `page`, `page_size` | `A股新闻情绪因子.md` |
 | [`ashare_rating_factor_snapshot`](#api-ashare-rating-factor-snapshot) | A股相关性 Top-K | `GET` | `api/v3/market/data/ashare-rating-factor-snapshot` | `trade_code`, `date`, `top_k` | `A股相关性Top-K.md` |
 | [`auction_results`](#api-auction-results) | 集合竞价结果 | `GET` | `api/v2/market/data/auction-results` | `ts_code`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `集合竞价结果.md` |
@@ -44,13 +44,13 @@
 | [`cashflow_stock_code`](#api-cashflow-stock-code) | 现金流支持股票代码 | `GET` | `api/v2/market/data/finance/cashflow-stock-code` | - | `现金流支持股票代码.md` |
 | [`company_list`](#api-company-list) | 公司列表 | `GET` | `api/v1/market/data/company-list` | `stock_name`, `stock_code`, `page`, `page_size` | `公司列表.md` |
 | [`earnings_reports_paginated`](#api-earnings-reports-paginated) | 业绩快报 | `GET` | `api/v1/market/data/finance/stock-performance-express` | `stock_code`, `year`, `report_type`, `page`, `page_size` | `业绩快报.md` |
-| [`eastmoney_board_constituents`](#api-eastmoney-board-constituents) | 东方财富板块成份股 | `GET` | `api/v2/market/data/eastmoney-board-constituents` | `board_code` | `东方财富板块成份股.md` |
-| [`eastmoney_board_daily_kline`](#api-eastmoney-board-daily-kline) | 东方财富板块日线OHLC | `GET` | `api/v2/market/data/eastmoney-board-daily-ohlc` | `board_code`, `start_date`, `end_date`, `page`, `page_size` | `东方财富板块日线OHLC.md` |
-| [`eastmoney_concept_boards`](#api-eastmoney-concept-boards) | 东方财富概念板块 | `GET` | `api/v2/market/data/eastmoney-concept-boards` | - | `东方财富概念板块.md` |
-| [`eastmoney_dapan_flow`](#api-eastmoney-dapan-flow) | 东方财富大盘资金流 | `GET` | `api/v2/market/data/eastmoney-dapan-flow` | `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富大盘资金流.md` |
+| [`eastmoney_board_constituents`](#api-eastmoney-board-constituents) | 东方财富板块成份股 | `GET` | `api/v1/market/data/eastmoney-board-constituents` | `board_code` | `东方财富板块成份股.md` |
+| [`eastmoney_board_daily_kline`](#api-eastmoney-board-daily-kline) | 东方财富板块日线OHLC | `GET` | `api/v1/market/data/eastmoney-board-daily-ohlc` | `board_code`, `start_date`, `end_date`, `page`, `page_size` | `东方财富板块日线OHLC.md` |
+| [`eastmoney_concept_boards`](#api-eastmoney-concept-boards) | 东方财富概念板块 | `GET` | `api/v1/market/data/eastmoney-concept-boards` | - | `东方财富概念板块.md` |
+| [`eastmoney_dapan_flow`](#api-eastmoney-dapan-flow) | 东方财富大盘资金流 | `GET` | `api/v1/market/data/eastmoney-dapan-flow` | `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富大盘资金流.md` |
 | [`eastmoney_market_valuation`](#api-eastmoney-market-valuation) | 东方财富市场估值 | `GET` | `api/v1/market/data/eastmoney-market-valuation` | `market_code`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富市场估值.md` |
-| [`eastmoney_rank`](#api-eastmoney-rank) | 东方财富股票排名 | `GET` | `api/v2/market/data/eastmoney-rank` | `rank_group`, `market`, `trade_date` | `东方财富股票排名.md` |
-| [`eastmoney_sector_flow`](#api-eastmoney-sector-flow) | 东方财富板块资金流 | `GET` | `api/v2/market/data/eastmoney-sector-flow` | `sector_code`, `sector_type`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富板块资金流.md` |
+| [`eastmoney_rank`](#api-eastmoney-rank) | 东方财富股票排名 | `GET` | `api/v1/market/data/eastmoney-rank` | `rank_group`, `market`, `trade_date` | `东方财富股票排名.md` |
+| [`eastmoney_sector_flow`](#api-eastmoney-sector-flow) | 东方财富板块资金流 | `GET` | `api/v1/market/data/eastmoney-sector-flow` | `sector_code`, `sector_type`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富板块资金流.md` |
 | [`eastmoney_stock_flow`](#api-eastmoney-stock-flow) | 东方财富个股资金流 | `GET` | `api/v1/market/data/eastmoney-stock-flow` | `symbol`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富个股资金流.md` |
 | [`eastmoney_stock_valuation`](#api-eastmoney-stock-valuation) | 东方财富个股估值 | `GET` | `api/v1/market/data/eastmoney-stock-valuation` | `symbol`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `东方财富个股估值.md` |
 | [`exchange_margin_summaries`](#api-exchange-margin-summaries) | 交易所融资融券汇总日度 | `GET` | `api/v1/market/data/exchange-margin-summaries` | `start_date`, `end_date`, `exchange`, `page`, `page_size` | `交易所融资融券汇总日度.md` |
@@ -71,9 +71,8 @@
 | [`performance_forecasts_paginated`](#api-performance-forecasts-paginated) | 业绩预告 | `GET` | `api/v1/market/data/finance/stock-performance-forecast` | `stock_code`, `year`, `report_type`, `page`, `page_size` | `业绩预告.md` |
 | [`pledge_summary`](#api-pledge-summary) | 股权质押汇总 | `GET` | `api/v1/market/data/pledge/pledge-summary` | `page`, `page_size` | `股权质押汇总.md` |
 | [`price_change`](#api-price-change) | 价格变动 | `GET` | `api/v2/market/data/price/get-price-change` | `stock_code`, `base_date`, `n`, `direction` | `价格变动.md` |
-| [`risk_warning_stock_quotes`](#api-risk-warning-stock-quotes) | 风险警示股行情 | `GET` | `api/v2/market/data/risk-warning-stocks/quotes` | `date` | `风险警示股行情.md` |
 | [`risk_warning_stocks`](#api-risk-warning-stocks) | 风险警示股 | `GET` | `api/v1/market/data/risk-warning-stocks` | `date`, `page`, `page_size` | `风险警示股.md` |
-| [`search`](#api-search) | 标的搜索 | `GET` | `api/v2/market/security/search/` | `query`, `limit` | `标的搜索.md` |
+| [`search`](#api-search) | 标的搜索 | `GET` | `api/v1/market/security/search/` | `query`, `limit` | `标的搜索.md` |
 | [`southbound`](#api-southbound) | 南向资金交易 | `GET` | `api/v1/market/data/southbound` | `date` | `南向资金交易.md` |
 | [`stk_alert_broker`](#api-stk-alert-broker) | 交易所重点提示证券 | `GET` | `api/v2/market/data/stk-alert-broker` | `ts_code`, `start_date`, `end_date`, `page`, `page_size` | `交易所重点提示证券.md` |
 | [`stk_limit`](#api-stk-limit) | 涨跌停价 | `GET` | `api/v1/market/data/stk-limit` | `instrument_type`, `symbol`, `symbol_id`, `market_id`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `涨跌停价.md` |
@@ -97,21 +96,21 @@
 | [`stock_dividends`](#api-stock-dividends) | 股票分红记录 | `GET` | `api/v1/market/data/stock-dividends` | `symbol`, `since_date`, `until_date`, `page`, `page_size` | `股票分红记录.md` |
 | [`stock_filter`](#api-stock-filter) | 股票筛选 | `GET` | `api/v2/market/data/stock-list/filter` | `symbol`, `board`, `listing_date_since`, `page`, `page_size` | `股票筛选.md` |
 | [`stock_float_holders`](#api-stock-float-holders) | 十大流通股东 | `GET` | `api/v1/market/data/holder/stock-holder-ften` | `stock_code`, `is_last`, `page`, `page_size` | `十大流通股东.md` |
-| [`stock_ggmx_buy_ranking`](#api-stock-ggmx-buy-ranking) | 董监高增持排名 | `GET` | `api/v3/market/data/holder/stock-ggmx-buy-ranking` | `time_range`, `page`, `page_size` | `董监高增持排名.md` |
-| [`stock_ggmx_sell_ranking`](#api-stock-ggmx-sell-ranking) | 董监高减持排名 | `GET` | `api/v3/market/data/holder/stock-ggmx-sell-ranking` | `time_range`, `page`, `page_size` | `董监高减持排名.md` |
+| [`stock_ggmx_buy_ranking`](#api-stock-ggmx-buy-ranking) | 董监高增持排名 | `GET` | `api/v2/market/data/holder/stock-ggmx-buy-ranking` | `time_range`, `page`, `page_size` | `董监高增持排名.md` |
+| [`stock_ggmx_sell_ranking`](#api-stock-ggmx-sell-ranking) | 董监高减持排名 | `GET` | `api/v2/market/data/holder/stock-ggmx-sell-ranking` | `time_range`, `page`, `page_size` | `董监高减持排名.md` |
 | [`stock_history_list`](#api-stock-history-list) | 股票历史列表 | `GET` | `api/v1/market/data/stock-history-list` | `trade_date`, `code`, `page`, `page_size` | `股票历史列表.md` |
 | [`stock_holders`](#api-stock-holders) | 十大股东 | `GET` | `api/v1/market/data/holder/stock-holder-ten` | `stock_code`, `is_last`, `page`, `page_size` | `十大股东.md` |
 | [`stock_holders_number`](#api-stock-holders-number) | 股东人数 | `GET` | `api/v1/market/data/holder/stock-holder-nums` | `stock_code`, `is_last`, `page`, `page_size` | `股东人数.md` |
-| [`stock_institution_holdings`](#api-stock-institution-holdings) | 机构持股 | `GET` | `api/v3/market/data/share/stock-institution-holdings` | `year`, `report_type`, `inst_type`, `page`, `page_size` | `机构持股.md` |
-| [`stock_institution_holdings_detail`](#api-stock-institution-holdings-detail) | 机构持股明细 | `GET` | `api/v3/market/data/share/stock-institution-holdings-detail` | `stock_code`, `year`, `report_type`, `inst_type`, `page`, `page_size` | `机构持股明细.md` |
-| [`stock_institution_share_holdings`](#api-stock-institution-share-holdings) | 机构股本持股 | `GET` | `api/v3/market/data/institution/institution-share-holdings` | `institution_id`, `year`, `report_type`, `invest_type` | `机构股本持股.md` |
+| [`stock_institution_holdings`](#api-stock-institution-holdings) | 机构持股 | `GET` | `api/v2/market/data/share/stock-institution-holdings` | `year`, `report_type`, `inst_type`, `page`, `page_size` | `机构持股.md` |
+| [`stock_institution_holdings_detail`](#api-stock-institution-holdings-detail) | 机构持股明细 | `GET` | `api/v2/market/data/share/stock-institution-holdings-detail` | `stock_code`, `year`, `report_type`, `inst_type`, `page`, `page_size` | `机构持股明细.md` |
+| [`stock_institution_share_holdings`](#api-stock-institution-share-holdings) | 机构股本持股 | `GET` | `api/v2/market/data/institution/institution-share-holdings` | `institution_id`, `year`, `report_type`, `invest_type` | `机构股本持股.md` |
 | [`stock_intraday_auction_volume`](#api-stock-intraday-auction-volume) | 连续竞价成交量 | `GET` | `api/v2/market/data/intraday-auction-volume` | `trade_date`, `page`, `page_size` | `连续竞价成交量.md` |
 | [`stock_intraday_prices`](#api-stock-intraday-prices) | 标的分时数据 | `GET` | `api/v4/market/data/daec/history/prices` | `symbol`, `range`, `days`, `ts_ms` | `标的分时数据.md` |
 | [`stock_ipos`](#api-stock-ipos) | 股票IPO | `GET` | `api/v1/market/data/stock-ipos` | `page`, `page_size` | `股票IPO.md` |
 | [`stock_list`](#api-stock-list) | 股票列表 | `GET` | `api/v1/market/data/stock-list` | `page`, `page_size` | `股票列表.md` |
 | [`stock_market`](#api-stock-market) | 市场行情快照 | `GET` | `api/v1/market/data/daec/market/snapshot` | `scope` | `市场行情快照.md` |
 | [`stock_market_distribution_intraday`](#api-stock-market-distribution-intraday) | 市场涨跌分布分时 | `GET` | `api/v2/market/data/market-distribution-intraday` | - | `市场涨跌分布分时.md` |
-| [`stock_minutes`](#api-stock-minutes) | 股票历史分钟行情 | `GET` | `api/v3/market/data/stock_minutes` | `symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `股票历史分钟行情.md` |
+| [`stock_minutes`](#api-stock-minutes) | 股票历史分钟行情 | `GET` | `api/v2/market/data/stock_minutes` | `symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `股票历史分钟行情.md` |
 | [`stock_pledge_detail`](#api-stock-pledge-detail) | 股权质押明细 | `GET` | `api/v1/market/data/pledge/pledge-detail` | `stock_code`, `is_last`, `page`, `page_size` | `股权质押明细.md` |
 | [`stock_prev_close`](#api-stock-prev-close) | 标的昨收价 | `GET` | `api/v1/market/data/daec/history/prev-closes` | `symbol`, `since`, `until` | `标的昨收价.md` |
 | [`stock_realtime_day_kline`](#api-stock-realtime-day-kline) | 股票实时日K线 | `GET` | `api/v4/market/data/stock-realtime-day-kline` | `symbols` | `股票实时日K线.md` |
@@ -128,19 +127,22 @@
 | [`suspension_list`](#api-suspension-list) | 停牌列表 | `GET` | `api/v1/market/data/suspension-list` | `trade_date`, `page`, `page_size` | `停牌列表.md` |
 | [`tdx_board_daily`](#api-tdx-board-daily) | 通达信板块日线 | `GET` | `api/v1/market/data/tdx-board-daily` | `start_date`, `end_date`, `ts_code`, `idx_name`, `idx_type`, `idx_type_code`, `market`, `page`, `page_size` | `通达信板块日线.md` |
 | [`tdx_board_index`](#api-tdx-board-index) | 通达信板块指数最新快照 | `GET` | `api/v1/market/data/tdx-board-index` | `ts_code`, `idx_name`, `idx_type`, `idx_type_code`, `market`, `page`, `page_size` | `通达信板块指数最新快照.md` |
-| [`tdx_board_members`](#api-tdx-board-members) | 通达信板块成分股最新快照 | `GET` | `api/v2/market/data/tdx-board-members` | `ts_code`, `idx_name`, `idx_type`, `idx_type_code`, `market`, `con_code`, `con_name`, `page`, `page_size` | `通达信板块成分股最新快照.md` |
-| [`ths_board_kline`](#api-ths-board-kline) | 同花顺板块K线 | `GET` | `api/v2/market/data/ths-board-kline` | `board_code`, `page`, `page_size` | `同花顺板块K线.md` |
-| [`ths_hot_list`](#api-ths-hot-list) | 同花顺热榜 | `GET` | `api/v2/market/data/ths-hot-list` | `list_type`, `trade_date`, `page`, `page_size` | `同花顺热榜.md` |
+| [`tdx_board_members`](#api-tdx-board-members) | 通达信板块成分股最新快照 | `GET` | `api/v1/market/data/tdx-board-members` | `ts_code`, `idx_name`, `idx_type`, `idx_type_code`, `market`, `con_code`, `con_name`, `page`, `page_size` | `通达信板块成分股最新快照.md` |
+| [`ths_board_kline`](#api-ths-board-kline) | 同花顺板块K线 | `GET` | `api/v1/market/data/ths-board-kline` | `board_code`, `page`, `page_size` | `同花顺板块K线.md` |
+| [`stock_signal_latest_snapshot`](#api-stock-signal-latest-snapshot) | 信号最新快照 | `GET` | `api/v3/market/data/stock-signal-latest-snapshot` | `signal_type`, `page`, `page_size` | `信号最新快照.md` |
+| [`ths_stock_daily_flow`](#api-ths-stock-daily-flow) | 同花顺个股资金流日度 | `GET` | `api/v1/market/data/ths-stock-daily-flow` | `start_date`, `end_date`, `code`, `name`, `page`, `page_size` | `同花顺个股资金流日度.md` |
+| [`ths_concept_daily_flow`](#api-ths-concept-daily-flow) | 同花顺概念板块资金流日度 | `GET` | `api/v1/market/data/ths-concept-daily-flow` | `start_date`, `end_date`, `sector_name`, `page`, `page_size` | `同花顺概念板块资金流日度.md` |
+| [`ths_industry_daily_flow`](#api-ths-industry-daily-flow) | 同花顺行业板块资金流日度 | `GET` | `api/v1/market/data/ths-industry-daily-flow` | `start_date`, `end_date`, `sector_name`, `page`, `page_size` | `同花顺行业板块资金流日度.md` |
+| [`ths_hot_list`](#api-ths-hot-list) | 同花顺热榜 | `GET` | `api/v1/market/data/ths-hot-list` | `list_type`, `trade_date`, `page`, `page_size` | `同花顺热榜.md` |
 | [`trading_calendar`](#api-trading-calendar) | 交易日历 | `GET` | `api/v1/market/data/time/trading-calendar` | `market`, `start_date`, `end_date` | `交易日历.md` |
-| [`xueqiu_rank`](#api-xueqiu-rank) | 雪球股票排名 | `GET` | `api/v2/market/data/xueqiu-rank` | `rank_group`, `period`, `trade_date`, `page`, `page_size` | `雪球股票排名.md` |
+| [`xueqiu_rank`](#api-xueqiu-rank) | 雪球股票排名 | `GET` | `api/v1/market/data/xueqiu-rank` | `rank_group`, `period`, `trade_date`, `page`, `page_size` | `雪球股票排名.md` |
 | [`yzxdr_detail`](#api-yzxdr-detail) | 一致行动人明细 | `GET` | `api/v1/market/data/yzxdr-detail` | `year`, `quarter`, `stock_code`, `page`, `page_size` | `一致行动人明细.md` |
 
 ### 港股数据
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
-| [`hk_candlesticks`](#api-hk-candlesticks) | 港股K线 | `GET` | `api/v3/market/data/hk/hk-candlesticks` | `trade_code`, `interval_unit`, `until_date`, `since_date`, `interval_value`, `limit`, `adjust_kind` | `港股K线.md` |
-| [`hk_stock_info_all`](#api-hk-stock-info-all) | 港股实时行情 | `GET` | `api/v4/market/data/hk-stock-info-all` | - | `港股实时行情.md` |
+| [`hk_candlesticks`](#api-hk-candlesticks) | 港股K线 | `GET` | `api/v2/market/data/hk/hk-candlesticks` | `trade_code`, `interval_unit`, `until_date`, `since_date`, `interval_value`, `limit`, `adjust_kind` | `港股K线.md` |
 
 ### 美股数据
 
@@ -152,11 +154,11 @@
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
-| [`global_index_daily_kline`](#api-global-index-daily-kline) | 全球指数日K线 | `GET` | `api/v2/market/data/global-index/daily-kline` | `secid`, `start_date`, `end_date`, `limit` | `全球指数日K线.md` |
+| [`global_index_daily_kline`](#api-global-index-daily-kline) | 全球指数日K线 | `GET` | `api/v1/market/data/global-index/daily-kline` | `secid`, `start_date`, `end_date`, `limit` | `全球指数日K线.md` |
 | [`index_candlesticks`](#api-index-candlesticks) | 指数K线 | `GET` | `api/v1/market/data/index-candlesticks` | `symbol`, `interval_unit`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `指数K线.md` |
 | [`index_description_all`](#api-index-description-all) | 指数基础信息 | `GET` | `api/v1/market/data/index-description-all` | `page`, `page_size` | `指数基础信息.md` |
 | [`index_description_list`](#api-index-description-list) | 中证指数描述列表 | `GET` | `api/v1/market/data/index/index_description` | `page`, `page_size` | `中证指数描述列表.md` |
-| [`index_minutes`](#api-index-minutes) | 指数历史分钟行情 | `GET` | `api/v3/market/data/index_minutes` | `symbol`, `interval_value`, `since_ts_millis`, `until_ts_millis`, `limit` | `指数历史分钟行情.md` |
+| [`index_minutes`](#api-index-minutes) | 指数历史分钟行情 | `GET` | `api/v2/market/data/index_minutes` | `symbol`, `interval_value`, `since_ts_millis`, `until_ts_millis`, `limit` | `指数历史分钟行情.md` |
 | [`index_realtime_day_kline`](#api-index-realtime-day-kline) | 指数实时日K线 | `GET` | `api/v4/market/data/index-realtime-day-kline` | `symbols` | `指数实时日K线.md` |
 | [`index_realtime_minute_kline`](#api-index-realtime-minute-kline) | 指数实时分钟K线 | `GET` | `api/v4/market/data/index-realtime-minute-kline` | `symbols` | `指数实时分钟K线.md` |
 | [`index_weight_list`](#api-index-weight-list) | 指数权重列表 | `GET` | `api/v1/market/data/index/index_weight` | `index_code`, `date`, `page`, `page_size` | `指数权重列表.md` |
@@ -173,7 +175,7 @@
 | [`etf_candlesticks`](#api-etf-candlesticks) | ETFK线 | `GET` | `api/v1/market/data/etf-candlesticks` | `symbol`, `interval_unit`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `ETFK线.md` |
 | [`etf_components_all`](#api-etf-components-all) | ETF成份列表 | `GET` | `api/v2/market/data/etf-components-all` | `symbol` | `ETF成份列表.md` |
 | [`etf_description_all`](#api-etf-description-all) | ETF基础信息 | `GET` | `api/v2/market/data/etf-description-all` | - | `ETF基础信息.md` |
-| [`etf_minutes`](#api-etf-minutes) | ETF历史分钟行情 | `GET` | `api/v3/market/data/etf_minutes` | `symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `ETF历史分钟行情.md` |
+| [`etf_minutes`](#api-etf-minutes) | ETF历史分钟行情 | `GET` | `api/v2/market/data/etf_minutes` | `symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `ETF历史分钟行情.md` |
 | [`etf_pcf_list`](#api-etf-pcf-list) | ETF-PCF清单列表 | `GET` | `api/v2/market/data/etf-pcf/etf-pcfs` | `date`, `page`, `page_size` | `ETF-PCF清单列表.md` |
 | [`etf_pre`](#api-etf-pre) | ETF盘前数据 | `GET` | `api/v2/market/data/etf-pre-data` | `date` | `ETF盘前数据.md` |
 | [`etf_pre_single`](#api-etf-pre-single) | 单只ETF盘前数据 | `GET` | `api/v2/market/data/etf-pre-single` | `symbol`, `date` | `单只ETF盘前数据.md` |
@@ -215,7 +217,7 @@
 | [`fut_weekly_detail`](#api-fut-weekly-detail) | 期货主要品种交易周报 | `GET` | `api/v1/market/data/futures/fut-weekly-detail` | `week`, `prd`, `start_week`, `end_week`, `exchange`, `page`, `page_size` | `期货主要品种交易周报.md` |
 | [`fut_wsr`](#api-fut-wsr) | 期货仓单日报 | `GET` | `api/v1/market/data/futures/fut-wsr` | `trade_date`, `start_date`, `end_date`, `symbol`, `exchange`, `page`, `page_size` | `期货仓单日报.md` |
 | [`futures_contract_kline`](#api-futures-contract-kline) | 期货行情 | `GET` | `api/v1/market/data/futures/kline` | `symbol`, `interval`, `start`, `end`, `limit` | `期货行情.md` |
-| [`futures_minutes`](#api-futures-minutes) | 期货历史分钟行情 | `GET` | `api/v3/market/data/futures_minutes` | `symbol`, `interval`, `start`, `end`, `limit` | `期货历史分钟行情.md` |
+| [`futures_minutes`](#api-futures-minutes) | 期货历史分钟行情 | `GET` | `api/v2/market/data/futures_minutes` | `symbol`, `interval`, `start`, `end`, `limit` | `期货历史分钟行情.md` |
 | [`futures_minutes_realtime`](#api-futures-minutes-realtime) | 期货实时分钟K线 | `GET` | `api/v4/market/data/futures_minutes/realtime` | `symbols` | `期货实时分钟K线.md` |
 | [`futures_nanhua_index_kline`](#api-futures-nanhua-index-kline) | 南华期货指数日K线 | `GET` | `api/v1/market/data/futures/nanhua-index-kline` | `code`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `南华期货指数日K线.md` |
 | [`major_contract`](#api-major-contract) | 重大合同 | `GET` | `api/v1/market/data/corporate/contract` | `start_date`, `end_date` | `重大合同.md` |
@@ -266,8 +268,8 @@
 |---|---|---|---|---|---|
 | [`semantic_search_news`](#api-semantic-search-news) | 新闻语义搜索 | `GET` | `api/v3/market/data/semantic-search-news` | `query`, `limit`, `year`, `start_time`, `end_time` | `新闻语义搜索.md` |
 | [`shareholders_meeting`](#api-shareholders-meeting) | 股东大会 | `GET` | `api/v1/market/data/corporate/meeting` | `page`, `page_size` | `股东大会.md` |
-| [`stock_announcements`](#api-stock-announcements) | 公告列表 | `GET` | `api/v3/market/data/announcements/stock-announcements` | `stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size` | `公告列表.md` |
-| [`stock_reports`](#api-stock-reports) | 研报列表 | `GET` | `api/v3/market/data/report/stock-reports` | `stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size` | `研报列表.md` |
+| [`stock_announcements`](#api-stock-announcements) | 公告列表 | `GET` | `api/v2/market/data/announcements/stock-announcements` | `stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size` | `公告列表.md` |
+| [`stock_reports`](#api-stock-reports) | 研报列表 | `GET` | `api/v2/market/data/report/stock-reports` | `stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size` | `研报列表.md` |
 
 ### 现货数据
 
@@ -341,7 +343,7 @@ Returns:
 
 - 接口名称：e互动
 - HTTP：`GET`
-- Path：`api/v3/market/data/ashare-interactions`
+- Path：`api/v2/market/data/ashare-interactions`
 - 参数：`start_date`, `end_date`, `trade_code`, `company_name`, `industry_code`, `industry_name`, `data_source`, `page`, `page_size`
 - 来源文档：`e互动.md`
 - 原始接口：`ashare_interactions`
@@ -647,7 +649,7 @@ Returns:
 
 - 接口名称：东方财富板块成份股
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-board-constituents`
+- Path：`api/v1/market/data/eastmoney-board-constituents`
 - 参数：`board_code`
 - 来源文档：`东方财富板块成份股.md`
 - 原始接口：`eastmoney_board_constituents`
@@ -676,7 +678,7 @@ Returns:
 
 - 接口名称：东方财富板块日线OHLC
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-board-daily-ohlc`
+- Path：`api/v1/market/data/eastmoney-board-daily-ohlc`
 - 参数：`board_code`, `start_date`, `end_date`, `page`, `page_size`
 - 来源文档：`东方财富板块日线OHLC.md`
 - 原始接口：`eastmoney_board_daily_kline`
@@ -712,7 +714,7 @@ Returns:
 
 - 接口名称：东方财富概念板块
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-concept-boards`
+- Path：`api/v1/market/data/eastmoney-concept-boards`
 - 参数：-
 - 来源文档：`东方财富概念板块.md`
 - 原始接口：`eastmoney_concept_boards`
@@ -740,7 +742,7 @@ Returns:
 
 - 接口名称：东方财富大盘资金流
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-dapan-flow`
+- Path：`api/v1/market/data/eastmoney-dapan-flow`
 - 参数：`trade_date`, `start_date`, `end_date`, `page`, `page_size`
 - 来源文档：`东方财富大盘资金流.md`
 - 原始接口：`get_eastmoney_dapan_flow`
@@ -813,7 +815,7 @@ Returns:
 
 - 接口名称：东方财富股票排名
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-rank`
+- Path：`api/v1/market/data/eastmoney-rank`
 - 参数：`rank_group`, `market`, `trade_date`
 - 来源文档：`东方财富股票排名.md`
 - 原始接口：`eastmoney_rank`
@@ -844,7 +846,7 @@ Returns:
 
 - 接口名称：东方财富板块资金流
 - HTTP：`GET`
-- Path：`api/v2/market/data/eastmoney-sector-flow`
+- Path：`api/v1/market/data/eastmoney-sector-flow`
 - 参数：`sector_code`, `sector_type`, `trade_date`, `start_date`, `end_date`, `page`, `page_size`
 - 来源文档：`东方财富板块资金流.md`
 - 原始接口：`get_eastmoney_sector_flow`
@@ -1442,35 +1444,6 @@ Returns:
     payloads when multi-page fetching is used with ``raw=True``.
 ```
 
-<h4 id="api-risk-warning-stock-quotes"><code>risk_warning_stock_quotes</code></h4>
-
-- 接口名称：风险警示股行情
-- HTTP：`GET`
-- Path：`api/v2/market/data/risk-warning-stocks/quotes`
-- 参数：`date`
-- 来源文档：`风险警示股行情.md`
-- 原始接口：`risk_warning_stock_quotes`
-
-```text
-风险警示股行情.
-
-Endpoint: ``api/v1/market/data/risk-warning-stocks/quotes``.
-Method: ``GET``.
-Documented endpoint: ``risk_warning_stock_quotes``.
-
-Args:
-    date: 交易日，格式 YYYYMMDD (type: string; required: Y).
-    raw: Return the decoded JSON payload without tabular extraction.
-    fields: Optional field list or comma-separated field string applied after extraction.
-    as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-    **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-Returns:
-    A pandas ``DataFrame`` by default, Python rows when
-    ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-    payloads when multi-page fetching is used with ``raw=True``.
-```
-
 <h4 id="api-risk-warning-stocks"><code>risk_warning_stocks</code></h4>
 
 - 接口名称：风险警示股
@@ -1504,7 +1477,7 @@ Returns:
 
 - 接口名称：标的搜索
 - HTTP：`GET`
-- Path：`api/v2/market/security/search/`
+- Path：`api/v1/market/security/search/`
 - 参数：`query`, `limit`
 - 来源文档：`标的搜索.md`
 - 原始接口：`search`
@@ -1512,7 +1485,7 @@ Returns:
 ```text
 标的搜索.
 
-Endpoint: ``api/v1/market/security/search``.
+Endpoint: ``api/v1/market/security/search/``.
 Method: ``GET``.
 Documented endpoint: ``search``.
 
@@ -2171,7 +2144,7 @@ Returns:
 
 - 接口名称：董监高增持排名
 - HTTP：`GET`
-- Path：`api/v3/market/data/holder/stock-ggmx-buy-ranking`
+- Path：`api/v2/market/data/holder/stock-ggmx-buy-ranking`
 - 参数：`time_range`, `page`, `page_size`
 - 来源文档：`董监高增持排名.md`
 - 原始接口：`stock_ggmx_buy_ranking_handler`
@@ -2179,7 +2152,7 @@ Returns:
 ```text
 董监高增持排名.
 
-Endpoint: ``api/v3/market/data/holder/stock-ggmx-buy-ranking``.
+Endpoint: ``api/v2/market/data/holder/stock-ggmx-buy-ranking``.
 Method: ``GET``.
 Documented endpoint: ``stock_ggmx_buy_ranking_handler``.
 
@@ -2205,7 +2178,7 @@ Returns:
 
 - 接口名称：董监高减持排名
 - HTTP：`GET`
-- Path：`api/v3/market/data/holder/stock-ggmx-sell-ranking`
+- Path：`api/v2/market/data/holder/stock-ggmx-sell-ranking`
 - 参数：`time_range`, `page`, `page_size`
 - 来源文档：`董监高减持排名.md`
 - 原始接口：`stock_ggmx_sell_ranking_handler`
@@ -2213,7 +2186,7 @@ Returns:
 ```text
 董监高减持排名.
 
-Endpoint: ``api/v3/market/data/holder/stock-ggmx-sell-ranking``.
+Endpoint: ``api/v2/market/data/holder/stock-ggmx-sell-ranking``.
 Method: ``GET``.
 Documented endpoint: ``stock_ggmx_sell_ranking_handler``.
 
@@ -2322,7 +2295,7 @@ Returns:
 
 - 接口名称：机构持股
 - HTTP：`GET`
-- Path：`api/v3/market/data/share/stock-institution-holdings`
+- Path：`api/v2/market/data/share/stock-institution-holdings`
 - 参数：`year`, `report_type`, `inst_type`, `page`, `page_size`
 - 来源文档：`机构持股.md`
 - 原始接口：`get_stock_institution_holdings`
@@ -2330,7 +2303,7 @@ Returns:
 ```text
 机构持股.
 
-Endpoint: ``api/v1/market/data/share/stock-institution-holdings``.
+Endpoint: ``api/v2/market/data/share/stock-institution-holdings``.
 Method: ``GET``.
 Documented endpoint: ``get_stock_institution_holdings``.
 
@@ -2358,7 +2331,7 @@ Returns:
 
 - 接口名称：机构持股明细
 - HTTP：`GET`
-- Path：`api/v3/market/data/share/stock-institution-holdings-detail`
+- Path：`api/v2/market/data/share/stock-institution-holdings-detail`
 - 参数：`stock_code`, `year`, `report_type`, `inst_type`, `page`, `page_size`
 - 来源文档：`机构持股明细.md`
 - 原始接口：`get_stock_institution_holdings_detail`
@@ -2366,7 +2339,7 @@ Returns:
 ```text
 机构持股明细.
 
-Endpoint: ``api/v1/market/data/share/stock-institution-holdings-detail``.
+Endpoint: ``api/v2/market/data/share/stock-institution-holdings-detail``.
 Method: ``GET``.
 Documented endpoint: ``get_stock_institution_holdings_detail``.
 
@@ -2395,7 +2368,7 @@ Returns:
 
 - 接口名称：机构股本持股
 - HTTP：`GET`
-- Path：`api/v3/market/data/institution/institution-share-holdings`
+- Path：`api/v2/market/data/institution/institution-share-holdings`
 - 参数：`institution_id`, `year`, `report_type`, `invest_type`
 - 来源文档：`机构股本持股.md`
 - 原始接口：`get_stock_institution_share_holdings`
@@ -2403,7 +2376,7 @@ Returns:
 ```text
 机构股本持股.
 
-Endpoint: ``api/v1/market/data/institution/institution-share-holdings``.
+Endpoint: ``api/v2/market/data/institution/institution-share-holdings``.
 Method: ``GET``.
 Documented endpoint: ``get_stock_institution_share_holdings``.
 
@@ -2605,7 +2578,7 @@ Returns:
 
 - 接口名称：股票历史分钟行情
 - HTTP：`GET`
-- Path：`api/v3/market/data/stock_minutes`
+- Path：`api/v2/market/data/stock_minutes`
 - 参数：`symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit`
 - 来源文档：`股票历史分钟行情.md`
 - 原始接口：`stock_minutes`
@@ -2970,7 +2943,7 @@ Returns:
 
 - 接口名称：通达信板块成分股最新快照
 - HTTP：`GET`
-- Path：`api/v2/market/data/tdx-board-members`
+- Path：`api/v1/market/data/tdx-board-members`
 - 参数：`ts_code`, `idx_name`, `idx_type`, `idx_type_code`, `market`, `con_code`, `con_name`, `page`, `page_size`
 - 来源文档：`通达信板块成分股最新快照.md`
 - 原始接口：`tdx_board_members`
@@ -2979,11 +2952,51 @@ Returns:
 通达信板块成分股最新快照.
 ```
 
+<h4 id="api-stock-signal-latest-snapshot"><code>stock_signal_latest_snapshot</code></h4>
+
+- 信号最新快照
+- 原始接口：`stock_signal_latest_snapshot`
+- Path：`api/v3/market/data/stock-signal-latest-snapshot`
+- Method：`GET`
+- 参数：`signal_type`, `page`, `page_size
+
+Documented endpoint: ``stock_signal_latest_snapshot``.
+
+<h4 id="api-ths-stock-daily-flow"><code>ths_stock_daily_flow</code></h4>
+
+- 同花顺个股资金流日度
+- 原始接口：`ths_stock_daily_flow`
+- Path：`api/v1/market/data/ths-stock-daily-flow`
+- Method：`GET`
+- 参数：`start_date`, `end_date`, `code`, `name`, `page`, `page_size
+
+Documented endpoint: ``ths_stock_daily_flow``.
+
+<h4 id="api-ths-concept-daily-flow"><code>ths_concept_daily_flow</code></h4>
+
+- 同花顺概念板块资金流日度
+- 原始接口：`ths_concept_daily_flow`
+- Path：`api/v1/market/data/ths-concept-daily-flow`
+- Method：`GET`
+- 参数：`start_date`, `end_date`, `sector_name`, `page`, `page_size
+
+Documented endpoint: ``ths_concept_daily_flow``.
+
+<h4 id="api-ths-industry-daily-flow"><code>ths_industry_daily_flow</code></h4>
+
+- 同花顺行业板块资金流日度
+- 原始接口：`ths_industry_daily_flow`
+- Path：`api/v1/market/data/ths-industry-daily-flow`
+- Method：`GET`
+- 参数：`start_date`, `end_date`, `sector_name`, `page`, `page_size
+
+Documented endpoint: ``ths_industry_daily_flow``.
+
 <h4 id="api-ths-board-kline"><code>ths_board_kline</code></h4>
 
 - 接口名称：同花顺板块K线
 - HTTP：`GET`
-- Path：`api/v2/market/data/ths-board-kline`
+- Path：`api/v1/market/data/ths-board-kline`
 - 参数：`board_code`, `page`, `page_size`
 - 来源文档：`同花顺板块K线.md`
 - 原始接口：`ths_board_kline`
@@ -3017,7 +3030,7 @@ Returns:
 
 - 接口名称：同花顺热榜
 - HTTP：`GET`
-- Path：`api/v2/market/data/ths-hot-list`
+- Path：`api/v1/market/data/ths-hot-list`
 - 参数：`list_type`, `trade_date`, `page`, `page_size`
 - 来源文档：`同花顺热榜.md`
 - 原始接口：`ths_hot_list`
@@ -3061,7 +3074,7 @@ Returns:
 
 - 接口名称：雪球股票排名
 - HTTP：`GET`
-- Path：`api/v2/market/data/xueqiu-rank`
+- Path：`api/v1/market/data/xueqiu-rank`
 - 参数：`rank_group`, `period`, `trade_date`, `page`, `page_size`
 - 来源文档：`雪球股票排名.md`
 - 原始接口：`xueqiu_rank`
@@ -3135,7 +3148,7 @@ Returns:
 
 - 接口名称：港股K线
 - HTTP：`GET`
-- Path：`api/v3/market/data/hk/hk-candlesticks`
+- Path：`api/v2/market/data/hk/hk-candlesticks`
 - 参数：`trade_code`, `interval_unit`, `until_date`, `since_date`, `interval_value`, `limit`, `adjust_kind`
 - 来源文档：`港股K线.md`
 - 原始接口：`get_hk_candlesticks`
@@ -3143,7 +3156,7 @@ Returns:
 ```text
 港股K线.
 
-Endpoint: ``api/v1/market/data/hk/hk-candlesticks``.
+Endpoint: ``api/v2/market/data/hk/hk-candlesticks``.
 Method: ``GET``.
 Documented endpoint: ``get_hk_candlesticks``.
 
@@ -3165,21 +3178,6 @@ Returns:
     ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
     payloads when multi-page fetching is used with ``raw=True``.
 ```
-
-<h4 id="api-hk-stock-info-all"><code>hk_stock_info_all</code></h4>
-
-- 接口名称：港股实时行情
-- HTTP：`GET`
-- Path：`api/v4/market/data/hk-stock-info-all`
-- 参数：-
-- 来源文档：`港股实时行情.md`
-- 原始接口：`hk_stock_info_all`
-
-```text
-港股实时行情.
-```
-
-### 美股数据
 
 <h4 id="api-eastmoney-us-stock-daily-ohlc"><code>eastmoney_us_stock_daily_ohlc</code></h4>
 
@@ -3223,7 +3221,7 @@ Returns:
 
 - 接口名称：全球指数日K线
 - HTTP：`GET`
-- Path：`api/v2/market/data/global-index/daily-kline`
+- Path：`api/v1/market/data/global-index/daily-kline`
 - 参数：`secid`, `start_date`, `end_date`, `limit`
 - 来源文档：`全球指数日K线.md`
 - 原始接口：`global_index_daily_kline`
@@ -3351,7 +3349,7 @@ Returns:
 
 - 接口名称：指数历史分钟行情
 - HTTP：`GET`
-- Path：`api/v3/market/data/index_minutes`
+- Path：`api/v2/market/data/index_minutes`
 - 参数：`symbol`, `interval_value`, `since_ts_millis`, `until_ts_millis`, `limit`
 - 来源文档：`指数历史分钟行情.md`
 - 原始接口：`index_minutes`
@@ -3688,7 +3686,7 @@ Returns:
 
 - 接口名称：ETF历史分钟行情
 - HTTP：`GET`
-- Path：`api/v3/market/data/etf_minutes`
+- Path：`api/v2/market/data/etf_minutes`
 - 参数：`symbol`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit`
 - 来源文档：`ETF历史分钟行情.md`
 - 原始接口：`etf_minutes`
@@ -4619,7 +4617,7 @@ Returns:
 
 - 接口名称：期货历史分钟行情
 - HTTP：`GET`
-- Path：`api/v3/market/data/futures_minutes`
+- Path：`api/v2/market/data/futures_minutes`
 - 参数：`symbol`, `interval`, `start`, `end`, `limit`
 - 来源文档：`期货历史分钟行情.md`
 - 原始接口：`futures_minutes`
@@ -4627,7 +4625,7 @@ Returns:
 ```text
 期货历史分钟行情.
 
-Endpoint: ``api/v3/market/data/futures_minutes``.
+Endpoint: ``api/v2/market/data/futures_minutes``.
 Method: ``GET``.
 Documented endpoint: ``futures_minutes``.
 
@@ -5518,7 +5516,7 @@ Returns:
 
 - 接口名称：公告列表
 - HTTP：`GET`
-- Path：`api/v3/market/data/announcements/stock-announcements`
+- Path：`api/v2/market/data/announcements/stock-announcements`
 - 参数：`stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size`
 - 来源文档：`公告列表.md`
 - 原始接口：`stock_announcements`
@@ -5526,7 +5524,7 @@ Returns:
 ```text
 公告列表.
 
-Endpoint: ``api/v3/market/data/announcements/stock-announcements``.
+Endpoint: ``api/v2/market/data/announcements/stock-announcements``.
 Method: ``GET``.
 Documented endpoint: ``stock_announcements``.
 
@@ -5555,7 +5553,7 @@ Returns:
 
 - 接口名称：研报列表
 - HTTP：`GET`
-- Path：`api/v3/market/data/report/stock-reports`
+- Path：`api/v2/market/data/report/stock-reports`
 - 参数：`stock_code`, `start_date`, `end_date`, `type`, `page`, `page_size`
 - 来源文档：`研报列表.md`
 - 原始接口：`stock_reports`
@@ -5563,7 +5561,7 @@ Returns:
 ```text
 研报列表.
 
-Endpoint: ``api/v3/market/data/report/stock-reports``.
+Endpoint: ``api/v2/market/data/report/stock-reports``.
 Method: ``GET``.
 Documented endpoint: ``stock_reports``.
 

@@ -57,7 +57,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('symbol', 'date'),
     },
     'etf_minutes': {
-        'path': 'api/v3/market/data/etf_minutes',
+        'path': 'api/v2/market/data/etf_minutes',
         'title': 'ETF历史分钟行情',
         'doc_file': 'ETF历史分钟行情.md',
         'original_api': 'etf_minutes',

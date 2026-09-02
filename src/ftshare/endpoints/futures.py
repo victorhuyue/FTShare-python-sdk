@@ -28,7 +28,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('exchange', 'variety_code', 'contract_code', 'trade_date', 'start_date', 'end_date', 'member_name_abbr', 'page', 'page_size'),
     },
     'futures_minutes': {
-        'path': 'api/v3/market/data/futures_minutes',
+        'path': 'api/v2/market/data/futures_minutes',
         'title': '期货历史分钟行情',
         'doc_file': '期货历史分钟行情.md',
         'original_api': 'futures_minutes',

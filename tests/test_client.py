@@ -165,6 +165,42 @@ def test_get_raw_true_returns_full_payload():
     assert client.get("api/v1/market/data/demo", raw=True) == payload
 
 
+def test_requested_endpoint_api_versions():
+    expected_paths = {
+        "hk_candlesticks": "api/v2/market/data/hk/hk-candlesticks",
+        "stock_announcements": "api/v2/market/data/announcements/stock-announcements",
+        "stock_reports": "api/v2/market/data/report/stock-reports",
+        "stock_minutes": "api/v2/market/data/stock_minutes",
+        "futures_minutes": "api/v2/market/data/futures_minutes",
+        "etf_minutes": "api/v2/market/data/etf_minutes",
+        "index_minutes": "api/v2/market/data/index_minutes",
+        "stock_ggmx_buy_ranking": "api/v2/market/data/holder/stock-ggmx-buy-ranking",
+        "stock_ggmx_sell_ranking": "api/v2/market/data/holder/stock-ggmx-sell-ranking",
+        "stock_institution_holdings": "api/v2/market/data/share/stock-institution-holdings",
+        "stock_institution_holdings_detail": "api/v2/market/data/share/stock-institution-holdings-detail",
+        "stock_institution_share_holdings": "api/v2/market/data/institution/institution-share-holdings",
+        "ashare_interactions": "api/v2/market/data/ashare-interactions",
+        "eastmoney_concept_boards": "api/v1/market/data/eastmoney-concept-boards",
+        "eastmoney_board_constituents": "api/v1/market/data/eastmoney-board-constituents",
+        "eastmoney_board_daily_kline": "api/v1/market/data/eastmoney-board-daily-ohlc",
+        "global_index_daily_kline": "api/v1/market/data/global-index/daily-kline",
+        "eastmoney_sector_flow": "api/v1/market/data/eastmoney-sector-flow",
+        "ths_board_kline": "api/v1/market/data/ths-board-kline",
+        "eastmoney_dapan_flow": "api/v1/market/data/eastmoney-dapan-flow",
+        "search": "api/v1/market/security/search/",
+        "eastmoney_rank": "api/v1/market/data/eastmoney-rank",
+        "ths_hot_list": "api/v1/market/data/ths-hot-list",
+        "xueqiu_rank": "api/v1/market/data/xueqiu-rank",
+        "tdx_board_members": "api/v1/market/data/tdx-board-members",
+        "stock_signal_latest_snapshot": "api/v3/market/data/stock-signal-latest-snapshot",
+        "ths_stock_daily_flow": "api/v1/market/data/ths-stock-daily-flow",
+        "ths_concept_daily_flow": "api/v1/market/data/ths-concept-daily-flow",
+        "ths_industry_daily_flow": "api/v1/market/data/ths-industry-daily-flow",
+    }
+
+    assert {name: ENDPOINTS[name].path for name in expected_paths} == expected_paths
+
+
 @pytest.mark.parametrize(
     ("method_name", "kwargs"),
     [
@@ -206,9 +242,32 @@ def test_all_documented_endpoints_are_available_as_client_methods():
     assert missing == []
 
 
-def test_removed_stock_trade_is_not_exposed():
-    assert "stock_trade" not in ENDPOINTS
-    assert not hasattr(FtshareClient, "stock_trade")
+def test_removed_requested_endpoints_are_not_exposed():
+    for name in ("hk_stock_info_all", "risk_warning_stock_quotes"):
+        assert name not in ENDPOINTS
+        assert not hasattr(FtshareClient, name)
+
+
+def test_new_paginated_endpoints_forward_parameters():
+    session = FakeSession([FakeResponse(payload=paginated_records([]))] * 4)
+    client = FtshareClient(session=session)
+
+    client.stock_signal_latest_snapshot(signal_type="new_high_60d", page=2, page_size=5)
+    client.ths_stock_daily_flow(start_date="20260805", end_date="20260805", code="600000", page=1, page_size=1000)
+    client.ths_concept_daily_flow(start_date="20260805", end_date="20260805", sector_name="机器人概念", page=1, page_size=1000)
+    client.ths_industry_daily_flow(start_date="20260805", end_date="20260805", sector_name="证券", page=1, page_size=1000)
+
+    assert session.calls[0]["params"] == {"signal_type": "new_high_60d", "page": 2, "page_size": 5}
+    assert session.calls[1]["params"] == {"start_date": "20260805", "end_date": "20260805", "code": "600000", "page": 1, "page_size": 1000}
+    assert session.calls[2]["params"] == {"start_date": "20260805", "end_date": "20260805", "sector_name": "机器人概念", "page": 1, "page_size": 1000}
+    assert session.calls[3]["params"] == {"start_date": "20260805", "end_date": "20260805", "sector_name": "证券", "page": 1, "page_size": 1000}
+
+
+def test_new_flow_endpoints_reject_page_size_above_1000():
+    client = FtshareClient(session=FakeSession([]))
+
+    with pytest.raises(ValueError, match="page_size must be between 1 and 1000"):
+        client.ths_stock_daily_flow(page_size=1001)
 
 
 def test_generated_method_docstring_includes_parameter_metadata():
@@ -251,7 +310,7 @@ def test_search_uses_public_path_without_trailing_slash_and_q_param():
     rows = client.search(query="maotai", limit=1, as_dataframe=False)
 
     assert rows == [{"symbol": "600519.SH"}]
-    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v2/market/security/search/"
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/security/search/"
     assert session.calls[0]["params"] == {"q": "maotai", "limit": 1}
 
 

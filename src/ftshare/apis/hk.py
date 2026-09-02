@@ -28,7 +28,7 @@ class HkApiMixin:
     ) -> Any:
         """港股K线.
 
-        Endpoint: ``api/v1/market/data/hk/hk-candlesticks``.
+        Endpoint: ``api/v2/market/data/hk/hk-candlesticks``.
         Method: ``GET``.
         Documented endpoint: ``get_hk_candlesticks``.
 
@@ -59,9 +59,3 @@ class HkApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
-
-    def hk_stock_info_all(self, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
-        """港股实时行情."""
-        params = {}
-        params.update(kwargs)
-        return self._call_endpoint('hk_stock_info_all', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

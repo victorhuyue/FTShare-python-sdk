@@ -310,7 +310,7 @@ class FuturesApiMixin:
     ) -> Any:
         """期货历史分钟行情.
 
-        Endpoint: ``api/v3/market/data/futures_minutes``.
+        Endpoint: ``api/v2/market/data/futures_minutes``.
         Method: ``GET``.
         Documented endpoint: ``futures_minutes``.
 

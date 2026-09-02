@@ -21,14 +21,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('page', 'page_size'),
     },
     'stock_announcements': {
-        'path': 'api/v3/market/data/announcements/stock-announcements',
+        'path': 'api/v2/market/data/announcements/stock-announcements',
         'title': '公告列表',
         'doc_file': '公告列表.md',
         'original_api': 'stock_announcements',
         'params': ('stock_code', 'start_date', 'end_date', 'type', 'page', 'page_size'),
     },
     'stock_reports': {
-        'path': 'api/v3/market/data/report/stock-reports',
+        'path': 'api/v2/market/data/report/stock-reports',
         'title': '研报列表',
         'doc_file': '研报列表.md',
         'original_api': 'stock_reports',
