@@ -80,6 +80,12 @@ class BondApiMixin:
         return self._call_endpoint('szse_convertible_bond_directed_trades', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
 
+    def cb_lists(self, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """可转债列表."""
+        params = {}
+        params.update(kwargs)
+        return self._call_endpoint('cb_lists', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
     def szse_convertible_bond_declaration_snapshots(self, security_code: Any | None = None, trade_date: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
         """深交所可转债申报快照."""
         params = {'security_code': security_code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}

@@ -57,7 +57,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('symbol', 'date'),
     },
     'etf_minutes': {
-        'path': 'api/v3/market/data/etf_minutes',
+        'path': 'api/v2/market/data/etf_minutes',
         'title': 'ETF历史分钟行情',
         'doc_file': 'ETF历史分钟行情.md',
         'original_api': 'etf_minutes',
@@ -78,6 +78,14 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'doc_file': 'ETF实时日K线.md',
         'original_api': 'etf_realtime_day_kline',
         'params': ('symbols',),
+    },
+
+    'etf_minutes_batch': {
+        'path': 'api/v2/market/data/etf_minutes/batch',
+        'title': '批量ETF历史分钟行情',
+        'doc_file': '批量ETF历史分钟行情.md',
+        'original_api': 'etf_minutes_batch',
+        'params': ('symbols', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
     },
 
 })

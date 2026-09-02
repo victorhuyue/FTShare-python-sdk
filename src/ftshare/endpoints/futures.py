@@ -28,7 +28,7 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('exchange', 'variety_code', 'contract_code', 'trade_date', 'start_date', 'end_date', 'member_name_abbr', 'page', 'page_size'),
     },
     'futures_minutes': {
-        'path': 'api/v3/market/data/futures_minutes',
+        'path': 'api/v2/market/data/futures_minutes',
         'title': '期货历史分钟行情',
         'doc_file': '期货历史分钟行情.md',
         'original_api': 'futures_minutes',
@@ -108,6 +108,35 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'doc_file': '南华期货指数日K线.md',
         'original_api': 'futures_nanhua_index_kline',
         'params': ('code', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
+    },
+
+    'eastmoney_futures_strange': {
+        'path': 'api/v1/market/data/eastmoney-futures-strange',
+        'title': '东方财富期货龙虎榜',
+        'doc_file': '东方财富期货龙虎榜.md',
+        'original_api': 'eastmoney_futures_strange',
+        'params': ('exchange', 'variety', 'contract', 'trade_date'),
+    },
+    'member_build_process': {
+        'path': 'api/v2/market/data/member-build-process',
+        'title': '会员建仓过程',
+        'doc_file': '会员建仓过程.md',
+        'original_api': 'member_build_process',
+        'params': ('exchange', 'member_name', 'instrument_id', 'start_date', 'end_date', 'contract_multiplier', 'page', 'page_size'),
+    },
+    'member_position_ranking': {
+        'path': 'api/v2/market/data/member-position-ranking',
+        'title': '会员持仓排名',
+        'doc_file': '会员持仓排名.md',
+        'original_api': 'member_position_ranking',
+        'params': ('exchange', 'instrument_id', 'trade_date', 'direction', 'page', 'page_size'),
+    },
+    'futures_minutes_batch': {
+        'path': 'api/v2/market/data/futures_minutes/batch',
+        'title': '批量期货历史分钟行情',
+        'doc_file': '批量期货历史分钟行情.md',
+        'original_api': 'futures_minutes_batch',
+        'params': ('symbols', 'interval', 'start', 'end', 'limit'),
     },
 
 })

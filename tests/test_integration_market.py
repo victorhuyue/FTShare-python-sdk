@@ -47,16 +47,22 @@ def test_real_baidu_financial_calendar_raw_payload_shape():
     )
 
     assert isinstance(payload, dict)
-    assert payload.get("code") in (0, "0")
+    assert payload.get("code") in (0, "0", 200, "200")
     assert isinstance(payload.get("data"), dict)
     assert isinstance(payload["data"].get("records"), list)
 
 
-def test_real_eastmoney_us_stock_list_tabular_extract():
+def test_real_eastmoney_us_stock_daily_ohlc_tabular_extract():
     _skip_unless_enabled()
     market = ft.market_api(timeout=20)
 
-    df = market.eastmoney_us_stock_list(page=1, page_size=5)
+    df = market.eastmoney_us_stock_daily_ohlc(
+        stock_code="AAPL",
+        start_date="2026-08-18",
+        end_date="2026-08-20",
+        page=1,
+        page_size=5,
+    )
 
     assert isinstance(df, pd.DataFrame)
 

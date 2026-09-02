@@ -126,7 +126,7 @@ class LlmCorpusApiMixin:
     ) -> Any:
         """公告列表.
 
-        Endpoint: ``api/v3/market/data/announcements/stock-announcements``.
+        Endpoint: ``api/v2/market/data/announcements/stock-announcements``.
         Method: ``GET``.
         Documented endpoint: ``stock_announcements``.
 
@@ -185,7 +185,7 @@ class LlmCorpusApiMixin:
     ) -> Any:
         """研报列表.
 
-        Endpoint: ``api/v3/market/data/report/stock-reports``.
+        Endpoint: ``api/v2/market/data/report/stock-reports``.
         Method: ``GET``.
         Documented endpoint: ``stock_reports``.
 
