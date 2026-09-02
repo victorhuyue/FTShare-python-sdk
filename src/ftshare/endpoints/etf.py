@@ -80,4 +80,12 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('symbols',),
     },
 
+    'etf_minutes_batch': {
+        'path': 'api/v2/market/data/etf_minutes/batch',
+        'title': '批量ETF历史分钟行情',
+        'doc_file': '批量ETF历史分钟行情.md',
+        'original_api': 'etf_minutes_batch',
+        'params': ('symbols', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+
 })

@@ -186,6 +186,25 @@ def test_requested_endpoint_api_versions():
         "global_index_daily_kline": "api/v1/market/data/global-index/daily-kline",
         "eastmoney_sector_flow": "api/v1/market/data/eastmoney-sector-flow",
         "ths_board_kline": "api/v1/market/data/ths-board-kline",
+        "ths_board_list": "api/v1/market/data/ths-board-list",
+        "eastmoney_all_board_daily_kline": "api/v1/market/data/eastmoney-all-board-daily-ohlc",
+        "stock_ggmx": "api/v1/market/data/holder/stock-ggmx",
+        "report_announcement_list": "api/v1/market/data/report-announcements/list",
+        "report_announcement_summary": "api/v1/market/data/report-announcements/summary",
+        "stock_intraday_auction_volume_symbol": "api/v1/market/data/intraday-auction-volume/symbol",
+        "ths_all_board_kline": "api/v1/market/data/ths-all-board-kline",
+        "stock_candlesticks_batch": "api/v1/market/data/stock-candlesticks/batch",
+        "stock_minutes_batch": "api/v2/market/data/stock_minutes/batch",
+        "cb_lists": "api/v1/market/data/cb/cb-lists",
+        "eastmoney_futures_strange": "api/v1/market/data/eastmoney-futures-strange",
+        "member_build_process": "api/v1/market/data/member-build-process",
+        "member_position_ranking": "api/v1/market/data/member-position-ranking",
+        "futures_minutes_batch": "api/v2/market/data/futures_minutes/batch",
+        "hsi_daily_weight": "api/v1/market/data/hk/hsi-daily-weight",
+        "stk_ah_comparison": "api/v1/market/data/hk/stk-ah-comparison",
+        "sw_index_history_minutes": "api/v1/market/data/sw-index/history-minutes",
+        "index_minutes_batch": "api/v2/market/data/index_minutes/batch",
+        "etf_minutes_batch": "api/v2/market/data/etf_minutes/batch",
         "eastmoney_dapan_flow": "api/v1/market/data/eastmoney-dapan-flow",
         "search": "api/v1/market/security/search/",
         "eastmoney_rank": "api/v1/market/data/eastmoney-rank",
@@ -199,6 +218,90 @@ def test_requested_endpoint_api_versions():
     }
 
     assert {name: ENDPOINTS[name].path for name in expected_paths} == expected_paths
+
+
+def test_new_batch_endpoints_forward_symbols_and_documented_parameters():
+    cases = [
+        (
+            "stock_candlesticks_batch",
+            {
+                "symbols": '["600519.SH"]',
+                "interval_unit": "day",
+                "interval_value": 1,
+                "adjust_kind": "forward",
+                "since_ts_millis": 1784048400000,
+                "until_ts_millis": 1784050200000,
+                "limit": 5,
+            },
+        ),
+        (
+            "stock_minutes_batch",
+            {
+                "symbols": '["600519.SH"]',
+                "interval_value": 1,
+                "adjust_kind": "none",
+                "since_ts_millis": 1784048400000,
+                "until_ts_millis": 1784050200000,
+                "limit": 5,
+            },
+        ),
+        (
+            "etf_minutes_batch",
+            {
+                "symbols": '["510300.SH"]',
+                "interval_value": 1,
+                "adjust_kind": "none",
+                "since_ts_millis": 1784048400000,
+                "until_ts_millis": 1784050200000,
+                "limit": 5,
+            },
+        ),
+        (
+            "index_minutes_batch",
+            {
+                "symbols": '["000300.SH"]',
+                "interval_value": 1,
+                "since_ts_millis": 1784048400000,
+                "until_ts_millis": 1784050200000,
+                "limit": 5,
+            },
+        ),
+        (
+            "futures_minutes_batch",
+            {
+                "symbols": '["A2609.DCE"]',
+                "interval": "1min",
+                "start": 1784048400000,
+                "end": 1784050200000,
+                "limit": 5,
+            },
+        ),
+    ]
+
+    for method_name, kwargs in cases:
+        session = FakeSession([FakeResponse(payload=[])])
+        client = FtshareClient(session=session)
+
+        getattr(client, method_name)(as_dataframe=False, **kwargs)
+
+        assert session.calls[0]["url"] == "https://market.ft.tech/gateway/" + ENDPOINTS[method_name].path
+        assert session.calls[0]["params"] == kwargs
+
+
+def test_new_paginated_endpoints_use_documented_page_size_limits():
+    session = FakeSession([FakeResponse(payload=paginated_records([]))] * 2)
+    client = FtshareClient(session=session)
+
+    client.eastmoney_all_board_daily_kline(page_size=200)
+    client.stk_ah_comparison(page_size=1000)
+
+    assert session.calls[0]["params"] == {"page_size": 200}
+    assert session.calls[1]["params"] == {"page_size": 1000}
+
+    with pytest.raises(ValueError, match="page_size must be between 1 and 200"):
+        client.eastmoney_all_board_daily_kline(page_size=201)
+    with pytest.raises(ValueError, match="page_size must be between 1 and 1000"):
+        client.stk_ah_comparison(page_size=1001)
 
 
 @pytest.mark.parametrize(

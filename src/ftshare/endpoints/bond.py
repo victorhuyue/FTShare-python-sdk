@@ -46,4 +46,11 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('security_code', 'trade_date', 'start_date', 'end_date', 'page', 'page_size'),
     },
 
+    'cb_lists': {
+        'path': 'api/v1/market/data/cb/cb-lists',
+        'title': '可转债列表',
+        'doc_file': '可转债列表.md',
+        'original_api': 'cb_lists',
+    },
+
 })

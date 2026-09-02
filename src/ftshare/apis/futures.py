@@ -463,3 +463,27 @@ class FuturesApiMixin:
         params = {'code': code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'page': page, 'page_size': page_size}
         params.update(kwargs)
         return self._call_endpoint('futures_nanhua_index_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def eastmoney_futures_strange(self, exchange: Any | None = None, variety: Any | None = None, contract: Any | None = None, trade_date: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """东方财富期货龙虎榜."""
+        params = {'exchange': exchange, 'variety': variety, 'contract': contract, 'trade_date': trade_date}
+        params.update(kwargs)
+        return self._call_endpoint('eastmoney_futures_strange', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def member_build_process(self, exchange: Any | None = None, member_name: Any | None = None, instrument_id: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, contract_multiplier: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """会员建仓过程."""
+        params = {'exchange': exchange, 'member_name': member_name, 'instrument_id': instrument_id, 'start_date': start_date, 'end_date': end_date, 'contract_multiplier': contract_multiplier}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['member_build_process'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def member_position_ranking(self, exchange: Any | None = None, instrument_id: Any | None = None, trade_date: Any | None = None, direction: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """会员持仓排名."""
+        params = {'exchange': exchange, 'instrument_id': instrument_id, 'trade_date': trade_date, 'direction': direction}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['member_position_ranking'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def futures_minutes_batch(self, symbols: Any | None = None, interval: Any | None = None, start: Any | None = None, end: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """批量期货历史分钟行情."""
+        params = {'symbols': symbols, 'interval': interval, 'start': start, 'end': end, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('futures_minutes_batch', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

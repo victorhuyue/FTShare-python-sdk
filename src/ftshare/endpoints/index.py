@@ -97,4 +97,19 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('symbols',),
     },
 
+    'sw_index_history_minutes': {
+        'path': 'api/v1/market/data/sw-index/history-minutes',
+        'title': '申万指数历史分钟K线',
+        'doc_file': '申万指数历史分钟K线.md',
+        'original_api': 'sw_index_history_minutes',
+        'params': ('index_code', 'start_date', 'end_date', 'page', 'page_size'),
+    },
+    'index_minutes_batch': {
+        'path': 'api/v2/market/data/index_minutes/batch',
+        'title': '批量指数历史分钟行情',
+        'doc_file': '批量指数历史分钟行情.md',
+        'original_api': 'index_minutes_batch',
+        'params': ('symbols', 'interval_value', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+
 })

@@ -480,3 +480,15 @@ class IndexApiMixin:
         params = {'symbols': symbols}
         params.update(kwargs)
         return self._call_endpoint('index_realtime_day_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def sw_index_history_minutes(self, index_code: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """申万指数历史分钟K线."""
+        params = {'index_code': index_code, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['sw_index_history_minutes'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def index_minutes_batch(self, symbols: Any | None = None, interval_value: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """批量指数历史分钟行情."""
+        params = {'symbols': symbols, 'interval_value': interval_value, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('index_minutes_batch', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

@@ -26,36 +26,19 @@ class HkApiMixin:
         as_dataframe: bool = True,
         **kwargs: Any,
     ) -> Any:
-        """港股K线.
+        """港股K线."""
+        params = {'trade_code': trade_code, 'interval_unit': interval_unit, 'until_date': until_date, 'since_date': since_date, 'interval_value': interval_value, 'limit': limit, 'adjust_kind': adjust_kind}
+        params.update(kwargs)
+        return self._call_endpoint('hk_candlesticks', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
-        Endpoint: ``api/v2/market/data/hk/hk-candlesticks``.
-        Method: ``GET``.
-        Documented endpoint: ``get_hk_candlesticks``.
+    def stk_ah_comparison(self, hk_code: Any | None = None, ts_code: Any | None = None, trade_date: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """AH股对比."""
+        params = {'hk_code': hk_code, 'ts_code': ts_code, 'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['stk_ah_comparison'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, max_page_size=1000, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
 
-        Args:
-            trade_code: 港股代码，如 `00700.HK` 或 `700` (type: string; required: Y).
-            interval_unit: 间隔单位：day / month / quarter / year (type: string; required: Y).
-            until_date: 结束日期（YYYY-MM-DD） (type: date; required: Y).
-            since_date: 开始日期（YYYY-MM-DD） (type: date; required: N).
-            interval_value: 间隔数值（当前仅支持 1） (type: int; required: N).
-            limit: 数量限制（保留最近 N 根） (type: int; required: N).
-            adjust_kind: 复权类型：forward(默认/前复权) / none(不复权) (type: string; required: N).
-            raw: Return the decoded JSON payload without tabular extraction.
-            fields: Optional field list or comma-separated field string applied after extraction.
-            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
-            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
-
-        Returns:
-            A pandas ``DataFrame`` by default, Python rows when
-            ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
-            payloads when multi-page fetching is used with ``raw=True``.
-        """
-        request_params = {'trade_code': trade_code, 'interval_unit': interval_unit, 'until_date': until_date, 'since_date': since_date, 'interval_value': interval_value, 'limit': limit, 'adjust_kind': adjust_kind}
-        request_params.update(kwargs)
-        return self._call_endpoint(
-            'hk_candlesticks',
-            raw=raw,
-            fields=fields,
-            as_dataframe=as_dataframe,
-            **request_params,
-        )
+    def hsi_daily_weight(self, trade_date: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, index_slug: Any | None = None, stock_code: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """恒生指数每日权重."""
+        params = {'trade_date': trade_date, 'start_date': start_date, 'end_date': end_date, 'index_slug': index_slug, 'stock_code': stock_code}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['hsi_daily_weight'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

@@ -3947,3 +3947,58 @@ class StockApiMixin:
         params = {'symbols': symbols}
         params.update(kwargs)
         return self._call_endpoint('stock_realtime_day_kline', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+
+    def ths_board_list(self, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺板块列表."""
+        params = {}
+        params.update(kwargs)
+        return self._call_endpoint('ths_board_list', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def eastmoney_all_board_daily_kline(self, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """东方财富全板块日线OHLC."""
+        params = {'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['eastmoney_all_board_daily_kline'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def stock_ggmx(self, stock_code: Any | None = None, change_direction: Any | None = None, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """董监高持股变动."""
+        params = {'stock_code': stock_code, 'change_direction': change_direction, 'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['stock_ggmx'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def report_announcement_list(self, date: Any | None = None, sec_code: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """报告公告列表."""
+        params = {'date': date, 'sec_code': sec_code}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['report_announcement_list'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def report_announcement_summary(self, announcement_id: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """报告公告摘要."""
+        params = {'announcement_id': announcement_id}
+        params.update(kwargs)
+        return self._call_endpoint('report_announcement_summary', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def stock_intraday_auction_volume_symbol(self, symbol: Any | None = None, trade_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """单标的连续竞价成交量."""
+        params = {'symbol': symbol, 'trade_date': trade_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['stock_intraday_auction_volume_symbol'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def ths_all_board_kline(self, start_date: Any | None = None, end_date: Any | None = None, page: int | None = None, page_size: int | None = None, limit: int | None = None, all_pages: bool = False, max_pages: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """同花顺全板块K线."""
+        params = {'start_date': start_date, 'end_date': end_date}
+        params.update(kwargs)
+        return self.get_paginated(ENDPOINTS['ths_all_board_kline'].path, page=page, page_size=page_size, limit=limit, all_pages=all_pages, max_pages=max_pages, raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def stock_candlesticks_batch(self, symbols: Any | None = None, interval_unit: Any | None = None, interval_value: Any | None = None, adjust_kind: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """批量股票K线."""
+        params = {'symbols': symbols, 'interval_unit': interval_unit, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('stock_candlesticks_batch', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+
+    def stock_minutes_batch(self, symbols: Any | None = None, interval_value: Any | None = None, adjust_kind: Any | None = None, since_ts_millis: Any | None = None, until_ts_millis: Any | None = None, limit: Any | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
+        """批量股票历史分钟行情."""
+        params = {'symbols': symbols, 'interval_value': interval_value, 'adjust_kind': adjust_kind, 'since_ts_millis': since_ts_millis, 'until_ts_millis': until_ts_millis, 'limit': limit}
+        params.update(kwargs)
+        return self._call_endpoint('stock_minutes_batch', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)

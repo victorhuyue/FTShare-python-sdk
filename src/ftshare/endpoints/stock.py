@@ -798,4 +798,67 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'params': ('symbols',),
     },
 
+    'ths_board_list': {
+        'path': 'api/v1/market/data/ths-board-list',
+        'title': '同花顺板块列表',
+        'doc_file': '同花顺板块列表.md',
+        'original_api': 'ths_board_list',
+    },
+    'eastmoney_all_board_daily_kline': {
+        'path': 'api/v1/market/data/eastmoney-all-board-daily-ohlc',
+        'title': '东方财富全板块日线OHLC',
+        'doc_file': '东方财富全板块日线OHLC.md',
+        'original_api': 'eastmoney_all_board_daily_kline',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+    },
+    'stock_ggmx': {
+        'path': 'api/v1/market/data/holder/stock-ggmx',
+        'title': '董监高持股变动',
+        'doc_file': '董监高持股变动.md',
+        'original_api': 'stock_ggmx',
+        'params': ('stock_code', 'change_direction', 'start_date', 'end_date', 'page', 'page_size'),
+    },
+    'report_announcement_list': {
+        'path': 'api/v1/market/data/report-announcements/list',
+        'title': '报告公告列表',
+        'doc_file': '报告公告列表.md',
+        'original_api': 'report_announcement_list',
+        'params': ('date', 'sec_code', 'page', 'page_size'),
+    },
+    'report_announcement_summary': {
+        'path': 'api/v2/market/data/report-announcements/summary',
+        'title': '报告公告摘要',
+        'doc_file': '报告公告摘要.md',
+        'original_api': 'report_announcement_summary',
+        'params': ('announcement_id',),
+    },
+    'stock_intraday_auction_volume_symbol': {
+        'path': 'api/v1/market/data/intraday-auction-volume/symbol',
+        'title': '单标的连续竞价成交量',
+        'doc_file': '单标的连续竞价成交量.md',
+        'original_api': 'stock_intraday_auction_volume_symbol',
+        'params': ('symbol', 'trade_date', 'page', 'page_size'),
+    },
+    'ths_all_board_kline': {
+        'path': 'api/v1/market/data/ths-all-board-kline',
+        'title': '同花顺全板块K线',
+        'doc_file': '同花顺全板块K线.md',
+        'original_api': 'ths_all_board_kline',
+        'params': ('start_date', 'end_date', 'page', 'page_size'),
+    },
+    'stock_candlesticks_batch': {
+        'path': 'api/v2/market/data/stock-candlesticks/batch',
+        'title': '批量股票K线',
+        'doc_file': '批量股票K线.md',
+        'original_api': 'stock_candlesticks_batch',
+        'params': ('symbols', 'interval_unit', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+    'stock_minutes_batch': {
+        'path': 'api/v2/market/data/stock_minutes/batch',
+        'title': '批量股票历史分钟行情',
+        'doc_file': '批量股票历史分钟行情.md',
+        'original_api': 'stock_minutes_batch',
+        'params': ('symbols', 'interval_value', 'adjust_kind', 'since_ts_millis', 'until_ts_millis', 'limit'),
+    },
+
 })

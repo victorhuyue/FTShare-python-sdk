@@ -6,20 +6,20 @@
 
 | 指标 | 数量 |
 |---|---:|
-| SDK 方法总数 | 195 |
+| SDK 方法总数 | 214 |
 
 ## 专题分布
 
 | ftshare-doc 专题 | SDK 方法数 | API mixin 模块 | Endpoint 模块 |
 |---|---:|---|---|
-| 股票数据 | 106 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
-| 港股数据 | 1 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
+| 股票数据 | 115 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
+| 港股数据 | 3 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
 | 美股数据 | 1 | `ftshare.apis.us` | `ftshare.endpoints.us` |
-| 指数专题 | 12 | `ftshare.apis.index` | `ftshare.endpoints.index` |
-| ETF专题 | 10 | `ftshare.apis.etf` | `ftshare.endpoints.etf` |
+| 指数专题 | 14 | `ftshare.apis.index` | `ftshare.endpoints.index` |
+| ETF专题 | 11 | `ftshare.apis.etf` | `ftshare.endpoints.etf` |
 | 公募基金 | 18 | `ftshare.apis.fund` | `ftshare.endpoints.fund` |
-| 期货数据 | 14 | `ftshare.apis.futures` | `ftshare.endpoints.futures` |
-| 债券专题 | 5 | `ftshare.apis.bond` | `ftshare.endpoints.bond` |
+| 期货数据 | 18 | `ftshare.apis.futures` | `ftshare.endpoints.futures` |
+| 债券专题 | 6 | `ftshare.apis.bond` | `ftshare.endpoints.bond` |
 | 宏观经济 | 23 | `ftshare.apis.economic` | `ftshare.endpoints.economic` |
 | 大模型语料 | 4 | `ftshare.apis.llm_corpus` | `ftshare.endpoints.llm_corpus` |
 | 现货数据 | 1 | `ftshare.apis.spot` | `ftshare.endpoints.spot` |
@@ -28,6 +28,16 @@
 ## 接口索引
 
 ### 股票数据
+
+| [`eastmoney_all_board_daily_kline`](#api-eastmoney-all-board-daily-kline) | 东方财富全板块日线OHLC | `GET` | `api/v1/market/data/eastmoney-all-board-daily-ohlc` | `start_date`, `end_date`, `page`, `page_size` | `东方财富全板块日线OHLC.md` |
+| [`report_announcement_list`](#api-report-announcement-list) | 报告公告列表 | `GET` | `api/v1/market/data/report-announcements/list` | `date`, `sec_code`, `page`, `page_size` | `报告公告列表.md` |
+| [`report_announcement_summary`](#api-report-announcement-summary) | 报告公告摘要 | `GET` | `api/v1/market/data/report-announcements/summary` | `announcement_id` | `报告公告摘要.md` |
+| [`stock_candlesticks_batch`](#api-stock-candlesticks-batch) | 批量股票K线 | `GET` | `api/v1/market/data/stock-candlesticks/batch` | `symbols`, `interval_unit`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `批量股票K线.md` |
+| [`stock_ggmx`](#api-stock-ggmx) | 董监高持股变动 | `GET` | `api/v1/market/data/holder/stock-ggmx` | `stock_code`, `change_direction`, `start_date`, `end_date`, `page`, `page_size` | `董监高持股变动.md` |
+| [`stock_intraday_auction_volume_symbol`](#api-stock-intraday-auction-volume-symbol) | 单标的连续竞价成交量 | `GET` | `api/v1/market/data/intraday-auction-volume/symbol` | `symbol`, `trade_date`, `page`, `page_size` | `单标的连续竞价成交量.md` |
+| [`stock_minutes_batch`](#api-stock-minutes-batch) | 批量股票历史分钟行情 | `GET` | `api/v2/market/data/stock_minutes/batch` | `symbols`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `批量股票历史分钟行情.md` |
+| [`ths_all_board_kline`](#api-ths-all-board-kline) | 同花顺全板块K线 | `GET` | `api/v1/market/data/ths-all-board-kline` | `start_date`, `end_date`, `page`, `page_size` | `同花顺全板块K线.md` |
+| [`ths_board_list`](#api-ths-board-list) | 同花顺板块列表 | `GET` | `api/v1/market/data/ths-board-list` | - | `同花顺板块列表.md` |
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
@@ -140,6 +150,9 @@
 
 ### 港股数据
 
+| [`hsi_daily_weight`](#api-hsi-daily-weight) | 恒生指数每日权重 | `GET` | `api/v1/market/data/hk/hsi-daily-weight` | `trade_date`, `start_date`, `end_date`, `index_slug`, `stock_code`, `page`, `page_size` | `恒生指数每日权重.md` |
+| [`stk_ah_comparison`](#api-stk-ah-comparison) | AH股对比 | `GET` | `api/v1/market/data/hk/stk-ah-comparison` | `hk_code`, `ts_code`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `AH股对比.md` |
+
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
 | [`hk_candlesticks`](#api-hk-candlesticks) | 港股K线 | `GET` | `api/v2/market/data/hk/hk-candlesticks` | `trade_code`, `interval_unit`, `until_date`, `since_date`, `interval_value`, `limit`, `adjust_kind` | `港股K线.md` |
@@ -151,6 +164,9 @@
 | [`eastmoney_us_stock_daily_ohlc`](#api-eastmoney-us-stock-daily-ohlc) | 东方财富美股日OHLC | `GET` | `api/v1/market/data/eastmoney-us-stock-daily-ohlc` | `stock_code`, `start_date`, `end_date`, `page`, `page_size` | `东方财富美股日OHLC.md` |
 
 ### 指数专题
+
+| [`index_minutes_batch`](#api-index-minutes-batch) | 批量指数历史分钟行情 | `GET` | `api/v2/market/data/index_minutes/batch` | `symbols`, `interval_value`, `since_ts_millis`, `until_ts_millis`, `limit` | `批量指数历史分钟行情.md` |
+| [`sw_index_history_minutes`](#api-sw-index-history-minutes) | 申万指数历史分钟K线 | `GET` | `api/v1/market/data/sw-index/history-minutes` | `index_code`, `start_date`, `end_date`, `page`, `page_size` | `申万指数历史分钟K线.md` |
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
@@ -168,6 +184,8 @@
 | [`sw_industry_overview`](#api-sw-industry-overview) | 申万行业总览 | `GET` | `api/v1/market/data/sw-industry/overview` | `date`, `level`, `page`, `page_size` | `申万行业总览.md` |
 
 ### ETF专题
+
+| [`etf_minutes_batch`](#api-etf-minutes-batch) | 批量ETF历史分钟行情 | `GET` | `api/v2/market/data/etf_minutes/batch` | `symbols`, `interval_value`, `adjust_kind`, `since_ts_millis`, `until_ts_millis`, `limit` | `批量ETF历史分钟行情.md` |
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
@@ -207,6 +225,11 @@
 
 ### 期货数据
 
+| [`eastmoney_futures_strange`](#api-eastmoney-futures-strange) | 东方财富期货龙虎榜 | `GET` | `api/v1/market/data/eastmoney-futures-strange` | `exchange`, `variety`, `contract`, `trade_date` | `东方财富期货龙虎榜.md` |
+| [`futures_minutes_batch`](#api-futures-minutes-batch) | 批量期货历史分钟行情 | `GET` | `api/v2/market/data/futures_minutes/batch` | `symbols`, `interval`, `start`, `end`, `limit` | `批量期货历史分钟行情.md` |
+| [`member_build_process`](#api-member-build-process) | 会员建仓过程 | `GET` | `api/v1/market/data/member-build-process` | `exchange`, `member_name`, `instrument_id`, `start_date`, `end_date`, `contract_multiplier`, `page`, `page_size` | `会员建仓过程.md` |
+| [`member_position_ranking`](#api-member-position-ranking) | 会员持仓排名 | `GET` | `api/v1/market/data/member-position-ranking` | `exchange`, `instrument_id`, `trade_date`, `direction`, `page`, `page_size` | `会员持仓排名.md` |
+
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
 | [`china_futures_base_data`](#api-china-futures-base-data) | 中国期货基础数据 | `GET` | `api/v1/market/data/futures/futures-base-data` | `trade_date`, `symbol` | `中国期货基础数据.md` |
@@ -225,6 +248,8 @@
 | [`major_contract_summary`](#api-major-contract-summary) | 重大合同汇总 | `GET` | `api/v1/market/data/corporate/contract/summary` | `page`, `page_size` | `重大合同汇总.md` |
 
 ### 债券专题
+
+| [`cb_lists`](#api-cb-lists) | 可转债列表 | `GET` | `api/v1/market/data/cb/cb-lists` | - | `可转债列表.md` |
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
@@ -5623,3 +5648,117 @@ Returns:
     ``as_dataframe=False``, raw JSON when ``raw=True``, or raw page
     payloads when multi-page fetching is used with ``raw=True``.
 ```
+
+<h4 id="api-eastmoney-all-board-daily-kline"><code>eastmoney_all_board_daily_kline</code></h4>
+
+- Path：`api/v1/market/data/eastmoney-all-board-daily-ohlc`
+- 参数：`start_date, end_date, page, page_size`
+- 来源文档：`东方财富全板块日线OHLC.md`
+
+<h4 id="api-report-announcement-list"><code>report_announcement_list</code></h4>
+
+- Path：`api/v1/market/data/report-announcements/list`
+- 参数：`date, sec_code, page, page_size`
+- 来源文档：`报告公告列表.md`
+
+<h4 id="api-report-announcement-summary"><code>report_announcement_summary</code></h4>
+
+- Path：`api/v1/market/data/report-announcements/summary`
+- 参数：`announcement_id`
+- 来源文档：`报告公告摘要.md`
+
+<h4 id="api-stock-candlesticks-batch"><code>stock_candlesticks_batch</code></h4>
+
+- Path：`api/v1/market/data/stock-candlesticks/batch`
+- 参数：`symbols, interval_unit, interval_value, adjust_kind, since_ts_millis, until_ts_millis, limit`
+- 来源文档：`批量股票K线.md`
+
+<h4 id="api-stock-ggmx"><code>stock_ggmx</code></h4>
+
+- Path：`api/v1/market/data/holder/stock-ggmx`
+- 参数：`stock_code, change_direction, start_date, end_date, page, page_size`
+- 来源文档：`董监高持股变动.md`
+
+<h4 id="api-stock-intraday-auction-volume-symbol"><code>stock_intraday_auction_volume_symbol</code></h4>
+
+- Path：`api/v1/market/data/intraday-auction-volume/symbol`
+- 参数：`symbol, trade_date, page, page_size`
+- 来源文档：`单标的连续竞价成交量.md`
+
+<h4 id="api-stock-minutes-batch"><code>stock_minutes_batch</code></h4>
+
+- Path：`api/v2/market/data/stock_minutes/batch`
+- 参数：`symbols, interval_value, adjust_kind, since_ts_millis, until_ts_millis, limit`
+- 来源文档：`批量股票历史分钟行情.md`
+
+<h4 id="api-ths-all-board-kline"><code>ths_all_board_kline</code></h4>
+
+- Path：`api/v1/market/data/ths-all-board-kline`
+- 参数：`start_date, end_date, page, page_size`
+- 来源文档：`同花顺全板块K线.md`
+
+<h4 id="api-ths-board-list"><code>ths_board_list</code></h4>
+
+- Path：`api/v1/market/data/ths-board-list`
+- 参数：`-`
+- 来源文档：`同花顺板块列表.md`
+
+<h4 id="api-hsi-daily-weight"><code>hsi_daily_weight</code></h4>
+
+- Path：`api/v1/market/data/hk/hsi-daily-weight`
+- 参数：`trade_date, start_date, end_date, index_slug, stock_code, page, page_size`
+- 来源文档：`恒生指数每日权重.md`
+
+<h4 id="api-stk-ah-comparison"><code>stk_ah_comparison</code></h4>
+
+- Path：`api/v1/market/data/hk/stk-ah-comparison`
+- 参数：`hk_code, ts_code, trade_date, start_date, end_date, page, page_size`
+- 来源文档：`AH股对比.md`
+
+<h4 id="api-sw-index-history-minutes"><code>sw_index_history_minutes</code></h4>
+
+- Path：`api/v1/market/data/sw-index/history-minutes`
+- 参数：`index_code, start_date, end_date, page, page_size`
+- 来源文档：`申万指数历史分钟K线.md`
+
+<h4 id="api-index-minutes-batch"><code>index_minutes_batch</code></h4>
+
+- Path：`api/v2/market/data/index_minutes/batch`
+- 参数：`symbols, interval_value, since_ts_millis, until_ts_millis, limit`
+- 来源文档：`批量指数历史分钟行情.md`
+
+<h4 id="api-etf-minutes-batch"><code>etf_minutes_batch</code></h4>
+
+- Path：`api/v2/market/data/etf_minutes/batch`
+- 参数：`symbols, interval_value, adjust_kind, since_ts_millis, until_ts_millis, limit`
+- 来源文档：`批量ETF历史分钟行情.md`
+
+<h4 id="api-eastmoney-futures-strange"><code>eastmoney_futures_strange</code></h4>
+
+- Path：`api/v1/market/data/eastmoney-futures-strange`
+- 参数：`exchange, variety, contract, trade_date`
+- 来源文档：`东方财富期货龙虎榜.md`
+
+<h4 id="api-futures-minutes-batch"><code>futures_minutes_batch</code></h4>
+
+- Path：`api/v2/market/data/futures_minutes/batch`
+- 参数：`symbols, interval, start, end, limit`
+- 来源文档：`批量期货历史分钟行情.md`
+
+<h4 id="api-member-build-process"><code>member_build_process</code></h4>
+
+- Path：`api/v1/market/data/member-build-process`
+- 参数：`exchange, member_name, instrument_id, start_date, end_date, contract_multiplier, page, page_size`
+- 来源文档：`会员建仓过程.md`
+
+<h4 id="api-member-position-ranking"><code>member_position_ranking</code></h4>
+
+- Path：`api/v1/market/data/member-position-ranking`
+- 参数：`exchange, instrument_id, trade_date, direction, page, page_size`
+- 来源文档：`会员持仓排名.md`
+
+<h4 id="api-cb-lists"><code>cb_lists</code></h4>
+
+- Path：`api/v1/market/data/cb/cb-lists`
+- 参数：`-`
+- 来源文档：`可转债列表.md`
