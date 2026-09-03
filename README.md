@@ -28,7 +28,7 @@
 `FTShare-python-sdk` 是 FTShare 的 Python 数据接入层。它将基础金融数据和 FTShare 特色因子统一成 Python 调用方式，默认返回 pandas `DataFrame`，可以直接进入分析、研究和应用开发流程。
 
 <p align="center">
-  <a href="https://ftai.chat/?tab=ft-share"><img src="./docs/assets/readme/ftshare-website.jpg" width="72%" alt="FTShare 正式版官网，展示金融数据服务及 SDK、MCP、Skills 接入入口"></a>
+  <a href="https://ftai.chat/?tab=ft-share"><img src="./docs/assets/readme/ftshare-website.png" width="100%" alt="FTShare 正式版官网横幅，展示金融数据服务及 SDK、MCP、Skills 接入入口"></a>
 </p>
 
 <p align="center"><sub>FTShare 正式版公开页面。点击图片进入产品与套餐页面。</sub></p>
