@@ -3707,11 +3707,41 @@ class StockApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
-    def stock_description_all(self, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:
-        """股票基础信息."""
-        params = {'page': page, 'page_size': page_size}
+    def stock_description(
+        self,
+        symbol_id: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """股票基础信息.
+
+        Endpoint: ``api/v1/market/data/stock-description``.
+        Method: ``GET``.
+        Documented endpoint: ``stock_description``.
+        """
+        params = {'symbol_id': symbol_id}
         params.update(kwargs)
-        return self._call_endpoint('stock_description_all', raw=raw, fields=fields, as_dataframe=as_dataframe, **params)
+        return self.get_paginated(
+            ENDPOINTS['stock_description'].path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
+            max_page_size=ENDPOINTS['stock_description'].max_page_size,
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **params,
+        )
 
 
     def tdx_board_index(self, ts_code: Any | None = None, idx_name: Any | None = None, idx_type: Any | None = None, idx_type_code: Any | None = None, market: Any | None = None, page: int | None = None, page_size: int | None = None, *, raw: bool = False, fields: Sequence[str] | str | None = None, as_dataframe: bool = True, **kwargs: Any) -> Any:

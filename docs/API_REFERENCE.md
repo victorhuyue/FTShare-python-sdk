@@ -102,7 +102,7 @@
 | [`stock_comment_score_em`](#api-stock-comment-score-em) | 千股千评评分 | `GET` | `api/v1/market/data/stock-comment/score` | `symbol` | `千股千评评分.md` |
 | [`stock_connect_members`](#api-stock-connect-members) | 互联互通成份 | `GET` | `api/v1/market/data/stock-connect-members` | `direction`, `channel`, `page`, `page_size` | `互联互通成份.md` |
 | [`stock_daec_stocks`](#api-stock-daec-stocks) | A股行情列表 | `GET` | `api/v1/market/data/daec/stocks/{board}` | `board`, `page`, `page_size`, `filter`, `order_by` | `A股行情列表.md` |
-| [`stock_description_all`](#api-stock-description-all) | 股票基础信息 | `GET` | `api/v1/market/data/stock-description-all` | - | `股票基础信息.md` |
+| [`stock_description`](#api-stock-description) | 股票基础信息 | `GET` | `api/v1/market/data/stock-description` | `symbol_id`, `page`, `page_size` | `股票基础信息.md` |
 | [`stock_dividends`](#api-stock-dividends) | 股票分红记录 | `GET` | `api/v1/market/data/stock-dividends` | `symbol`, `since_date`, `until_date`, `page`, `page_size` | `股票分红记录.md` |
 | [`stock_filter`](#api-stock-filter) | 股票筛选 | `GET` | `api/v2/market/data/stock-list/filter` | `symbol`, `board`, `listing_date_since`, `page`, `page_size` | `股票筛选.md` |
 | [`stock_float_holders`](#api-stock-float-holders) | 十大流通股东 | `GET` | `api/v1/market/data/holder/stock-holder-ften` | `stock_code`, `is_last`, `page`, `page_size` | `十大流通股东.md` |
@@ -2068,14 +2068,14 @@ Returns:
     payloads when multi-page fetching is used with ``raw=True``.
 ```
 
-<h4 id="api-stock-description-all"><code>stock_description_all</code></h4>
+<h4 id="api-stock-description"><code>stock_description</code></h4>
 
 - 接口名称：股票基础信息
 - HTTP：`GET`
-- Path：`api/v1/market/data/stock-description-all`
-- 参数：-
+- Path：`api/v1/market/data/stock-description`
+- 参数：`symbol_id`, `page`, `page_size`
 - 来源文档：`股票基础信息.md`
-- 原始接口：`stock_description_all`
+- 原始接口：`stock_description`
 
 ```text
 股票基础信息.
