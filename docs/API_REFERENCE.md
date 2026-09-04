@@ -6,15 +6,15 @@
 
 | 指标 | 数量 |
 |---|---:|
-| SDK 方法总数 | 214 |
+| SDK 方法总数 | 219 |
 
 ## 专题分布
 
 | ftshare-doc 专题 | SDK 方法数 | API mixin 模块 | Endpoint 模块 |
 |---|---:|---|---|
-| 股票数据 | 115 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
+| 股票数据 | 118 | `ftshare.apis.stock` | `ftshare.endpoints.stock` |
 | 港股数据 | 3 | `ftshare.apis.hk` | `ftshare.endpoints.hk` |
-| 美股数据 | 1 | `ftshare.apis.us` | `ftshare.endpoints.us` |
+| 美股数据 | 2 | `ftshare.apis.us` | `ftshare.endpoints.us` |
 | 指数专题 | 14 | `ftshare.apis.index` | `ftshare.endpoints.index` |
 | ETF专题 | 11 | `ftshare.apis.etf` | `ftshare.endpoints.etf` |
 | 公募基金 | 18 | `ftshare.apis.fund` | `ftshare.endpoints.fund` |
@@ -77,6 +77,7 @@
 | [`limit_up_public_report`](#api-limit-up-public-report) | 涨停对外归因报告 | `GET` | `api/v3/market/data/limit-up-reports/public-report` | `date`, `security_code` | `涨停对外归因报告.md` |
 | [`margin_trading_details`](#api-margin-trading-details) | 融资融券明细 | `GET` | `api/v1/market/data/margin-trading-details` | `date`, `page`, `page_size` | `融资融券明细.md` |
 | [`namechange`](#api-namechange) | 股票曾用名 | `GET` | `api/v1/market/data/namechange` | `trade_code`, `start_date`, `end_date` | `股票曾用名.md` |
+| [`nth_trade_date`](#api-nth-trade-date) | 第N个交易日 | `GET` | `api/v1/market/data/time/get-nth-trade-date` | `n` | `第N个交易日.md` |
 | [`northbound`](#api-northbound) | 北向资金交易 | `GET` | `api/v1/market/data/northbound` | `date` | `北向资金交易.md` |
 | [`performance_forecasts_paginated`](#api-performance-forecasts-paginated) | 业绩预告 | `GET` | `api/v1/market/data/finance/stock-performance-forecast` | `stock_code`, `year`, `report_type`, `page`, `page_size` | `业绩预告.md` |
 | [`pledge_summary`](#api-pledge-summary) | 股权质押汇总 | `GET` | `api/v1/market/data/pledge/pledge-summary` | `page`, `page_size` | `股权质押汇总.md` |
@@ -85,6 +86,8 @@
 | [`search`](#api-search) | 标的搜索 | `GET` | `api/v1/market/security/search/` | `query`, `limit` | `标的搜索.md` |
 | [`southbound`](#api-southbound) | 南向资金交易 | `GET` | `api/v1/market/data/southbound` | `date` | `南向资金交易.md` |
 | [`stk_alert_broker`](#api-stk-alert-broker) | 交易所重点提示证券 | `GET` | `api/v2/market/data/stk-alert-broker` | `ts_code`, `start_date`, `end_date`, `page`, `page_size` | `交易所重点提示证券.md` |
+| [`stk_code_change`](#api-stk-code-change) | A股代码变更 | `GET` | `api/v1/market/data/stk-code-change` | `trade_code`, `start_date`, `end_date` | `A股代码变更.md` |
+| [`stk_status_change`](#api-stk-status-change) | A股状态变更 | `GET` | `api/v1/market/data/stk-status-change` | `trade_code`, `change_date`, `change_type` | `A股状态变更.md` |
 | [`stk_limit`](#api-stk-limit) | 涨跌停价 | `GET` | `api/v1/market/data/stk-limit` | `instrument_type`, `symbol`, `symbol_id`, `market_id`, `trade_date`, `start_date`, `end_date`, `page`, `page_size` | `涨跌停价.md` |
 | [`stk_manager_hold`](#api-stk-manager-hold) | 上市公司管理层持股 | `GET` | `api/v1/market/data/stk-manager-hold` | `trade_code`, `end_date` | `上市公司管理层持股.md` |
 | [`stk_manager_pay`](#api-stk-manager-pay) | 上市公司管理层薪酬 | `GET` | `api/v1/market/data/stk-manager-pay` | `trade_code`, `end_date` | `上市公司管理层薪酬.md` |
@@ -106,6 +109,7 @@
 | [`stock_dividends`](#api-stock-dividends) | 股票分红记录 | `GET` | `api/v1/market/data/stock-dividends` | `symbol`, `since_date`, `until_date`, `page`, `page_size` | `股票分红记录.md` |
 | [`stock_filter`](#api-stock-filter) | 股票筛选 | `GET` | `api/v2/market/data/stock-list/filter` | `symbol`, `board`, `listing_date_since`, `page`, `page_size` | `股票筛选.md` |
 | [`stock_float_holders`](#api-stock-float-holders) | 十大流通股东 | `GET` | `api/v1/market/data/holder/stock-holder-ften` | `stock_code`, `is_last`, `page`, `page_size` | `十大流通股东.md` |
+| [`stock_ggcg_em`](#api-stock-ggcg-em) | 东方财富股东增减持 | `GET` | `api/v1/market/data/holder/stock-ggcg-em` | `symbol`, `page`, `page_size` | `东方财富股东增减持.md` |
 | [`stock_ggmx_buy_ranking`](#api-stock-ggmx-buy-ranking) | 董监高增持排名 | `GET` | `api/v2/market/data/holder/stock-ggmx-buy-ranking` | `time_range`, `page`, `page_size` | `董监高增持排名.md` |
 | [`stock_ggmx_sell_ranking`](#api-stock-ggmx-sell-ranking) | 董监高减持排名 | `GET` | `api/v2/market/data/holder/stock-ggmx-sell-ranking` | `time_range`, `page`, `page_size` | `董监高减持排名.md` |
 | [`stock_history_list`](#api-stock-history-list) | 股票历史列表 | `GET` | `api/v1/market/data/stock-history-list` | `trade_date`, `code`, `page`, `page_size` | `股票历史列表.md` |
@@ -161,6 +165,7 @@
 
 | SDK 方法 | 接口名称 | HTTP | Path | 参数 | 来源文档 |
 |---|---|---|---|---|---|
+| [`eastmoney_us_stock_list`](#api-eastmoney-us-stock-list) | 东方财富美股列表 | `GET` | `api/v1/market/data/eastmoney-us-stock-list` | `refresh`, `page`, `page_size` | `东方财富美股列表.md` |
 | [`eastmoney_us_stock_daily_ohlc`](#api-eastmoney-us-stock-daily-ohlc) | 东方财富美股日OHLC | `GET` | `api/v1/market/data/eastmoney-us-stock-daily-ohlc` | `stock_code`, `start_date`, `end_date`, `page`, `page_size` | `东方财富美股日OHLC.md` |
 
 ### 指数专题
