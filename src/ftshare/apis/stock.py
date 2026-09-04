@@ -858,6 +858,55 @@ class StockApiMixin:
             **request_params,
         )
 
+    def stock_ggcg_em(
+        self,
+        symbol: Any | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+        limit: int | None = None,
+        all_pages: bool = False,
+        max_pages: int | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """东方财富股东增减持.
+
+        Endpoint: ``api/v1/market/data/holder/stock-ggcg-em``.
+        Method: ``GET``.
+        Documented endpoint: ``stock_ggcg_em``.
+
+        Args:
+            symbol: 数据类型：全部 / 股东增持 / 股东减持，默认全部 (type: string; required: N).
+            page: Page number, starting from 1. If omitted, the server default is used unless ``limit`` or ``all_pages`` is set.
+            page_size: Rows per page. The SDK validates this against the endpoint-specific maximum.
+            limit: Maximum number of rows to return. The SDK may fetch multiple pages to satisfy this limit.
+            all_pages: Fetch and combine pages until the server reports the last page.
+            max_pages: Optional safety cap for ``all_pages``.
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+        """
+        request_params = {'symbol': symbol}
+        request_params.update(kwargs)
+        path = ENDPOINTS['stock_ggcg_em'].path
+        return self.get_paginated(
+            path,
+            page=page,
+            page_size=page_size,
+            limit=limit,
+            all_pages=all_pages,
+            max_pages=max_pages,
+            max_page_size=200,
+            raw=raw,
+            fields=fields,
+            as_dataframe=as_dataframe,
+            **request_params,
+        )
+
     def stock_share_chg(
         self,
         stock_code: Any | None = None,
@@ -1578,6 +1627,92 @@ class StockApiMixin:
             as_dataframe=as_dataframe,
             **request_params,
         )
+
+    def stk_code_change(
+        self,
+        trade_code: Any | None = None,
+        start_date: Any | None = None,
+        end_date: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """A股代码变更.
+
+        Endpoint: ``api/v1/market/data/stk-code-change``.
+        Method: ``GET``.
+        Documented endpoint: ``get_stk_code_change``.
+
+        Args:
+            trade_code: 股票代码，支持逗号分隔多个 (type: string; required: Y).
+            start_date: 过滤区间起始日期，YYYYMMDD 格式 (type: string; required: N).
+            end_date: 过滤区间结束日期，YYYYMMDD 格式 (type: string; required: N).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+        """
+        request_params = {'trade_code': trade_code, 'start_date': start_date, 'end_date': end_date}
+        request_params.update(kwargs)
+        return self._call_endpoint('stk_code_change', raw=raw, fields=fields, as_dataframe=as_dataframe, **request_params)
+
+    def stk_status_change(
+        self,
+        trade_code: Any | None = None,
+        change_date: Any | None = None,
+        change_type: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """A股状态变更.
+
+        Endpoint: ``api/v1/market/data/stk-status-change``.
+        Method: ``GET``.
+        Documented endpoint: ``get_stk_status_change``.
+
+        Args:
+            trade_code: 股票代码，支持逗号分隔多个 (type: string; required: N).
+            change_date: 变更日期，YYYYMMDD 格式 (type: string; required: N).
+            change_type: 变更类型，如上市、退市、暂停上市 (type: string; required: N).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+        """
+        request_params = {'trade_code': trade_code, 'change_date': change_date, 'change_type': change_type}
+        request_params.update(kwargs)
+        return self._call_endpoint('stk_status_change', raw=raw, fields=fields, as_dataframe=as_dataframe, **request_params)
+
+    def nth_trade_date(
+        self,
+        n: Any | None = None,
+        *,
+        raw: bool = False,
+        fields: Sequence[str] | str | None = None,
+        as_dataframe: bool = True,
+        **kwargs: Any,
+    ) -> Any:
+        """第N个交易日.
+
+        Endpoint: ``api/v1/market/data/time/get-nth-trade-date``.
+        Method: ``GET``.
+        Documented endpoint: ``get_nth_trade_date``.
+
+        Args:
+            n: 需要获取的前 N 个交易日，N >= 1 (type: uint32; required: Y).
+            raw: Return the decoded JSON payload without tabular extraction.
+            fields: Optional field list or comma-separated field string applied after extraction.
+            as_dataframe: Return a pandas ``DataFrame`` by default; set to ``False`` for Python rows.
+            **kwargs: Extra request parameters forwarded unchanged. Useful when the service adds parameters before the SDK is regenerated.
+        """
+        request_params = {'n': n}
+        request_params.update(kwargs)
+        return self._call_endpoint('nth_trade_date', raw=raw, fields=fields, as_dataframe=as_dataframe, **request_params)
 
     def namechange(
         self,

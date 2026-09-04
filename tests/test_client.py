@@ -64,6 +64,32 @@ def paginated_records(records, page=1, pages=1):
     }
 
 
+def test_new_endpoints_forward_documented_parameters():
+    session = FakeSession([FakeResponse(payload=paginated_records([{"code": "NVDA"}]))] * 2 + [FakeResponse(payload={"code": 200, "message": "success", "data": {"n": 5}})] * 3)
+    client = FtshareClient(session=session)
+
+    client.eastmoney_us_stock_list(refresh=True, page=1, page_size=5, as_dataframe=False)
+    client.stock_ggcg_em(symbol="股东增持", page=1, page_size=5, as_dataframe=False)
+    client.stk_code_change(trade_code="000001.SZ", start_date="20200101", end_date="20201231", as_dataframe=False)
+    client.stk_status_change(trade_code="000001.SZ", change_date="20200101", change_type="上市", as_dataframe=False)
+    client.nth_trade_date(n=5, as_dataframe=False)
+
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/eastmoney-us-stock-list"
+    assert session.calls[0]["params"] == {"refresh": "true", "page": 1, "page_size": 5}
+    assert session.calls[1]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/holder/stock-ggcg-em"
+    assert session.calls[1]["params"] == {"symbol": "股东增持", "page": 1, "page_size": 5}
+    assert session.calls[2]["params"] == {"trade_code": "000001.SZ", "start_date": "20200101", "end_date": "20201231"}
+    assert session.calls[3]["params"] == {"trade_code": "000001.SZ", "change_date": "20200101", "change_type": "上市"}
+    assert session.calls[4]["params"] == {"n": 5}
+
+
+def test_stock_ggcg_em_rejects_page_size_above_200():
+    client = FtshareClient(session=FakeSession([]))
+
+    with pytest.raises(ValueError, match="page_size must be between 1 and 200"):
+        client.stock_ggcg_em(page_size=201)
+
+
 def test_api_key_is_sent_as_header_and_not_query_param(monkeypatch):
     monkeypatch.delenv("FTSHARE_API_KEY", raising=False)
     session = FakeSession([FakeResponse(payload={})])
