@@ -546,11 +546,13 @@ ENDPOINTS: dict[str, Endpoint] = build_endpoints({
         'original_api': 'get_yzxdr_detail',
         'params': ('year', 'quarter', 'stock_code', 'page', 'page_size'),
     },
-    'stock_description_all': {
-        'path': 'api/v1/market/data/stock-description-all',
+    'stock_description': {
+        'path': 'api/v1/market/data/stock-description',
         'title': '股票基础信息',
         'doc_file': '股票基础信息.md',
-        'original_api': 'stock_description_all',
+        'original_api': 'stock_description',
+        'params': ('symbol_id', 'page', 'page_size'),
+        'max_page_size': 200,
     },
 
     'tdx_board_index': {

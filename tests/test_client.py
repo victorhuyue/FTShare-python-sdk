@@ -288,7 +288,34 @@ def test_new_batch_endpoints_forward_symbols_and_documented_parameters():
         assert session.calls[0]["params"] == kwargs
 
 
-def test_new_paginated_endpoints_use_documented_page_size_limits():
+def test_stock_description_uses_paginated_route_and_filters():
+    session = FakeSession([FakeResponse(payload=paginated_records([{"symbol": "600000.SH"}]))])
+    client = FtshareClient(session=session)
+
+    rows = client.stock_description(
+        symbol_id="600000.SH",
+        page=1,
+        page_size=1,
+        as_dataframe=False,
+    )
+
+    assert rows == [{"symbol": "600000.SH"}]
+    assert session.calls[0]["url"] == "https://market.ft.tech/gateway/api/v1/market/data/stock-description"
+    assert session.calls[0]["params"] == {
+        "symbol_id": "600000.SH",
+        "page": 1,
+        "page_size": 1,
+    }
+
+
+def test_stock_description_rejects_page_size_above_200():
+    client = FtshareClient(session=FakeSession([]))
+
+    with pytest.raises(ValueError, match="page_size must be between 1 and 200"):
+        client.stock_description(page_size=201)
+
+
+
     session = FakeSession([FakeResponse(payload=paginated_records([]))] * 2)
     client = FtshareClient(session=session)
 
